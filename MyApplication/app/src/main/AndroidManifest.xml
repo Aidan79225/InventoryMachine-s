@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FragmentManegerActivity">
+        <activity android:name=".FragmentManager.FragmentManegerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

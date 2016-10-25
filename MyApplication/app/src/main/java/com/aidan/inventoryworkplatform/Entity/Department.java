@@ -7,18 +7,18 @@ import org.json.JSONObject;
  * Created by Aidan on 2016/10/25.
  */
 
-public class Agent {
+public class Department {
     public String number ="";
     public String name = "";
-    public Agent(JSONObject jsonObject){
+    public Department(JSONObject jsonObject){
         try{
-            number = jsonObject.getString(AgentConstants.D1KY);
-            name = jsonObject.getString(AgentConstants.D1NM);
+            number = jsonObject.getString(DepartmentConstants.D2KY);
+            name = jsonObject.getString(DepartmentConstants.D2NM);
         }catch (JSONException e){
             e.printStackTrace();
         }
     }
-    public Agent(String name , String number){
+    public Department(String name , String number){
         this.name = name;
         this.number = number;
     }

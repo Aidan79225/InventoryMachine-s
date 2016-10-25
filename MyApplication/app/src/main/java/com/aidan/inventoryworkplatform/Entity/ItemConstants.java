@@ -4,7 +4,7 @@ package com.aidan.inventoryworkplatform.Entity;
  * Created by Aidan on 2016/10/24.
  */
 
-public class ItemConstans {
+public class ItemConstants {
     public static final String PA341 = "PA341";
     public static final String PA342 = "PA342";
     public static final String PA343 = "PA343";
