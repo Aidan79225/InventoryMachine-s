@@ -6,7 +6,7 @@ package com.aidan.inventoryworkplatform.FragmentManager;
 
 public interface FragmentManagerContract {
     interface view{
-        void findeView();
+        void findView();
     }
     interface presenter{
 
