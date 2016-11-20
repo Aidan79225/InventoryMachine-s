@@ -80,43 +80,60 @@ public class Item {
     public String getSerialNumber() {
         return PA3C6;
     }
-    public String getName(){
+
+    public String getIdNumber() {
+        return getNumber() + "-" + getSerialNumber();
+    }
+
+    public String getName() {
         return PA3P3;
     }
-    public String getTypr(){
+
+    public String getTypr() {
         return PA3PS;
     }
-    public String getBrand(){
+
+    public String getBrand() {
         return PA3MK;
     }
-    public String getDate(){
+
+    public String getDate() {
         return PA3BD;
     }
-    public String getYears(){
+
+    public String getYears() {
         return PA3PY;
     }
-    public Agent getCustodian(){
-        return new Agent(PA3OUN,PA3OU);
+
+    public Agent getCustodian() {
+        return new Agent(PA3OUN, PA3OU);
     }
-    public Agent getUser(){
-        return new Agent(PA3URN,PA3UR);
+
+    public Agent getUser() {
+        return new Agent(PA3URN, PA3UR);
     }
-    public Department getCustodyGroup(){
-        return new Department(PA3OUTN,PA3OUT);
+
+    public Department getCustodyGroup() {
+        return new Department(PA3OUTN, PA3OUT);
     }
-    public Department getUseGroup(){
-        return new Department(PA3UUTN,PA3UUT);
+
+    public Department getUseGroup() {
+        return new Department(PA3UUTN, PA3UUT);
     }
-    public Location getLocation(){
-        return new Location(PA3LOCN,PA3LOC);
+
+    public Location getLocation() {
+        return new Location(PA3LOCN, PA3LOC);
     }
-    public boolean isConfirm(){
+
+    public boolean isConfirm() {
         return PA308.equals("Y");
     }
-    public boolean isDelete(){
+
+    public boolean isDelete() {
         return PA3DEL.equals("Y");
     }
-    public boolean isPrint(){
+
+    public boolean isPrint() {
         return PA3PRN.equals("Y");
     }
 

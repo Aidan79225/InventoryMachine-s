@@ -12,8 +12,8 @@ public class Location {
     public String name = "";
     public Location(JSONObject jsonObject){
         try{
-            number = jsonObject.getString(DepartmentConstants.D2KY);
-            name = jsonObject.getString(DepartmentConstants.D2NM);
+            number = jsonObject.getString(LocationConstants.D3KY);
+            name = jsonObject.getString(LocationConstants.D3NM);
         }catch (JSONException e){
             e.printStackTrace();
         }

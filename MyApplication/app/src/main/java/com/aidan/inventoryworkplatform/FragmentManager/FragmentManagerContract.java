@@ -7,8 +7,9 @@ package com.aidan.inventoryworkplatform.FragmentManager;
 public interface FragmentManagerContract {
     interface view{
         void findView();
+        void setViewClick();
     }
     interface presenter{
-
+        void start();
     }
 }

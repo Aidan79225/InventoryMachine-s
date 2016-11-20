@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">InventoryWorkPlatform</string>
+    <string name="input_file">選擇輸入檔</string>
+    <!--Page-->
+    <string name="file_page">檔案頁面</string>
+    <string name="scan_page">盤點掃描</string>
+    <string name="search_page">人工查詢</string>
+    <string name="itemList_page">財產清單</string>
+    <string name="itemDetail_page">財產明細</string>
+    <!--Item List Adapter-->
+    <string name="status">狀態</string>
+    <string name="name">名稱</string>
+    <string name="item_id">財產編號-流水號</string>
 </resources>

@@ -9,4 +9,10 @@ public class FragmentManagerPresenter implements FragmentManagerContract.present
     public FragmentManagerPresenter(FragmentManagerContract.view view){
         this.view = view;
     }
+
+    @Override
+    public void start() {
+        view.findView();
+        view.setViewClick();
+    }
 }
