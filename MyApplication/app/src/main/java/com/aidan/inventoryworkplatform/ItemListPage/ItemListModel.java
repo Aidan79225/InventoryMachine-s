@@ -11,8 +11,8 @@ import java.util.List;
 
 public class ItemListModel {
     List<Item> itemList;
-    public ItemListModel(){
-        itemList = ItemSingleton.getInstance().getItemList();
+    public ItemListModel(List<Item> itemList){
+        this.itemList = itemList;
     }
     public List<Item> getItemList(){
         return itemList;

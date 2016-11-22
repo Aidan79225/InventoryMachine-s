@@ -89,7 +89,7 @@ public class Item {
         return PA3P3;
     }
 
-    public String getTypr() {
+    public String getType() {
         return PA3PS;
     }
 

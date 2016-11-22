@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 public interface ItemListContract {
     interface view{
         void findView();
-        void setListView(BaseAdapter adapter);
+        void setListView(ItemListAdapter adapter);
     }
     interface presenter{
         void start();

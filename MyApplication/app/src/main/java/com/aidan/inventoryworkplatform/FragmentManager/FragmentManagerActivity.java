@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.aidan.inventoryworkplatform.BaseFragmentManager;
 import com.aidan.inventoryworkplatform.FilePage.FileFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
+import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.R;
 
-public class FragmentManagerActivity extends AppCompatActivity implements FragmentManagerContract.view {
+public class FragmentManagerActivity extends AppCompatActivity implements FragmentManagerContract.view,BaseFragmentManager {
     FragmentManagerContract.presenter presenter;
     View fragmentContainer;
     TextView fileTextView,scanTextView,searchTextView,itemListTextView,itemDetailTextView;
@@ -52,14 +54,14 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
     }
 
     public void loadItemListFragment() {
-        Fragment fragment = ItemListFragment.instantiate(this,ItemListFragment.class.getName());
+        Fragment fragment = ItemListFragment.newInstance(ItemSingleton.getInstance().getItemList(),this);
         loadFragment(fragment);
     }
     public void loadFileFragment() {
         Fragment fragment = FileFragment.instantiate(this,FileFragment.class.getName());
         loadFragment(fragment);
     }
-
+    @Override
     public void loadFragment(Fragment fragment) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -69,7 +71,5 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
         }
         transaction.replace(R.id.fragmentContainer, fragment, fragment.getClass().getName());
         transaction.commit();
-//        fragmentList.add(fragment);
     }
-
 }
