@@ -22,4 +22,14 @@ public class Department {
         this.name = name;
         this.number = number;
     }
+    public JSONObject toJSON(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(DepartmentConstants.D2KY,number);
+            jsonObject.put(DepartmentConstants.D2NM,name);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
 }

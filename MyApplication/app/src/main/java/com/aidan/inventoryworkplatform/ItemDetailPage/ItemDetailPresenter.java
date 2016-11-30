@@ -18,4 +18,12 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
         view.findView();
         view.setViewValue(model.getItem());
     }
+
+    @Override
+    public void saveItemToChecked(boolean flag) {
+        Item item = model.getItem();
+        item.setConfirm(flag);
+
+    }
+
 }

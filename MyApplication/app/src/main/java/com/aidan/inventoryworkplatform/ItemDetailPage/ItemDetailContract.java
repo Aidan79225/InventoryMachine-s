@@ -9,8 +9,10 @@ public interface ItemDetailContract {
     interface view{
         void findView();
         void setViewValue(Item item);
+        void setViewClick();
     }
     interface presenter{
         void start();
+        void saveItemToChecked(boolean flag);
     }
 }

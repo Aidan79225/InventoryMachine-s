@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.aidan.inventoryworkplatform.Entity.Item;
@@ -22,6 +23,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
     TextView yearsTextView,buyDateTextView,brandTextView,
             typeTextView,agentTextView,locationTextView,
             nameTextView,itemIdTextView;
+    Button confirmButton,cancelButton;
     public static ItemDetailFragment newInstance(Item item){
         ItemDetailFragment fragment = new ItemDetailFragment();
         fragment.presenter = new ItemDetailPresenter(fragment,item);
@@ -35,6 +37,8 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
     }
     @Override
     public void findView(){
+        confirmButton = (Button)rootView.findViewById(R.id.confirmButton);
+        cancelButton = (Button)rootView.findViewById(R.id.cancelButton);
         yearsTextView = (TextView)rootView.findViewById(R.id.yearsTextView);
         buyDateTextView = (TextView)rootView.findViewById(R.id.buyDateTextView);
         brandTextView = (TextView)rootView.findViewById(R.id.brandTextView);
@@ -54,5 +58,15 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         locationTextView.setText(item.getLocation().name);
         nameTextView.setText(item.getName());
         itemIdTextView.setText(item.getIdNumber());
+    }
+
+    @Override
+    public void setViewClick() {
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.saveItemToChecked(true);
+            }
+        });
     }
 }

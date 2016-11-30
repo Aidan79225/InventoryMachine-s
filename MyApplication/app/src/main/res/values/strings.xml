@@ -17,5 +17,7 @@
     <string name="brand">廠牌</string>
     <string name="buy_date">購買日</string>
     <string name="years">年限</string>
+    <string name="confirm">確認</string>
+    <string name="cancel">取消</string>
 
 </resources>

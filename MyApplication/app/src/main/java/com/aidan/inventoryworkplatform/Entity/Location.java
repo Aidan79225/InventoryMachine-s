@@ -18,6 +18,16 @@ public class Location {
             e.printStackTrace();
         }
     }
+    public JSONObject toJSON(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(LocationConstants.D3KY,number);
+            jsonObject.put(LocationConstants.D3NM,name);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
     public Location(String name , String number){
         this.name = name;
         this.number = number;

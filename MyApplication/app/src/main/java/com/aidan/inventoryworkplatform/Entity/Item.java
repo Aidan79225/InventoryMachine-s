@@ -1,5 +1,6 @@
 package com.aidan.inventoryworkplatform.Entity;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -68,6 +69,41 @@ public class Item {
             e.printStackTrace();
         }
     }
+    public JSONObject toJSON(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ItemConstants.PA341, PA341);
+            jsonObject.put(ItemConstants.PA342, PA342);
+            jsonObject.put(ItemConstants.PA343, PA343);
+            jsonObject.put(ItemConstants.PA3C1, PA3C1);
+            jsonObject.put(ItemConstants.PA3C2, PA3C2);
+            jsonObject.put(ItemConstants.PA3C3, PA3C3);
+            jsonObject.put(ItemConstants.PA3C4, PA3C4);
+            jsonObject.put(ItemConstants.PA3C5, PA3C5);
+            jsonObject.put(ItemConstants.PA3C6, PA3C6);
+            jsonObject.put(ItemConstants.PA3P3,PA3P3);
+            jsonObject.put(ItemConstants.PA3PS,PA3PS);
+            jsonObject.put(ItemConstants.PA3MK,PA3MK);
+            jsonObject.put(ItemConstants.PA3BD,PA3BD);
+            jsonObject.put(ItemConstants.PA3PY,PA3PY);
+            jsonObject.put(ItemConstants.PA3LOC,PA3LOC);
+            jsonObject.put(ItemConstants.PA3LOCN,PA3LOCN);
+            jsonObject.put(ItemConstants.PA3OUT,PA3OUT);
+            jsonObject.put(ItemConstants.PA3OUTN,PA3OUTN);
+            jsonObject.put(ItemConstants.PA3OU,PA3OU);
+            jsonObject.put(ItemConstants.PA3OUN,PA3OUN);
+            jsonObject.put(ItemConstants.PA3UUT,PA3UUT);
+            jsonObject.put(ItemConstants.PA3UUTN,PA3UUTN);
+            jsonObject.put(ItemConstants.PA3UR,PA3UR);
+            jsonObject.put(ItemConstants.PA3URN,PA3URN);
+            jsonObject.put(ItemConstants.PA308,PA308);
+            jsonObject.put(ItemConstants.PA3DEL,PA3DEL);
+            jsonObject.put(ItemConstants.PA3PRN,PA3PRN);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
 
     public String getLoaclNumber() {
         return PA341 + PA342 + PA343;
@@ -128,7 +164,13 @@ public class Item {
     public boolean isConfirm() {
         return PA308.equals("Y");
     }
-
+    public void setConfirm(boolean flag){
+        if(flag){
+            PA308 = "Y";
+        }else{
+            PA308 = "N";
+        }
+    }
     public boolean isDelete() {
         return PA3DEL.equals("Y");
     }

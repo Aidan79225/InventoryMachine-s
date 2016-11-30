@@ -22,4 +22,15 @@ public class Agent {
         this.name = name;
         this.number = number;
     }
+    public JSONObject toJSON(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(AgentConstants.D1KY,number);
+            jsonObject.put(AgentConstants.D1NM,name);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
 }
