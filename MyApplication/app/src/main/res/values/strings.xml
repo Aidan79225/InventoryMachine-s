@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">InventoryWorkPlatform</string>
+    <string name="check_system">欣華盤點系統</string>
     <string name="input_file">選擇輸入檔</string>
     <!--Page-->
     <string name="file_page">檔案頁面</string>
@@ -13,11 +13,13 @@
     <string name="item_id">財產編號-流水號</string>
     <string name="save_location">存置地點</string>
     <string name="save_agent">保管人</string>
+    <string name="save_department">保管單位</string>
     <string name="type">型式</string>
     <string name="brand">廠牌</string>
     <string name="buy_date">購買日</string>
     <string name="years">年限</string>
     <string name="confirm">確認</string>
     <string name="cancel">取消</string>
-
+    <string name="search">查詢</string>
+    <string name="clear">清除</string>
 </resources>

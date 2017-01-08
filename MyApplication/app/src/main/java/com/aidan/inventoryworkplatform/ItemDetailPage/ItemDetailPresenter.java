@@ -17,13 +17,13 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
     public void start() {
         view.findView();
         view.setViewValue(model.getItem());
+        view.setViewClick();
     }
 
     @Override
     public void saveItemToChecked(boolean flag) {
         Item item = model.getItem();
         item.setConfirm(flag);
-
     }
 
 }

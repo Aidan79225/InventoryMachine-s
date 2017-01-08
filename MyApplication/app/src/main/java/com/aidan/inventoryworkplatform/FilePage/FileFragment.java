@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,10 +92,12 @@ public class FileFragment extends DialogFragment implements FileContract.view {
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
 
+
             }
         });
         editDialog.show();
     }
+
 
 
     public void startPickerActivity() {
@@ -104,6 +107,7 @@ public class FileFragment extends DialogFragment implements FileContract.view {
         type = readTxtType;
         Intent intent = new Intent(getActivity(), FilePickerActivity.class);
         Bundle bundle = new Bundle();
+        intent.putStringArrayListExtra(FilePickerConst.KEY_SELECTED_PHOTOS,filePaths);
         bundle.putInt(FilePickerConst.EXTRA_PICKER_TYPE, FilePickerConst.DOC_PICKER);
         intent.putExtras(bundle);
         startActivityForResult(intent, FilePickerConst.REQUEST_CODE_DOC);
@@ -124,7 +128,8 @@ public class FileFragment extends DialogFragment implements FileContract.view {
         docPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
         switch (type) {
             case readTxtType:
-                presenter.readTxtButtonClick(docPaths.get(0));
+
+                if(docPaths.size()>0)presenter.readTxtButtonClick(docPaths.get(0));
                 type = 0;
                 break;
         }

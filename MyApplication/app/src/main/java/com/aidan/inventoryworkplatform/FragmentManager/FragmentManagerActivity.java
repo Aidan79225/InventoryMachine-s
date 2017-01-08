@@ -13,6 +13,7 @@ import com.aidan.inventoryworkplatform.FilePage.FileFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.R;
+import com.aidan.inventoryworkplatform.SearchPage.SearchFragment;
 
 public class FragmentManagerActivity extends AppCompatActivity implements FragmentManagerContract.view,BaseFragmentManager {
     FragmentManagerContract.presenter presenter;
@@ -51,6 +52,12 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
                 loadItemListFragment();
             }
         });
+        searchTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadSearchFragment();
+            }
+        });
     }
 
     public void loadItemListFragment() {
@@ -59,6 +66,10 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
     }
     public void loadFileFragment() {
         Fragment fragment = FileFragment.instantiate(this,FileFragment.class.getName());
+        loadFragment(fragment);
+    }
+    public void loadSearchFragment() {
+        Fragment fragment = SearchFragment.newInstance(this);
         loadFragment(fragment);
     }
     @Override

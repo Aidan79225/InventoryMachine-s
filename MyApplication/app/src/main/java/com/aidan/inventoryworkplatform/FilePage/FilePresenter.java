@@ -141,7 +141,8 @@ public class FilePresenter implements FileContract.presenter {
         }catch (IOException ioe){
             ioe.printStackTrace();
         }
-
+        file.setReadable(true);
+        file.setWritable(true);
 
     }
     public JSONObject getAllDataJSON(){

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.aidan.inventoryworkplatform.Entity.Item;
+import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.R;
 
 
@@ -24,9 +25,11 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
             typeTextView,agentTextView,locationTextView,
             nameTextView,itemIdTextView;
     Button confirmButton,cancelButton;
-    public static ItemDetailFragment newInstance(Item item){
+    ItemListFragment.RefreshItems refreshItems;
+    public static ItemDetailFragment newInstance(Item item, ItemListFragment.RefreshItems refreshItems){
         ItemDetailFragment fragment = new ItemDetailFragment();
         fragment.presenter = new ItemDetailPresenter(fragment,item);
+        fragment.refreshItems = refreshItems;
         return fragment;
     }
     @Override
@@ -62,11 +65,23 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
 
     @Override
     public void setViewClick() {
+
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.saveItemToChecked(true);
+                refreshItems.refresh();
+                dismiss();
             }
         });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.saveItemToChecked(false);
+                refreshItems.refresh();
+                dismiss();
+            }
+        });
+
     }
 }

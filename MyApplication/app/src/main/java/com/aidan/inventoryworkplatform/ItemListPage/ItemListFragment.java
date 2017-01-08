@@ -55,13 +55,26 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
         itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                gotoDetailFragment(adapter.getItem(position));
+                gotoDetailFragment(adapter.getItem(position-1), new RefreshItems() {
+                    @Override
+                    public void refresh() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
     }
-    private void gotoDetailFragment(Item item){
-        Fragment fragment = ItemDetailFragment.newInstance(item);
-        if(baseFragmentManager != null) baseFragmentManager.loadFragment(fragment);
+    private void gotoDetailFragment(Item item,ItemListFragment.RefreshItems refreshItems){
+        DialogFragment fragment = ItemDetailFragment.newInstance(item,refreshItems);
+//        if(baseFragmentManager != null) baseFragmentManager.loadFragment(fragment);
+        fragment.show(getFragmentManager(),ItemDetailFragment.class.getName());
     }
+
+
+
+    public interface RefreshItems{
+        void refresh();
+    }
+
 
 }
