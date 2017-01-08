@@ -96,9 +96,9 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         localIdEditText.setText("");
         idEditText.setText("");
         waterEditText.setText("");
-        locationTextView.setText("");
-        agentTextView.setText("");
-        departmentTextView.setText("");
+        locationTextView.setText("請點選存置地點");
+        agentTextView.setText("請點選保管人");
+        departmentTextView.setText("請點選保管單位");
     }
     @Override
     public void showSetDialog(DialogInterface.OnClickListener clickListener,String title,final String[] temp){

@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="@string/save_department"
+            android:text="請點選保管單位"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="@string/save_agent"
+            android:text="請點選保管人"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="@string/save_location"
+            android:text="請點選存置地點"
             android:textSize="18sp" />
     </LinearLayout>
 
