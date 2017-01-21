@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,8 +23,10 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
     ItemDetailContract.presenter presenter;
     ViewGroup rootView;
     TextView yearsTextView,buyDateTextView,brandTextView,
-            typeTextView,agentTextView,locationTextView,
-            nameTextView,itemIdTextView;
+            typeTextView,locationTextView,
+            nameTextView,itemIdTextView,
+            custodyGroupTextView,custodianTextView,
+            useGroupTextView,userTextView;
     Button confirmButton,cancelButton;
     ItemListFragment.RefreshItems refreshItems;
     public static ItemDetailFragment newInstance(Item item, ItemListFragment.RefreshItems refreshItems){
@@ -34,6 +37,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
     }
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_item_detail, container, false);
         presenter.start();
         return rootView;
@@ -46,23 +50,34 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         buyDateTextView = (TextView)rootView.findViewById(R.id.buyDateTextView);
         brandTextView = (TextView)rootView.findViewById(R.id.brandTextView);
         typeTextView = (TextView)rootView.findViewById(R.id.typeTextView);
-        agentTextView = (TextView)rootView.findViewById(R.id.agentTextView);
+
         locationTextView = (TextView)rootView.findViewById(R.id.locationTextView);
         nameTextView = (TextView)rootView.findViewById(R.id.nameTextView);
         itemIdTextView = (TextView)rootView.findViewById(R.id.itemIdTextView);
+
+        custodyGroupTextView = (TextView)rootView.findViewById(R.id.custodyGroupTextView);
+        custodianTextView = (TextView)rootView.findViewById(R.id.custodianTextView);
+        useGroupTextView = (TextView)rootView.findViewById(R.id.useGroupTextView);
+        userTextView = (TextView)rootView.findViewById(R.id.userTextView);
     }
     @Override
     public void setViewValue(Item item){
         yearsTextView.setText(item.getYears());
-        buyDateTextView.setText(item.getDate());
+        buyDateTextView.setText(ADtoCal(item));
         brandTextView.setText(item.getBrand());
         typeTextView.setText(item.getType());
-        agentTextView.setText(item.getCustodian().name);
+        custodianTextView.setText(item.getCustodian().name);
+        custodyGroupTextView.setText(item.getCustodyGroup().name);
+        userTextView.setText(item.getUser().name);
+        useGroupTextView.setText(item.getUseGroup().name);
         locationTextView.setText(item.getLocation().name);
         nameTextView.setText(item.getName());
         itemIdTextView.setText(item.getIdNumber());
     }
-
+private String ADtoCal(Item item){
+    String temp = String.valueOf((Integer.parseInt(item.getDate())-19110000));
+    return temp.substring(0,temp.length()-4) + "/" + temp.substring(temp.length()-4);
+}
     @Override
     public void setViewClick() {
 
