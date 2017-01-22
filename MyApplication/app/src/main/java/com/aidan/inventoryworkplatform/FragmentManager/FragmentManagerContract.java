@@ -8,6 +8,7 @@ public interface FragmentManagerContract {
     interface view{
         void findView();
         void setViewClick();
+        void setScanner();
     }
     interface presenter{
         void start();

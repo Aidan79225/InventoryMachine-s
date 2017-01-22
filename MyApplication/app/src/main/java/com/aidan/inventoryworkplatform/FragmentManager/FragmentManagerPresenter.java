@@ -14,5 +14,6 @@ public class FragmentManagerPresenter implements FragmentManagerContract.present
     public void start() {
         view.findView();
         view.setViewClick();
+        view.setScanner();
     }
 }

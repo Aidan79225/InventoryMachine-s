@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="掃描輸入"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:id="@+id/titleTextView"/>
+
+    <EditText
+        android:id="@+id/scanEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:background="@null"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="已掃描到的物品"
+        android:textSize="20sp"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        />
+   <ListView
+       android:id="@+id/itemListView"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+   </ListView>
+</LinearLayout>

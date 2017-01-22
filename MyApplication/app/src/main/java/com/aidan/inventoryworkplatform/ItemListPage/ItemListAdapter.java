@@ -24,7 +24,7 @@ public class ItemListAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return itemList.size();
+        return itemList.size()+1;
     }
 
     @Override
