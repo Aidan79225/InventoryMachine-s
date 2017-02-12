@@ -42,7 +42,7 @@ public class ScannerPresenter implements ScannerContract.presenter {
         for (Item item : ItemSingleton.getInstance().getItemList()) {
             if (item.getIdNumber().equals(temp)) {
                 item.setConfirm(true);
-                itemList.add(item);
+                itemList.add(0,item);
                 view.refreshList();
                 break;
             }

@@ -48,12 +48,16 @@ public class ItemListAdapter extends BaseAdapter {
         }else viewHolder = (ViewHolder)convertView.getTag();
 
         if(position == 0 ){
-            viewHolder.idTextView.setText(R.string.item_id);
+            viewHolder.idTextView.setText(R.string.item_little_id);
+            viewHolder.waterTextView.setText(R.string.item_water_id);
+
             viewHolder.nameTextView.setText(R.string.name);
             viewHolder.statusTextView.setText(R.string.status);
         }else{
             Item item = itemList.get(position-1);
-            viewHolder.idTextView.setText(item.getIdNumber());
+            viewHolder.idTextView.setText(item.getNumber());
+            viewHolder.waterTextView.setText(item.getSerialNumber());
+
             viewHolder.nameTextView.setText(item.getName());
             viewHolder.statusTextView.setText(item.isConfirm()?"Y":"N");
         }
@@ -68,10 +72,12 @@ public class ItemListAdapter extends BaseAdapter {
     }
     class ViewHolder{
         TextView idTextView;
+        TextView waterTextView;
         TextView nameTextView;
         TextView statusTextView;
         public ViewHolder(View v){
             idTextView = (TextView)v.findViewById(R.id.idTextView);
+            waterTextView = (TextView)v.findViewById(R.id.waterTextView);
             nameTextView = (TextView)v.findViewById(R.id.nameTextView);
             statusTextView = (TextView)v.findViewById(R.id.statusTextView);
         }

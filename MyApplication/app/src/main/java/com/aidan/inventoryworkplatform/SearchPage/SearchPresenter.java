@@ -27,6 +27,8 @@ public class SearchPresenter implements SearchContract.presenter{
     Location location;
     Agent agent;
     Department department;
+    Agent user;
+    Department useGroup;
      SearchPresenter( SearchContract.view view){
         this.view = view;
 
@@ -94,7 +96,30 @@ public class SearchPresenter implements SearchContract.presenter{
     }
 
     @Override
-    public void searchTextViewClick() {
+    public void useGroupTextViewClick(final TextView useGroupTextVie) {
+        view.showSetDialog(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int position) {
+                useGroupTextVie.setText(departmentStrings[position]);
+                useGroup = DepartmentSingleton.getInstance().getDepartmentList().get(position);
+            }
+        },"使用部門列表",departmentStrings);
+    }
+
+    @Override
+    public void userTextViewClick(final TextView userTextView) {
+        view.showSetDialog(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int position) {
+                userTextView.setText(agentStrings[position]);
+                user = AgentSingleton.getInstance().getAgentList().get(position);
+            }
+        },"使用人列表",agentStrings);
+
+    }
+
+    @Override
+    public void searchTextViewClick(String key) {
         List<Item> itemList = new ArrayList<>();
         for(Item item : ItemSingleton.getInstance().getItemList()){
             if(location != null && !item.getLocation().number.equals(location.number)){
@@ -106,6 +131,15 @@ public class SearchPresenter implements SearchContract.presenter{
             if(department != null && !item.getCustodyGroup().number.equals(department.number)){
                 continue;
             }
+            if(user != null && !item.getCustodian().number.equals(user.number)){
+                continue;
+            }
+            if(useGroup != null && !item.getCustodyGroup().number.equals(useGroup.number)){
+                continue;
+            }
+            if( key.length() > 1 && !item.getIdNumber().equals(key)){
+                continue;
+            }
             itemList.add(item);
         }
         view.showFragmentWithResult(itemList);
@@ -115,6 +149,8 @@ public class SearchPresenter implements SearchContract.presenter{
         location = null;
         agent = null;
         department = null;
+        user = null;
+        useGroup = null;
         view.clearViews();
     }
 }

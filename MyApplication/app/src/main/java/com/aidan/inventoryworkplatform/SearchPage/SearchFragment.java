@@ -31,9 +31,10 @@ import java.util.List;
 public class SearchFragment extends DialogFragment implements SearchContract.view {
     SearchContract.presenter presenter;
     ViewGroup rootView;
-    EditText localIdEditText,idEditText,waterEditText;
+    EditText idEditText,waterEditText;
     TextView locationTextView,agentTextView,departmentTextView;
     TextView searchTextView,clearTextView;
+    TextView useGroupTextView,userTextView;
     BaseFragmentManager baseFragmentManager;
     public static SearchFragment newInstance(BaseFragmentManager baseFragmentManager){
         SearchFragment fragment = new SearchFragment();
@@ -49,7 +50,6 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
     }
     @Override
     public void findView(){
-        localIdEditText = (EditText)rootView.findViewById(R.id.localIdEditText);
         idEditText = (EditText)rootView.findViewById(R.id.idEditText);
         waterEditText = (EditText)rootView.findViewById(R.id.waterEditText);
         locationTextView = (TextView)rootView.findViewById(R.id.locationTextView);
@@ -57,6 +57,8 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         departmentTextView = (TextView)rootView.findViewById(R.id.departmentTextView);
         searchTextView = (TextView)rootView.findViewById(R.id.searchTextView);
         clearTextView = (TextView)rootView.findViewById(R.id.clearTextView);
+        useGroupTextView = (TextView)rootView.findViewById(R.id.useGroupTextView);
+        userTextView = (TextView)rootView.findViewById(R.id.userTextView);
     }
     @Override
     public void setViewClick(){
@@ -78,6 +80,18 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
                 presenter.departmentTextViewClick(departmentTextView);
             }
         });
+        userTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.userTextViewClick(userTextView);
+            }
+        });
+        useGroupTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.useGroupTextViewClick(useGroupTextView);
+            }
+        });
         clearTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,13 +101,12 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         searchTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.searchTextViewClick();
+                presenter.searchTextViewClick(idEditText.getText().toString()+"-"+waterEditText.getText().toString());
             }
         });
     }
     @Override
     public void clearViews(){
-        localIdEditText.setText("");
         idEditText.setText("");
         waterEditText.setText("");
         locationTextView.setText("請點選存置地點");

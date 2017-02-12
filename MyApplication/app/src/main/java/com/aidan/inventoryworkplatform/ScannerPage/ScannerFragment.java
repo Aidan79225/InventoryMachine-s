@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 
 import com.aidan.inventoryworkplatform.BaseFragmentManager;
 import com.aidan.inventoryworkplatform.Entity.Item;
+import com.aidan.inventoryworkplatform.ItemDetailPage.ItemDetailFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListAdapter;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.R;
@@ -58,7 +61,6 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
 
     public static ScannerFragment newInstance(BaseFragmentManager baseFragmentManager) {
         ScannerFragment fragment = new ScannerFragment();
-        fragment.presenter = new ScannerPresenter(fragment);
         fragment.baseFragmentManager = baseFragmentManager;
         return fragment;
     }
@@ -66,6 +68,7 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_scanner, container, false);
+        presenter = new ScannerPresenter(this);
         presenter.start();
         return rootView;
     }
@@ -94,8 +97,10 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
     public void setEditTextScan() {
 
         InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(scanEditText.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(scanEditText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
         scanEditText.setShowSoftInputOnFocus(false);
+
         scanEditText.requestFocus();
         scanEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -139,7 +144,24 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
     public void setListView(List<Item> itemList) {
         adapter = new ItemListAdapter(itemList);
         itemListView.setAdapter(adapter);
+        itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                gotoDetailFragment(adapter.getItem(position-1), new ItemListFragment.RefreshItems() {
+                    @Override
+                    public void refresh() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
     }
+    private void gotoDetailFragment(Item item,ItemListFragment.RefreshItems refreshItems){
+        DialogFragment fragment = ItemDetailFragment.newInstance(item,refreshItems);
+//        if(baseFragmentManager != null) baseFragmentManager.loadFragment(fragment);
+        fragment.show(getFragmentManager(),ItemDetailFragment.class.getName());
+    }
+
 
     @Override
     public void refreshList() {

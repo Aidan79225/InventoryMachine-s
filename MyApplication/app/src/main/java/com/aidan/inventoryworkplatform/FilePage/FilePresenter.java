@@ -1,5 +1,6 @@
 package com.aidan.inventoryworkplatform.FilePage;
 
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 
@@ -19,17 +20,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.List;
+
+import static android.R.attr.data;
+import static android.R.attr.value;
 
 /**
  * Created by Aidan on 2016/11/20.
@@ -60,12 +66,23 @@ public class FilePresenter implements FileContract.presenter {
         try {
             File yourFile = new File(path);
             FileInputStream stream = new FileInputStream(yourFile);
-            String jsonStr = null;
+//            InputStreamReader inputStreamReader = new InputStreamReader(stream,"Big5");
+//            BufferedReader br = new BufferedReader(inputStreamReader);
+//
+
+            String jsonStr = "";
+//            String line = "";
+//
+//            while((line=br.readLine())!=null){
+//                jsonStr += line;
+//
+//            }
+//    Singleton.log(inputStreamReader.getEncoding());
             try {
                 FileChannel fc = stream.getChannel();
                 MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-
-                jsonStr = Charset.defaultCharset().decode(bb).toString();
+                jsonStr = Charset.forName("Big5").decode(bb).toString();
+//                jsonStr = Charset.defaultCharset().decode(bb).toString();
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -77,11 +94,11 @@ public class FilePresenter implements FileContract.presenter {
             JSONObject jsonObj = new JSONObject(jsonStr);
             JSONObject ASSETs = jsonObj.getJSONObject("ASSETs");
 
-            // Getting data JSON Array nodes
             JSONArray data  = ASSETs.getJSONArray("PA3");
             Singleton.log("itemList size : "+data.length());
             // looping through All nodes
-            for (int i = 0; i < data.length(); i++) {
+            int size =  data.length();
+            for (int i = 0; i < size; i++) {
                 JSONObject c = data.getJSONObject(i);
                 Item item = new Item(c);
                 itemList.add(item);
@@ -95,7 +112,7 @@ public class FilePresenter implements FileContract.presenter {
                 Agent agent = new Agent(c);
                 agentList.add(agent);
             }
-            Singleton.log("agentList size : "+agentList.size());
+
             data  = ASSETs.getJSONArray("D2");
             Singleton.log("departmentList size : "+data.length());
             for (int i = 0; i < data.length(); i++) {
@@ -104,6 +121,7 @@ public class FilePresenter implements FileContract.presenter {
                 departmentList.add(department);
             }
             Singleton.log("departmentList size : "+departmentList.size());
+
             data  = ASSETs.getJSONArray("D3");
             Singleton.log("locationList size : "+data.length());
             for (int i = 0; i < data.length(); i++) {
@@ -118,6 +136,7 @@ public class FilePresenter implements FileContract.presenter {
             e.printStackTrace();
         }
     }
+
     public void saveFile(String fileName){
         JSONObject jsonObject  = getAllDataJSON();
         String dir = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/Download";
@@ -131,6 +150,7 @@ public class FilePresenter implements FileContract.presenter {
             file = new File(dir, fileName+".txt");
         }
 
+
         try  {
             FileWriter fw = new FileWriter(file);
             fw.write(jsonObject.toString());
@@ -141,8 +161,6 @@ public class FilePresenter implements FileContract.presenter {
         }catch (IOException ioe){
             ioe.printStackTrace();
         }
-        file.setReadable(true);
-        file.setWritable(true);
 
     }
     public JSONObject getAllDataJSON(){

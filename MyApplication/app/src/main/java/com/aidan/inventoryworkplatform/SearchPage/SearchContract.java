@@ -24,7 +24,10 @@ public interface SearchContract {
         void locationTextViewClick(TextView locationTextView);
         void departmentTextViewClick(TextView departmentTextView);
         void agentTextViewClick(TextView agentTextView);
-        void searchTextViewClick();
+        void useGroupTextViewClick(TextView departmentTextView);
+        void userTextViewClick(TextView agentTextView);
+
+        void searchTextViewClick(String key);
         void clearAll();
     }
 }

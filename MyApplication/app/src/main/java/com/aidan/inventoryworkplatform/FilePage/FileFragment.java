@@ -36,7 +36,7 @@ import droidninja.filepicker.FilePickerConst;
 public class FileFragment extends DialogFragment implements FileContract.view {
     ViewGroup rootView;
     FileContract.presenter presenter;
-    TextView inputTextView, outputTextView;
+    TextView inputTextView, outputTextView,progressBarTextView;
     ArrayList<String> filePaths = new ArrayList<>();
     ArrayList<String> docPaths = new ArrayList<>();
     int type = 0;
@@ -54,6 +54,7 @@ public class FileFragment extends DialogFragment implements FileContract.view {
     public void findView() {
         inputTextView = (TextView) rootView.findViewById(R.id.inputTextView);
         outputTextView = (TextView) rootView.findViewById(R.id.outputTextView);
+        progressBarTextView =(TextView) rootView.findViewById(R.id.progressBarTextView);
     }
 
     @Override
@@ -70,6 +71,11 @@ public class FileFragment extends DialogFragment implements FileContract.view {
                 showFileNameDialog();
             }
         });
+    }
+
+    @Override
+    public void showProgressUpdate(int value) {
+        progressBarTextView.setText( value + " %");
     }
 
     public void showFileNameDialog() {

@@ -8,6 +8,7 @@ public interface FileContract {
     interface view{
         void findView();
         void setViewClick();
+        void showProgressUpdate(int value);
     }
     interface presenter{
         void start();

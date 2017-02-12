@@ -11,6 +11,8 @@
     <string name="status">狀態</string>
     <string name="name">名稱</string>
     <string name="item_id">財產編號-流水號</string>
+    <string name="item_little_id">財產編號</string>
+    <string name="item_water_id">流水號</string>
     <string name="save_location">存置地點</string>
     <string name="save_agent">保管人</string>
     <string name="save_department">保管單位</string>
