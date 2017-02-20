@@ -1,6 +1,8 @@
 package com.aidan.inventoryworkplatform.ItemDetailPage;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,26 +17,28 @@ import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.R;
 
 
-
 /**
  * Created by s352431 on 2016/11/22.
  */
 public class ItemDetailFragment extends DialogFragment implements ItemDetailContract.view {
     ItemDetailContract.presenter presenter;
     ViewGroup rootView;
-    TextView yearsTextView,buyDateTextView,brandTextView,
-            typeTextView,locationTextView,
-            nameTextView,itemIdTextView,
-            custodyGroupTextView,custodianTextView,
-            useGroupTextView,userTextView;
-    Button confirmButton,cancelButton;
+    TextView yearsTextView, buyDateTextView, brandTextView,
+            typeTextView, locationTextView,
+            nameTextView, itemIdTextView,
+            custodyGroupTextView, custodianTextView,
+            useGroupTextView, userTextView,
+            deleteTextView,printTextView;
+    Button confirmButton, cancelButton;
     ItemListFragment.RefreshItems refreshItems;
-    public static ItemDetailFragment newInstance(Item item, ItemListFragment.RefreshItems refreshItems){
+
+    public static ItemDetailFragment newInstance(Item item, ItemListFragment.RefreshItems refreshItems) {
         ItemDetailFragment fragment = new ItemDetailFragment();
-        fragment.presenter = new ItemDetailPresenter(fragment,item);
+        fragment.presenter = new ItemDetailPresenter(fragment, item);
         fragment.refreshItems = refreshItems;
         return fragment;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -42,26 +46,30 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         presenter.start();
         return rootView;
     }
+
     @Override
-    public void findView(){
-        confirmButton = (Button)rootView.findViewById(R.id.confirmButton);
-        cancelButton = (Button)rootView.findViewById(R.id.cancelButton);
-        yearsTextView = (TextView)rootView.findViewById(R.id.yearsTextView);
-        buyDateTextView = (TextView)rootView.findViewById(R.id.buyDateTextView);
-        brandTextView = (TextView)rootView.findViewById(R.id.brandTextView);
-        typeTextView = (TextView)rootView.findViewById(R.id.typeTextView);
+    public void findView() {
+        confirmButton = (Button) rootView.findViewById(R.id.confirmButton);
+        cancelButton = (Button) rootView.findViewById(R.id.cancelButton);
+        yearsTextView = (TextView) rootView.findViewById(R.id.yearsTextView);
+        buyDateTextView = (TextView) rootView.findViewById(R.id.buyDateTextView);
+        brandTextView = (TextView) rootView.findViewById(R.id.brandTextView);
+        typeTextView = (TextView) rootView.findViewById(R.id.typeTextView);
 
-        locationTextView = (TextView)rootView.findViewById(R.id.locationTextView);
-        nameTextView = (TextView)rootView.findViewById(R.id.nameTextView);
-        itemIdTextView = (TextView)rootView.findViewById(R.id.itemIdTextView);
+        locationTextView = (TextView) rootView.findViewById(R.id.locationTextView);
+        nameTextView = (TextView) rootView.findViewById(R.id.nameTextView);
+        itemIdTextView = (TextView) rootView.findViewById(R.id.itemIdTextView);
 
-        custodyGroupTextView = (TextView)rootView.findViewById(R.id.custodyGroupTextView);
-        custodianTextView = (TextView)rootView.findViewById(R.id.custodianTextView);
-        useGroupTextView = (TextView)rootView.findViewById(R.id.useGroupTextView);
-        userTextView = (TextView)rootView.findViewById(R.id.userTextView);
+        custodyGroupTextView = (TextView) rootView.findViewById(R.id.custodyGroupTextView);
+        custodianTextView = (TextView) rootView.findViewById(R.id.custodianTextView);
+        useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
+        userTextView = (TextView) rootView.findViewById(R.id.userTextView);
+        deleteTextView = (TextView) rootView.findViewById(R.id.deleteTextView);
+        printTextView = (TextView) rootView.findViewById(R.id.printTextView);
     }
+
     @Override
-    public void setViewValue(Item item){
+    public void setViewValue(Item item) {
         yearsTextView.setText(item.getYears());
         buyDateTextView.setText(ADtoCal(item));
         brandTextView.setText(item.getBrand());
@@ -73,11 +81,15 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         locationTextView.setText(item.getLocation().name);
         nameTextView.setText(item.getName());
         itemIdTextView.setText(item.getIdNumber());
+        deleteTextView.setText(item.isDelete() ? "Y" : "N");
+        printTextView.setText(item.isPrint() ? "Y" : "N");
     }
-private String ADtoCal(Item item){
-    String temp = String.valueOf((Integer.parseInt(item.getDate())-19110000));
-    return temp.substring(0,temp.length()-4) + "/" + temp.substring(temp.length()-4,temp.length()-3) + "/" +temp.substring(temp.length()-2);
-}
+
+    private String ADtoCal(Item item) {
+        String temp = String.valueOf((Integer.parseInt(item.getDate()) - 19110000));
+        return temp.substring(0, temp.length() - 4) + "/" + temp.substring(temp.length() - 4, temp.length() - 3) + "/" + temp.substring(temp.length() - 2);
+    }
+
     @Override
     public void setViewClick() {
 
@@ -97,6 +109,55 @@ private String ADtoCal(Item item){
                 dismiss();
             }
         });
+        locationTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.locationTextViewClick(locationTextView);
+            }
+        });
+        custodianTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.agentTextViewClick(custodianTextView);
+            }
+        });
+        custodyGroupTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.departmentTextViewClick(custodyGroupTextView);
+            }
+        });
+        userTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.userTextViewClick(userTextView);
+            }
+        });
+        useGroupTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.useGroupTextViewClick(useGroupTextView);
+            }
+        });
+        deleteTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.deleteTextViewClick(deleteTextView);
+            }
+        });
+        printTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.printTextViewClick(printTextView);
+            }
+        });
 
+    }
+    @Override
+    public void showSetDialog(DialogInterface.OnClickListener clickListener, String title, final String[] temp){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setTitle(title);
+        dialog.setItems(temp, clickListener);
+        dialog.create().show();
     }
 }

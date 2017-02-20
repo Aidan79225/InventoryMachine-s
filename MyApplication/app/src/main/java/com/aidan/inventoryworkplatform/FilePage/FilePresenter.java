@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 
+import com.aidan.inventoryworkplatform.Database.ItemDAO;
 import com.aidan.inventoryworkplatform.Entity.Agent;
 import com.aidan.inventoryworkplatform.Entity.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
@@ -63,6 +66,7 @@ public class FilePresenter implements FileContract.presenter {
         locationList.clear();
         agentList.clear();
         departmentList.clear();
+        ItemDAO.getInstance().dropTable();
         try {
             File yourFile = new File(path);
             FileInputStream stream = new FileInputStream(yourFile);
@@ -150,17 +154,25 @@ public class FilePresenter implements FileContract.presenter {
             file = new File(dir, fileName+".txt");
         }
 
-
-        try  {
-            FileWriter fw = new FileWriter(file);
-            fw.write(jsonObject.toString());
-            fw.close();
-            Singleton.log(file.getAbsolutePath());
-        }catch (FileNotFoundException e){
+        try{
+            BufferedWriter bufWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file,false),"big5"));
+            bufWriter.write(jsonObject.toString());
+            bufWriter.close();
+        }catch(IOException e){
             e.printStackTrace();
-        }catch (IOException ioe){
-            ioe.printStackTrace();
+            Singleton.log(file.getAbsoluteFile() + "寫檔發生錯誤");
         }
+
+//        try  {
+//            FileWriter fw = new FileWriter(file);
+//            fw.write(jsonObject.toString());
+//            fw.close();
+//            Singleton.log(file.getAbsolutePath());
+//        }catch (FileNotFoundException e){
+//            e.printStackTrace();
+//        }catch (IOException ioe){
+//            ioe.printStackTrace();
+//        }
 
     }
     public JSONObject getAllDataJSON(){

@@ -8,6 +8,7 @@ import org.json.JSONObject;
  */
 
 public class Item {
+    private long id = 0;
     private String PA341 = "PA341";
     private String PA342 = "PA342";
     private String PA343 = "PA343";
@@ -35,7 +36,9 @@ public class Item {
     private String PA308 = "PA308";
     private String PA3DEL = "PA3DEL";
     private String PA3PRN = "PA3PRN";
+    public Item(){
 
+    }
     public Item(JSONObject jsonObject) {
         try {
             PA341 = jsonObject.getString(ItemConstants.PA341);
@@ -66,6 +69,40 @@ public class Item {
             PA3DEL = jsonObject.getString(ItemConstants.PA3DEL);
             PA3PRN = jsonObject.getString(ItemConstants.PA3PRN);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void setData(String data){
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+            PA341 = jsonObject.getString(ItemConstants.PA341);
+            PA342 = jsonObject.getString(ItemConstants.PA342);
+            PA343 = jsonObject.getString(ItemConstants.PA343);
+            PA3C1 = jsonObject.getString(ItemConstants.PA3C1);
+            PA3C2 = jsonObject.getString(ItemConstants.PA3C2);
+            PA3C3 = jsonObject.getString(ItemConstants.PA3C3);
+            PA3C4 = jsonObject.getString(ItemConstants.PA3C4);
+            PA3C5 = jsonObject.getString(ItemConstants.PA3C5);
+            PA3C6 = jsonObject.getString(ItemConstants.PA3C6);
+            PA3P3 = jsonObject.getString(ItemConstants.PA3P3);
+            PA3PS = jsonObject.getString(ItemConstants.PA3PS);
+            PA3MK = jsonObject.getString(ItemConstants.PA3MK);
+            PA3BD = jsonObject.getString(ItemConstants.PA3BD);
+            PA3PY = jsonObject.getString(ItemConstants.PA3PY);
+            PA3LOC = jsonObject.getString(ItemConstants.PA3LOC);
+            PA3LOCN = jsonObject.getString(ItemConstants.PA3LOCN);
+            PA3OUT = jsonObject.getString(ItemConstants.PA3OUT);
+            PA3OUTN = jsonObject.getString(ItemConstants.PA3OUTN);
+            PA3OU = jsonObject.getString(ItemConstants.PA3OU);
+            PA3OUN = jsonObject.getString(ItemConstants.PA3OUN);
+            PA3UUT = jsonObject.getString(ItemConstants.PA3UUT);
+            PA3UUTN = jsonObject.getString(ItemConstants.PA3UUTN);
+            PA3UR = jsonObject.getString(ItemConstants.PA3UR);
+            PA3URN = jsonObject.getString(ItemConstants.PA3URN);
+            PA308 = jsonObject.getString(ItemConstants.PA308);
+            PA3DEL = jsonObject.getString(ItemConstants.PA3DEL);
+            PA3PRN = jsonObject.getString(ItemConstants.PA3PRN);
+        }catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -145,21 +182,41 @@ public class Item {
     public Agent getCustodian() {
         return new Agent(PA3OUN, PA3OU);
     }
+    public void setCustodian(Agent agent) {
+        PA3OUN = agent.name;
+        PA3OU = agent.number;
+    }
 
     public Agent getUser() {
         return new Agent(PA3URN, PA3UR);
+    }
+    public void setUser(Agent agent) {
+        PA3URN = agent.name;
+        PA3UR = agent.number;
     }
 
     public Department getCustodyGroup() {
         return new Department(PA3OUTN, PA3OUT);
     }
+    public void setCustodyGroup(Department department) {
+        PA3OUTN = department.name;
+        PA3OUT = department.number;
+    }
 
     public Department getUseGroup() {
         return new Department(PA3UUTN, PA3UUT);
     }
+    public void setUseGroup(Department department) {
+        PA3UUTN = department.name;
+        PA3UUT = department.number;
+    }
 
     public Location getLocation() {
         return new Location(PA3LOCN, PA3LOC);
+    }
+    public void setLocation(Location location) {
+        PA3LOCN = location.name;
+        PA3LOC = location.number;
     }
 
     public boolean isConfirm() {
@@ -175,9 +232,36 @@ public class Item {
     public boolean isDelete() {
         return PA3DEL.equals("Y");
     }
+    public void setDelete(boolean flag){
+        if(flag){
+            PA3DEL = "Y";
+        }else{
+            PA3DEL = "N";
+        }
+    }
+    public void setDelete(String key){
+        PA3DEL = key;
+    }
 
     public boolean isPrint() {
         return PA3PRN.equals("Y");
     }
+    public void setPrint(boolean flag){
+        if(flag){
+            PA3PRN = "Y";
+        }else{
+            PA3PRN = "N";
+        }
+    }
+    public void setPrint(String key){
+        PA3PRN = key;
+    }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

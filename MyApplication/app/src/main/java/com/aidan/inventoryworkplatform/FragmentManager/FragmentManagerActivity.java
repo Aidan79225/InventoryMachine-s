@@ -15,8 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.graphics.drawable.RippleDrawable;
 import com.aidan.inventoryworkplatform.BaseFragmentManager;
+import com.aidan.inventoryworkplatform.Database.DepartmentDAO;
+import com.aidan.inventoryworkplatform.Database.ItemDAO;
 import com.aidan.inventoryworkplatform.FilePage.FileFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
+import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.R;
 import com.aidan.inventoryworkplatform.ScannerPage.ScannerFragment;
@@ -43,10 +46,11 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ItemDAO.init(getApplicationContext());
+        DepartmentDAO.init(getApplicationContext());
         setContentView(R.layout.activity_fragment_maneger);
         presenter = new FragmentManagerPresenter(this);
         presenter.start();
-
     }
 
     @Override
@@ -109,6 +113,8 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
 
     @Override
     public void onDestroy() {
+        ItemSingleton.getInstance().saveToDB();
+        DepartmentSingleton.getInstance().saveToDB();
         super.onDestroy();
 //        unregisterReceiver(scanReceiver);
 //        if (readerManager != null) {

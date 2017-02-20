@@ -8,8 +8,21 @@ import org.json.JSONObject;
  */
 
 public class Department {
+    private long id = 0;
     public String number ="";
     public String name = "";
+    public Department(){
+
+    }
+    public void setData(String data){
+        try{
+            JSONObject jsonObject = new JSONObject(data);
+            number = jsonObject.getString(DepartmentConstants.D2KY);
+            name = jsonObject.getString(DepartmentConstants.D2NM);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
     public Department(JSONObject jsonObject){
         try{
             number = jsonObject.getString(DepartmentConstants.D2KY);
@@ -31,5 +44,13 @@ public class Department {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
