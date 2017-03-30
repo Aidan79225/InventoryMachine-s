@@ -87,7 +87,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
 
     private String ADtoCal(Item item) {
         String temp = String.valueOf((Integer.parseInt(item.getDate()) - 19110000));
-        return temp.substring(0, temp.length() - 4) + "/" + temp.substring(temp.length() - 4, temp.length() - 3) + "/" + temp.substring(temp.length() - 2);
+        return temp.substring(0, temp.length() - 4) + "/" + temp.substring(temp.length() - 4, temp.length() - 2) + "/" + temp.substring(temp.length() - 2);
     }
 
     @Override

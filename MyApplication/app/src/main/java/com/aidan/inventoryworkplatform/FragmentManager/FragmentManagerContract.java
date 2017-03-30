@@ -9,6 +9,10 @@ public interface FragmentManagerContract {
         void findView();
         void setViewClick();
         void setScanner();
+        void loadScannerFragment();
+        void loadItemListFragment();
+        void loadFileFragment();
+        void loadSearchFragment();
     }
     interface presenter{
         void start();

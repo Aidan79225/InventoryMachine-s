@@ -24,13 +24,6 @@
         android:layout_marginTop="10dp"
         android:background="@color/bg_gray"
         android:padding="10dp"
-        android:text="輸出" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/outputTextView"
-        android:layout_marginTop="10dp"
-        android:id="@+id/progressBarTextView"
-        android:text = "%"/>
+        android:text="行動裝置轉至電腦" />
 
 </RelativeLayout>

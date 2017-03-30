@@ -200,6 +200,7 @@
                     android:inputType="numberDecimal"
                     android:padding="10dp"
                     android:textSize="18sp"
+                    android:maxLength="11"
                     android:textColor="@color/text_black"/>
             </LinearLayout>
 
@@ -223,7 +224,7 @@
                     android:textColor="@color/text_black"/>
 
                 <EditText
-                    android:id="@+id/waterEditText"
+                    android:id="@+id/serialNumberEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
@@ -233,7 +234,8 @@
                     android:inputType="numberDecimal"
                     android:padding="10dp"
                     android:textSize="18sp"
-                    android:textColor="@color/text_black"/>
+                    android:textColor="@color/text_black"
+                    android:maxLength="11"/>
             </LinearLayout>
         </LinearLayout>
 

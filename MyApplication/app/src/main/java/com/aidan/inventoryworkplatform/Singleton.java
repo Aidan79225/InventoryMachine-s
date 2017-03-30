@@ -1,5 +1,8 @@
 package com.aidan.inventoryworkplatform;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 
@@ -8,6 +11,8 @@ import android.util.Log;
  */
 public class Singleton {
     public static final boolean logSend = BuildConfig.IS_SANDBOX;
+    public static SharedPreferences preferences = null;
+    public static SharedPreferences.Editor preferenceEditor = null;
 
     public static void log(String log) {
         if (logSend) {
@@ -29,5 +34,9 @@ public class Singleton {
             }
         }
         return null;
+    }
+    public static void  setPreference(Context applicationContext){
+        preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+        preferenceEditor = preferences.edit();
     }
 }

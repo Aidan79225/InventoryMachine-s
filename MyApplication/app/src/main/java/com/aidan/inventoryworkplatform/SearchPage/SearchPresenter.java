@@ -1,8 +1,14 @@
 package com.aidan.inventoryworkplatform.SearchPage;
 
 import android.content.DialogInterface;
+import android.database.DataSetObserver;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
+import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Agent;
 import com.aidan.inventoryworkplatform.Entity.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
@@ -65,61 +71,70 @@ public class SearchPresenter implements SearchContract.presenter{
     }
     @Override
     public void locationTextViewClick(final TextView locationTextView){
-        view.showSetDialog(new DialogInterface.OnClickListener() {
+        List<SearchableItem> temp = new ArrayList<>();
+        temp.addAll( LocationSingleton.getInstance().getLocationList());
+        view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int position) {
-                locationTextView.setText(locationStrings[position]);
-                location = LocationSingleton.getInstance().getLocationList().get(position);
+            public void onClick(SearchableItem item) {
+                locationTextView.setText(item.getName());
+                location = (Location) item;
             }
-        },"地點列表",locationStrings);
-
+        },"地點列表",temp);
     }
     @Override
     public void departmentTextViewClick(final TextView departmentTextView){
-        view.showSetDialog(new DialogInterface.OnClickListener() {
+        List<SearchableItem> temp = new ArrayList<>();
+        temp.addAll( DepartmentSingleton.getInstance().getDepartmentList());
+        view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int position) {
-                departmentTextView.setText(departmentStrings[position]);
-                department = DepartmentSingleton.getInstance().getDepartmentList().get(position);
+            public void onClick(SearchableItem item) {
+                departmentTextView.setText(item.getName());
+                department = (Department) item;
             }
-        },"保管部門列表",departmentStrings);
+        },"保管部門列表",temp);
     }
     @Override
     public void agentTextViewClick(final TextView agentTextView){
-        view.showSetDialog(new DialogInterface.OnClickListener() {
+        List<SearchableItem> temp = new ArrayList<>();
+        temp.addAll( AgentSingleton.getInstance().getAgentList());
+        view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int position) {
-                agentTextView.setText(agentStrings[position]);
-                agent = AgentSingleton.getInstance().getAgentList().get(position);
+            public void onClick(SearchableItem item) {
+                agentTextView.setText(item.getName());
+                agent = (Agent) item;
             }
-        },"保管人列表",agentStrings);
+        },"保管人列表",temp);
     }
 
     @Override
     public void useGroupTextViewClick(final TextView useGroupTextVie) {
-        view.showSetDialog(new DialogInterface.OnClickListener() {
+        List<SearchableItem> temp = new ArrayList<>();
+        temp.addAll( DepartmentSingleton.getInstance().getDepartmentList());
+        view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int position) {
-                useGroupTextVie.setText(departmentStrings[position]);
-                useGroup = DepartmentSingleton.getInstance().getDepartmentList().get(position);
+            public void onClick(SearchableItem item) {
+                useGroupTextVie.setText(item.getName());
+                useGroup = (Department) item;
             }
-        },"使用部門列表",departmentStrings);
+        },"使用部門列表",temp);
     }
 
     @Override
     public void userTextViewClick(final TextView userTextView) {
-        view.showSetDialog(new DialogInterface.OnClickListener() {
+        List<SearchableItem> temp = new ArrayList<>();
+        temp.addAll( AgentSingleton.getInstance().getAgentList());
+        view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int position) {
-                userTextView.setText(agentStrings[position]);
-                user = AgentSingleton.getInstance().getAgentList().get(position);
+            public void onClick(SearchableItem item) {
+                userTextView.setText(item.getName());
+                agent = (Agent) item;
             }
-        },"使用人列表",agentStrings);
+        },"使用人列表",temp);
 
     }
 
     @Override
-    public void searchTextViewClick(String key) {
+    public void searchTextViewClick(String number,String serialNumber) {
         List<Item> itemList = new ArrayList<>();
         for(Item item : ItemSingleton.getInstance().getItemList()){
             if(location != null && !item.getLocation().number.equals(location.number)){
@@ -137,9 +152,13 @@ public class SearchPresenter implements SearchContract.presenter{
             if(useGroup != null && !item.getCustodyGroup().number.equals(useGroup.number)){
                 continue;
             }
-            if( key.length() > 1 && !item.getIdNumber().equals(key)){
+            if(number.length() > 1 && !item.getNumber().equals(number)){
                 continue;
             }
+            if(serialNumber.length() > 1 && !item.getSerialNumber().equals(number)){
+                continue;
+            }
+
             itemList.add(item);
         }
         view.showFragmentWithResult(itemList);

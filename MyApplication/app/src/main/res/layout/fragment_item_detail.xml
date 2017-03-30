@@ -33,7 +33,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="3dp"
                     android:text="@string/item_id"
                     android:textSize="20sp" />
 
@@ -70,7 +70,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="@string/name"
                 android:textSize="20sp" />
 
@@ -83,7 +83,7 @@
                 android:id="@+id/nameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="123"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -106,7 +106,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="@string/save_location"
                 android:textSize="20sp" />
 
@@ -119,7 +119,7 @@
                 android:id="@+id/locationTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="123"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -142,7 +142,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="@string/save_department"
                 android:textSize="20sp" />
 
@@ -155,7 +155,7 @@
                 android:id="@+id/custodyGroupTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="123"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -178,7 +178,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="@string/save_agent"
                 android:textSize="20sp" />
 
@@ -191,7 +191,7 @@
                 android:id="@+id/custodianTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="123"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -214,7 +214,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="@string/use_department"
                 android:textSize="20sp" />
 
@@ -227,7 +227,7 @@
                 android:id="@+id/useGroupTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="123"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -250,7 +250,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="@string/use_agent"
                 android:textSize="20sp" />
 
@@ -263,7 +263,7 @@
                 android:id="@+id/userTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="123"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -286,7 +286,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="@string/type"
                 android:textSize="20sp" />
 
@@ -299,7 +299,7 @@
                 android:id="@+id/typeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="123"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -322,7 +322,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="@string/brand"
                 android:textSize="20sp" />
 
@@ -335,7 +335,7 @@
                 android:id="@+id/brandTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="123"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -363,7 +363,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="3dp"
                     android:text="@string/buy_date"
                     android:textSize="20sp" />
 
@@ -376,7 +376,7 @@
                     android:id="@+id/buyDateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="3dp"
                     android:text="123"
                     android:textSize="20sp" />
 
@@ -397,7 +397,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="3dp"
                     android:text="@string/years"
                     android:textSize="20sp" />
 
@@ -410,7 +410,7 @@
                     android:id="@+id/yearsTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="3dp"
                     android:text="123"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -430,7 +430,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="@string/delete"
                 android:textSize="20sp" />
             <View
@@ -441,7 +441,7 @@
                 android:id="@+id/deleteTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="N"
                 android:textSize="20sp" />
             <View
@@ -451,7 +451,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="@string/print"
                 android:textSize="20sp" />
             <View
@@ -462,7 +462,7 @@
                 android:id="@+id/printTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="3dp"
                 android:text="N"
                 android:textSize="20sp" />
             <View

@@ -1,6 +1,6 @@
 <resources>
     <string name="check_system">欣華盤點系統</string>
-    <string name="input_file">選擇輸入檔</string>
+    <string name="input_file">電腦轉至行動裝置</string>
     <!--Page-->
     <string name="file_page">檔案頁面</string>
     <string name="scan_page">盤點掃描</string>

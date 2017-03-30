@@ -1,5 +1,7 @@
 package com.aidan.inventoryworkplatform.Model;
 
+import com.aidan.inventoryworkplatform.Database.DBHelper;
+import com.aidan.inventoryworkplatform.Database.LocationDAO;
 import com.aidan.inventoryworkplatform.Entity.Location;
 
 import java.util.ArrayList;
@@ -25,5 +27,24 @@ public class LocationSingleton {
 
     public List<Location> getLocationList() {
         return locationList;
+    }
+    public void saveToDB() {
+        try {
+            DBHelper.getDatabase().beginTransaction();
+            for (Location location : locationList) {
+                saveLocation(location);
+            }
+            DBHelper.getDatabase().setTransactionSuccessful();
+            DBHelper.getDatabase().endTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void saveLocation(Location location){
+        if (!LocationDAO.getInstance().update(location))
+            LocationDAO.getInstance().insert(location);
+    }
+    public void loadFromDB(){
+        locationList = LocationDAO.getInstance().getAll();
     }
 }

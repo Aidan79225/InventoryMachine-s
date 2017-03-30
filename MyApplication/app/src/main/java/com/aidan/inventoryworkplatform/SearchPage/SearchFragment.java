@@ -6,6 +6,8 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.aidan.inventoryworkplatform.BaseFragmentManager;
+import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
+import com.aidan.inventoryworkplatform.Dialog.SearchItemDialog;
+import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Entity.Location;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
@@ -31,37 +36,41 @@ import java.util.List;
 public class SearchFragment extends DialogFragment implements SearchContract.view {
     SearchContract.presenter presenter;
     ViewGroup rootView;
-    EditText idEditText,waterEditText;
-    TextView locationTextView,agentTextView,departmentTextView;
-    TextView searchTextView,clearTextView;
-    TextView useGroupTextView,userTextView;
+    EditText idEditText, serialNumberEditText;
+    TextView locationTextView, agentTextView, departmentTextView;
+    TextView searchTextView, clearTextView;
+    TextView useGroupTextView, userTextView;
     BaseFragmentManager baseFragmentManager;
-    public static SearchFragment newInstance(BaseFragmentManager baseFragmentManager){
+
+    public static SearchFragment newInstance(BaseFragmentManager baseFragmentManager) {
         SearchFragment fragment = new SearchFragment();
         fragment.baseFragmentManager = baseFragmentManager;
         return fragment;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_search, container, false);
-        if(presenter == null)presenter = new SearchPresenter(this);
+        if (presenter == null) presenter = new SearchPresenter(this);
         presenter.start();
         return rootView;
     }
+
     @Override
-    public void findView(){
-        idEditText = (EditText)rootView.findViewById(R.id.idEditText);
-        waterEditText = (EditText)rootView.findViewById(R.id.waterEditText);
-        locationTextView = (TextView)rootView.findViewById(R.id.locationTextView);
-        agentTextView = (TextView)rootView.findViewById(R.id.agentTextView);
-        departmentTextView = (TextView)rootView.findViewById(R.id.departmentTextView);
-        searchTextView = (TextView)rootView.findViewById(R.id.searchTextView);
-        clearTextView = (TextView)rootView.findViewById(R.id.clearTextView);
-        useGroupTextView = (TextView)rootView.findViewById(R.id.useGroupTextView);
-        userTextView = (TextView)rootView.findViewById(R.id.userTextView);
+    public void findView() {
+        idEditText = (EditText) rootView.findViewById(R.id.idEditText);
+        serialNumberEditText = (EditText) rootView.findViewById(R.id.serialNumberEditText);
+        locationTextView = (TextView) rootView.findViewById(R.id.locationTextView);
+        agentTextView = (TextView) rootView.findViewById(R.id.agentTextView);
+        departmentTextView = (TextView) rootView.findViewById(R.id.departmentTextView);
+        searchTextView = (TextView) rootView.findViewById(R.id.searchTextView);
+        clearTextView = (TextView) rootView.findViewById(R.id.clearTextView);
+        useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
+        userTextView = (TextView) rootView.findViewById(R.id.userTextView);
     }
+
     @Override
-    public void setViewClick(){
+    public void setViewClick() {
         locationTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,28 +110,49 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         searchTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.searchTextViewClick(idEditText.getText().toString()+"-"+waterEditText.getText().toString());
+                presenter.searchTextViewClick(idEditText.getText().toString(), serialNumberEditText.getText().toString());
+            }
+        });
+        idEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.length() == 11){
+                    serialNumberEditText.requestFocus();
+                }
             }
         });
     }
+
     @Override
-    public void clearViews(){
+    public void clearViews() {
         idEditText.setText("");
-        waterEditText.setText("");
+        serialNumberEditText.setText("");
         locationTextView.setText("請點選存置地點");
         agentTextView.setText("請點選保管人");
         departmentTextView.setText("請點選保管單位");
     }
+
     @Override
-    public void showSetDialog(DialogInterface.OnClickListener clickListener,String title,final String[] temp){
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+    public void showSetDialog(SearchItemAdapter.OnClickListener clickListener, String title, List<SearchableItem> dataList) {
+        SearchItemDialog dialog = new SearchItemDialog(getActivity(),dataList);
         dialog.setTitle(title);
-        dialog.setItems(temp, clickListener);
-        dialog.create().show();
+        dialog.setOnClickListener(clickListener);
+        dialog.show();
     }
+
     @Override
-    public void showFragmentWithResult(List<Item> items){
-        Fragment fragment = ItemListFragment.newInstance(items,baseFragmentManager);
+    public void showFragmentWithResult(List<Item> items) {
+        Fragment fragment = ItemListFragment.newInstance(items, baseFragmentManager);
         baseFragmentManager.loadFragment(fragment);
     }
 

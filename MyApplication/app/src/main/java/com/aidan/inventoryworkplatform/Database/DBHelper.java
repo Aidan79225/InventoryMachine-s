@@ -4,12 +4,14 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.aidan.inventoryworkplatform.Entity.Location;
+
 /**
  * Created by Aidan on 2017/2/21.
  */
 
 public class DBHelper extends SQLiteOpenHelper {
-    private final static int DBVersion = 2; //<-- 版本
+    private final static int DBVersion = 3; //<-- 版本
     private final static String DBName = "inventory.db";  //<-- db name
     private static SQLiteDatabase database;
 
@@ -39,12 +41,16 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(ItemDAO.CREATE_TABLE);
         db.execSQL(DepartmentDAO.CREATE_TABLE);
+        db.execSQL(AgentDAO.CREATE_TABLE);
+        db.execSQL(LocationDAO.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + ItemDAO.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + DepartmentDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + AgentDAO.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + LocationDAO.TABLE_NAME);
         onCreate(db);
     }
 }

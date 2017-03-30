@@ -1,7 +1,12 @@
 package com.aidan.inventoryworkplatform.FragmentManager;
 
+import android.Manifest;
+import android.support.v4.app.ActivityCompat;
+
+import com.aidan.inventoryworkplatform.Model.AgentSingleton;
 import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
+import com.aidan.inventoryworkplatform.Model.LocationSingleton;
 
 /**
  * Created by Aidan on 2016/10/25.
@@ -20,5 +25,16 @@ public class FragmentManagerPresenter implements FragmentManagerContract.present
         view.setScanner();
         ItemSingleton.getInstance().loadFromDB();
         DepartmentSingleton.getInstance().loadFromDB();
+        AgentSingleton.getInstance().loadFromDB();
+        LocationSingleton.getInstance().loadFromDB();
+        loadFirstPage();
+    }
+
+    private void loadFirstPage(){
+        if(ItemSingleton.getInstance().getItemList().size() > 0){
+            view.loadItemListFragment();
+        }else{
+            view.loadFileFragment();
+        }
     }
 }

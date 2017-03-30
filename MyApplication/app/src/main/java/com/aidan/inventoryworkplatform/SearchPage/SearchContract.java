@@ -3,6 +3,8 @@ package com.aidan.inventoryworkplatform.SearchPage;
 import android.content.DialogInterface;
 import android.widget.TextView;
 
+import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
+import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Item;
 
 import java.util.List;
@@ -15,7 +17,7 @@ public interface SearchContract {
     interface view{
         void findView();
         void setViewClick();
-        void showSetDialog(DialogInterface.OnClickListener clickListener, String title, final String[] temp);
+        void showSetDialog(SearchItemAdapter.OnClickListener clickListener, String title, List<SearchableItem> dataList);
         void showFragmentWithResult(List<Item> items);
         void clearViews();
     }
@@ -27,7 +29,7 @@ public interface SearchContract {
         void useGroupTextViewClick(TextView departmentTextView);
         void userTextViewClick(TextView agentTextView);
 
-        void searchTextViewClick(String key);
+        void searchTextViewClick(String number,String serialNumber);
         void clearAll();
     }
 }

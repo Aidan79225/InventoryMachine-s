@@ -9,6 +9,7 @@ public interface FileContract {
         void findView();
         void setViewClick();
         void showProgressUpdate(int value);
+        void checkPermission();
     }
     interface presenter{
         void start();

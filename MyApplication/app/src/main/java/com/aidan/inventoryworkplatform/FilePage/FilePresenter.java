@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 
+import com.aidan.inventoryworkplatform.Constants;
 import com.aidan.inventoryworkplatform.Database.ItemDAO;
 import com.aidan.inventoryworkplatform.Entity.Agent;
 import com.aidan.inventoryworkplatform.Entity.Department;
@@ -35,6 +36,8 @@ import java.io.PrintStream;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static android.R.attr.data;
@@ -46,7 +49,8 @@ import static android.R.attr.value;
 
 public class FilePresenter implements FileContract.presenter {
     FileContract.view view;
-    public FilePresenter(FileContract.view view){
+
+    public FilePresenter(FileContract.view view) {
         this.view = view;
     }
 
@@ -70,70 +74,25 @@ public class FilePresenter implements FileContract.presenter {
         try {
             File yourFile = new File(path);
             FileInputStream stream = new FileInputStream(yourFile);
-//            InputStreamReader inputStreamReader = new InputStreamReader(stream,"Big5");
-//            BufferedReader br = new BufferedReader(inputStreamReader);
-//
-
             String jsonStr = "";
-//            String line = "";
-//
-//            while((line=br.readLine())!=null){
-//                jsonStr += line;
-//
-//            }
-//    Singleton.log(inputStreamReader.getEncoding());
+
             try {
                 FileChannel fc = stream.getChannel();
                 MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
                 jsonStr = Charset.forName("Big5").decode(bb).toString();
-//                jsonStr = Charset.defaultCharset().decode(bb).toString();
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            finally {
-                stream.close();
-            }
+            stream.close();
 
             JSONObject jsonObj = new JSONObject(jsonStr);
             JSONObject ASSETs = jsonObj.getJSONObject("ASSETs");
-
-            JSONArray data  = ASSETs.getJSONArray("PA3");
-            Singleton.log("itemList size : "+data.length());
-            // looping through All nodes
-            int size =  data.length();
-            for (int i = 0; i < size; i++) {
-                JSONObject c = data.getJSONObject(i);
-                Item item = new Item(c);
-                itemList.add(item);
-            }
-            Singleton.log("itemList size : "+itemList.size());
-
-            data  = ASSETs.getJSONArray("D1");
-            Singleton.log("agentList size : "+data.length());
-            for (int i = 0; i < data.length(); i++) {
-                JSONObject c = data.getJSONObject(i);
-                Agent agent = new Agent(c);
-                agentList.add(agent);
-            }
-
-            data  = ASSETs.getJSONArray("D2");
-            Singleton.log("departmentList size : "+data.length());
-            for (int i = 0; i < data.length(); i++) {
-                JSONObject c = data.getJSONObject(i);
-                Department department = new Department(c);
-                departmentList.add(department);
-            }
-            Singleton.log("departmentList size : "+departmentList.size());
-
-            data  = ASSETs.getJSONArray("D3");
-            Singleton.log("locationList size : "+data.length());
-            for (int i = 0; i < data.length(); i++) {
-                JSONObject c = data.getJSONObject(i);
-                Location location = new Location(c);
-                locationList.add(location);
-            }
-            Singleton.log("locationList size : "+locationList.size());
+            JSONObject MS  = jsonObj.getJSONObject(Constants.MS);
+            Singleton.preferenceEditor.putString(Constants.MS,MS.toString()).commit();
+            getItems(ASSETs, itemList);
+            getAgents(ASSETs, agentList);
+            getDepartments(ASSETs, departmentList);
+            getLocations(ASSETs, locationList);
 
 
         } catch (Exception e) {
@@ -141,70 +100,131 @@ public class FilePresenter implements FileContract.presenter {
         }
     }
 
-    public void saveFile(String fileName){
-        JSONObject jsonObject  = getAllDataJSON();
-        String dir = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/Download";
+    private void getItems(JSONObject ASSETs, List<Item> itemList) {
+        try {
+            JSONArray data = ASSETs.getJSONArray("PA3");
+            Singleton.log("itemList size : " + data.length());
+            int size = data.length();
+            for (int i = 0; i < size; i++) {
+                JSONObject c = data.getJSONObject(i);
+                Item item = new Item(c);
+                itemList.add(item);
+            }
+            Singleton.log("itemList size : " + itemList.size());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getAgents(JSONObject ASSETs, List<Agent> agentList) {
+        try {
+            JSONArray data = ASSETs.getJSONArray("D1");
+            Singleton.log("agentList size : " + data.length());
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject c = data.getJSONObject(i);
+                Agent agent = new Agent(c);
+                agentList.add(agent);
+            }
+            Singleton.log("agentList size : " + agentList.size());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(agentList);
+    }
+
+    private void getDepartments(JSONObject ASSETs, List<Department> departmentList) {
+        try {
+            JSONArray data = ASSETs.getJSONArray("D2");
+            Singleton.log("departmentList size : " + data.length());
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject c = data.getJSONObject(i);
+                Department department = new Department(c);
+                departmentList.add(department);
+            }
+            Singleton.log("departmentList size : " + departmentList.size());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(departmentList);
+    }
+
+    private void getLocations(JSONObject ASSETs, List<Location> locationList) {
+        try {
+            JSONArray data = ASSETs.getJSONArray("D3");
+            Singleton.log("locationList size : " + data.length());
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject c = data.getJSONObject(i);
+                Location location = new Location(c);
+                locationList.add(location);
+            }
+            Singleton.log("locationList size : " + locationList.size());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(locationList);
+    }
+
+
+    public void saveFile(String fileName) {
+        JSONObject jsonObject = getAllDataJSON();
+        String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
         File dirFile = new File(dir);
         if (!dirFile.exists()) {
             dirFile.mkdirs();
         }
-        File file = new File(dir, fileName+".txt");
-        if(file.exists()){
+        File file = new File(dir, fileName + ".txt");
+        if (file.exists()) {
             file.delete();
-            file = new File(dir, fileName+".txt");
+            file = new File(dir, fileName + ".txt");
         }
 
-        try{
-            BufferedWriter bufWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file,false),"big5"));
+        try {
+            BufferedWriter bufWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), "big5"));
             bufWriter.write(jsonObject.toString());
             bufWriter.close();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             Singleton.log(file.getAbsoluteFile() + "寫檔發生錯誤");
         }
-
-//        try  {
-//            FileWriter fw = new FileWriter(file);
-//            fw.write(jsonObject.toString());
-//            fw.close();
-//            Singleton.log(file.getAbsolutePath());
-//        }catch (FileNotFoundException e){
-//            e.printStackTrace();
-//        }catch (IOException ioe){
-//            ioe.printStackTrace();
-//        }
-
     }
-    public JSONObject getAllDataJSON(){
+
+    public JSONObject getAllDataJSON() {
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
         List<Location> locationList = LocationSingleton.getInstance().getLocationList();
         List<Agent> agentList = AgentSingleton.getInstance().getAgentList();
         List<Department> departmentList = DepartmentSingleton.getInstance().getDepartmentList();
         JSONObject jsonObject = new JSONObject();
-        try{
+        try {
+            JSONObject MS = new JSONObject(Singleton.preferences.getString(Constants.MS,""));
+            jsonObject.put(Constants.MS,MS);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        try {
             JSONObject ASSETs = new JSONObject();
             JSONArray PA3 = new JSONArray();
-            for(Item item : itemList){
+            for (Item item : itemList) {
                 PA3.put(item.toJSON());
             }
             JSONArray D1 = new JSONArray();
-            for(Agent agent : agentList){
-                D1.put(agent.toJSON());
-            }
+//            for (Agent agent : agentList) {
+//                D1.put(agent.toJSON());
+//            }
             JSONArray D2 = new JSONArray();
-            for(Department department : departmentList){
-                D2.put(department.toJSON());
-            }
+//            for (Department department : departmentList) {
+//                D2.put(department.toJSON());
+//            }
             JSONArray D3 = new JSONArray();
-            for(Location location : locationList){
-                D3.put(location.toJSON());
-            }
-            ASSETs.put("D1",D1);
-            ASSETs.put("D2",D2);
-            ASSETs.put("D3",D3);
-            ASSETs.put("PA3",PA3);
-            jsonObject.put("ASSETs",ASSETs);
-        }catch (JSONException e){
+//            for (Location location : locationList) {
+//                D3.put(location.toJSON());
+//            }
+
+            ASSETs.put("D1", D1);
+            ASSETs.put("D2", D2);
+            ASSETs.put("D3", D3);
+            ASSETs.put("PA3", PA3);
+            jsonObject.put("ASSETs", ASSETs);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
