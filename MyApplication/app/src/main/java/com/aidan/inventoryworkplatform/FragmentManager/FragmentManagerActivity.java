@@ -131,10 +131,10 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
 
     @Override
     public void onDestroy() {
-        ItemSingleton.getInstance().saveToDB();
-        DepartmentSingleton.getInstance().saveToDB();
-        AgentSingleton.getInstance().saveToDB();
-        LocationSingleton.getInstance().saveToDB();
+//        ItemSingleton.getInstance().saveToDB();
+//        DepartmentSingleton.getInstance().saveToDB();
+//        AgentSingleton.getInstance().saveToDB();
+//        LocationSingleton.getInstance().saveToDB();
         super.onDestroy();
 //        unregisterReceiver(scanReceiver);
 //        if (readerManager != null) {

@@ -136,6 +136,7 @@ public class SearchPresenter implements SearchContract.presenter{
     @Override
     public void searchTextViewClick(String number,String serialNumber) {
         List<Item> itemList = new ArrayList<>();
+        serialNumber = serialNumber.length() > 0 ? getFormatSerialNumber(serialNumber) : serialNumber ;
         for(Item item : ItemSingleton.getInstance().getItemList()){
             if(location != null && !item.getLocation().number.equals(location.number)){
                 continue;
@@ -155,13 +156,19 @@ public class SearchPresenter implements SearchContract.presenter{
             if(number.length() > 1 && !item.getNumber().equals(number)){
                 continue;
             }
-            if(serialNumber.length() > 1 && !item.getSerialNumber().equals(number)){
+            if(serialNumber.length() > 1 && !item.getSerialNumber().equals(serialNumber)){
                 continue;
             }
 
             itemList.add(item);
         }
         view.showFragmentWithResult(itemList);
+    }
+    public String getFormatSerialNumber(String serialNumber){
+        while(serialNumber.length() < 7){
+            serialNumber = "0" + serialNumber;
+        }
+        return serialNumber;
     }
     @Override
     public void clearAll(){

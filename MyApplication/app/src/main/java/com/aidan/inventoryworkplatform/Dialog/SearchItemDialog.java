@@ -8,6 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -63,12 +66,32 @@ public class SearchItemDialog extends Dialog implements SearchItemAdapter.Closea
 
             @Override
             public void afterTextChanged(Editable s) {
+//                String replace = s.toString();
+//                if(replace.contains("\n")){
+//                    s.replace(0,s.length(),replace.replace("\n", ""));
+//                }
                 String key = s.toString();
                 if(s.length() == 0){
                     adapter.stopSearch();
                 }else{
                     adapter.search(key);
                 }
+            }
+        });
+        searchEditText.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if((event.getAction() == KeyEvent.ACTION_DOWN) && keyCode == KeyEvent.KEYCODE_ENTER){
+                    InputMethodManager imm =(InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
+                    return true;
+                }else if((event.getAction() == KeyEvent.ACTION_DOWN) && keyCode == KeyEvent.KEYCODE_BACK){
+                    if(searchEditText.getText().length() > 0){
+                        searchEditText.setText("");
+                        return true;
+                    }
+                }
+                return false;
             }
         });
     }

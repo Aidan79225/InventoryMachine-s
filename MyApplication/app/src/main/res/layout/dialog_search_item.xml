@@ -8,7 +8,9 @@
         android:layout_height="wrap_content"
         android:hint="請輸入搜尋字串"
         android:maxLines="1"
-        android:layout_margin="10dp"/>
+        android:singleLine="true"
+        android:layout_margin="10dp"
+        android:background="@null"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

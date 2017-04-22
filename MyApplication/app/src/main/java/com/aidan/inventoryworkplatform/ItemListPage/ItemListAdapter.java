@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.R;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 /**
@@ -17,8 +19,9 @@ import java.util.List;
  */
 
 public class ItemListAdapter extends BaseAdapter {
-    List<Item> itemList;
-    Context context;
+    private List<Item> itemList;
+    private Context context;
+    private TextView contentInformationTextView;
     public ItemListAdapter(List<Item> itemList){
         this.itemList = itemList;
     }
@@ -70,6 +73,26 @@ public class ItemListAdapter extends BaseAdapter {
                 }
             }
     }
+    @Override
+    public void notifyDataSetChanged(){
+        if(contentInformationTextView != null){
+            contentInformationTextView.setText(
+                    String.format(
+                            contentInformationTextView.getContext().getResources().
+                                    getText(R.string.already_check_information).toString(),countChecked(),itemList.size() ));
+        }
+        super.notifyDataSetChanged();
+
+    }
+    private int countChecked(){
+        int ans = 0;
+        for(Item i : itemList){
+            if(i.isConfirm()){
+                ans++;
+            }
+        }
+        return ans;
+    }
     class ViewHolder{
         TextView idTextView;
         TextView waterTextView;
@@ -81,5 +104,9 @@ public class ItemListAdapter extends BaseAdapter {
             nameTextView = (TextView)v.findViewById(R.id.nameTextView);
             statusTextView = (TextView)v.findViewById(R.id.statusTextView);
         }
+    }
+
+    public void setContentInformationTextView(TextView contentInformationTextView) {
+        this.contentInformationTextView = contentInformationTextView;
     }
 }

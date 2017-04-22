@@ -5,7 +5,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 
 import com.aidan.inventoryworkplatform.Constants;
+import com.aidan.inventoryworkplatform.Database.AgentDAO;
+import com.aidan.inventoryworkplatform.Database.DepartmentDAO;
 import com.aidan.inventoryworkplatform.Database.ItemDAO;
+import com.aidan.inventoryworkplatform.Database.LocationDAO;
 import com.aidan.inventoryworkplatform.Entity.Agent;
 import com.aidan.inventoryworkplatform.Entity.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
@@ -70,7 +73,8 @@ public class FilePresenter implements FileContract.presenter {
         locationList.clear();
         agentList.clear();
         departmentList.clear();
-        ItemDAO.getInstance().dropTable();
+        dropTable();
+
         try {
             File yourFile = new File(path);
             FileInputStream stream = new FileInputStream(yourFile);
@@ -87,14 +91,41 @@ public class FilePresenter implements FileContract.presenter {
 
             JSONObject jsonObj = new JSONObject(jsonStr);
             JSONObject ASSETs = jsonObj.getJSONObject("ASSETs");
-            JSONObject MS  = jsonObj.getJSONObject(Constants.MS);
-            Singleton.preferenceEditor.putString(Constants.MS,MS.toString()).commit();
+            JSONObject MS = jsonObj.getJSONObject(Constants.MS);
+            Singleton.preferenceEditor.putString(Constants.MS, MS.toString()).commit();
             getItems(ASSETs, itemList);
             getAgents(ASSETs, agentList);
             getDepartments(ASSETs, departmentList);
             getLocations(ASSETs, locationList);
 
+            ItemSingleton.getInstance().saveToDB();
+            DepartmentSingleton.getInstance().saveToDB();
+            AgentSingleton.getInstance().saveToDB();
+            LocationSingleton.getInstance().saveToDB();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void dropTable() {
+        try {
+            ItemDAO.getInstance().dropTable();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            DepartmentDAO.getInstance().dropTable();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            AgentDAO.getInstance().dropTable();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            LocationDAO.getInstance().dropTable();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -167,7 +198,7 @@ public class FilePresenter implements FileContract.presenter {
 
     public void saveFile(String fileName) {
         JSONObject jsonObject = getAllDataJSON();
-        String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+        String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/欣華盤點系統/行動裝置轉至電腦";
         File dirFile = new File(dir);
         if (!dirFile.exists()) {
             dirFile.mkdirs();
@@ -195,9 +226,9 @@ public class FilePresenter implements FileContract.presenter {
         List<Department> departmentList = DepartmentSingleton.getInstance().getDepartmentList();
         JSONObject jsonObject = new JSONObject();
         try {
-            JSONObject MS = new JSONObject(Singleton.preferences.getString(Constants.MS,""));
-            jsonObject.put(Constants.MS,MS);
-        }catch (JSONException e){
+            JSONObject MS = new JSONObject(Singleton.preferences.getString(Constants.MS, ""));
+            jsonObject.put(Constants.MS, MS);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         try {

@@ -12,9 +12,14 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
+import com.aidan.inventoryworkplatform.Dialog.SearchItemDialog;
+import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.R;
+
+import java.util.List;
 
 
 /**
@@ -159,5 +164,12 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         dialog.setTitle(title);
         dialog.setItems(temp, clickListener);
         dialog.create().show();
+    }
+    @Override
+    public void showSetDialog(SearchItemAdapter.OnClickListener clickListener, String title, List<SearchableItem> dataList){
+        SearchItemDialog dialog = new SearchItemDialog(getActivity(),dataList);
+        dialog.setTitle(title);
+        dialog.setOnClickListener(clickListener);
+        dialog.show();
     }
 }

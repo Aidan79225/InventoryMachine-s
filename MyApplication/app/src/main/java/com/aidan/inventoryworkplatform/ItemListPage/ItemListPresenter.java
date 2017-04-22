@@ -11,7 +11,6 @@ import java.util.List;
 
 public class ItemListPresenter implements ItemListContract.presenter {
     ItemListContract.view view;
-    ItemListAdapter adapter;
     ItemListModel model;
     public ItemListPresenter(ItemListContract.view view,List<Item> itemList){
         this.view = view;
@@ -24,7 +23,6 @@ public class ItemListPresenter implements ItemListContract.presenter {
         setAdapter();
     }
     private void setAdapter(){
-        adapter = new ItemListAdapter(model.getItemList());
-        view.setListView(adapter);
+        view.setListView(model.getItemList());
     }
 }

@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-
+        <TextView
+            android:id="@+id/contentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/already_check_information"
+            android:textSize="16sp"/>
         <ListView
             android:id="@+id/itemListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></ListView>
-    </HorizontalScrollView>
 </LinearLayout>

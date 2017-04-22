@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.aidan.inventoryworkplatform.BaseFragmentManager;
 import com.aidan.inventoryworkplatform.Entity.Item;
@@ -27,8 +28,10 @@ import java.util.List;
 
 public class ItemListFragment extends DialogFragment implements ItemListContract.view {
     ItemListContract.presenter presenter;
+    ItemListAdapter adapter;
     ViewGroup rootView;
     ListView itemListView;
+    TextView contentTextView;
     BaseFragmentManager baseFragmentManager;
     public static ItemListFragment newInstance(List<Item> itemList,BaseFragmentManager baseFragmentManager){
         ItemListFragment fragment = new ItemListFragment();
@@ -47,10 +50,13 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
     @Override
     public void findView() {
         itemListView = (ListView) rootView.findViewById(R.id.itemListView);
+        contentTextView = (TextView)rootView.findViewById(R.id.contentTextView);
     }
 
     @Override
-    public void setListView(final ItemListAdapter adapter) {
+    public void setListView(List<Item> itemList) {
+        adapter = new ItemListAdapter(itemList);
+        adapter.setContentInformationTextView(contentTextView);
         itemListView.setAdapter(adapter);
         itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -63,6 +69,13 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
                 });
             }
         });
+        itemListView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
+        adapter.notifyDataSetChanged();
     }
     private void gotoDetailFragment(Item item,ItemListFragment.RefreshItems refreshItems){
         DialogFragment fragment = ItemDetailFragment.newInstance(item,refreshItems);
