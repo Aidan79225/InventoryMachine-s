@@ -1,10 +1,5 @@
-package com.aidan.inventoryworkplatform.SearchPage;
+package com.aidan.inventoryworkplatform.SettingPage;
 
-import android.content.DialogInterface;
-import android.database.DataSetObserver;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
@@ -25,8 +20,8 @@ import java.util.List;
  * Created by Aidan on 2017/1/8.
  */
 
-public class SearchPresenter implements SearchContract.presenter{
-    SearchContract.view view;
+public class SettingPresenter implements SettingContract.presenter{
+    SettingContract.view view;
     String[] locationStrings ={};
     String[] agentStrings ={};
     String[] departmentStrings ={};
@@ -35,9 +30,10 @@ public class SearchPresenter implements SearchContract.presenter{
     Department department;
     Agent user;
     Department useGroup;
-     SearchPresenter( SearchContract.view view){
+    List<Item> itemList;
+    SettingPresenter(SettingContract.view view,List<Item> itemList){
         this.view = view;
-
+        this.itemList = itemList;
     }
 
     @Override
@@ -134,49 +130,26 @@ public class SearchPresenter implements SearchContract.presenter{
     }
 
     @Override
-    public void searchTextViewClick(String number,String serialNumber) {
-        List<Item> itemList = new ArrayList<>();
-        serialNumber = serialNumber.length() > 0 ? getFormatSerialNumber(serialNumber) : serialNumber ;
-        for(Item item : ItemSingleton.getInstance().getItemList()){
-            if(location != null && !item.getLocation().number.equals(location.number)){
-                continue;
+    public void searchTextViewClick() {
+        for(Item item : itemList){
+            if(location != null ){
+                item.setLocation(location);
             }
-            if(agent != null && !item.getCustodian().number.equals(agent.number)){
-                continue;
+            if(agent != null ){
+                item.setCustodian(agent);
             }
-            if(department != null && !item.getCustodyGroup().number.equals(department.number)){
-                continue;
+            if(department != null){
+                item.setCustodyGroup(department);
             }
-            if(user != null && !item.getUser().number.equals(user.number)){
-                continue;
+            if(user != null){
+                item.setUser(user);
             }
-            if(useGroup != null && !item.getUseGroup().number.equals(useGroup.number)){
-                continue;
+            if(useGroup != null){
+                item.setUseGroup(useGroup);
             }
-            if(number.length() > 1 && !item.getNumber().equals(number)){
-                continue;
-            }
-            if(serialNumber.length() > 1 && !item.getSerialNumber().equals(serialNumber)){
-                continue;
-            }
+            ItemSingleton.getInstance().saveItem(item);
+        }
+        view.dismiss();
+    }
 
-            itemList.add(item);
-        }
-        view.showFragmentWithResult(itemList);
-    }
-    public String getFormatSerialNumber(String serialNumber){
-        while(serialNumber.length() < 7){
-            serialNumber = "0" + serialNumber;
-        }
-        return serialNumber;
-    }
-    @Override
-    public void clearAll(){
-        location = null;
-        agent = null;
-        department = null;
-        user = null;
-        useGroup = null;
-        view.clearViews();
-    }
 }

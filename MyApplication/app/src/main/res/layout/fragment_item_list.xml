@@ -3,13 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-        <TextView
-            android:id="@+id/contentTextView"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/already_check_information"
-            android:textSize="16sp"/>
+            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/contentTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/already_check_information"
+                    android:textSize="16sp"/>
+                <TextView
+                    android:id="@+id/settingTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="設置全部"
+                    android:textSize="16sp"
+                    android:layout_margin="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="gone"/>
+        </RelativeLayout>
+
         <ListView
             android:id="@+id/itemListView"
             android:layout_width="match_parent"

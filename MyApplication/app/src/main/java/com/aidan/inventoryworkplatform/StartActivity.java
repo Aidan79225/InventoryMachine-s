@@ -52,11 +52,12 @@ public class StartActivity extends AppCompatActivity {
         }
     }
     private void action(){
-        if(checkIMEI()){
-            gotoFragmentManagerActivity();
-        }else{
-            showCancelDialog();
-        }
+//        if(checkIMEI()){
+//            gotoFragmentManagerActivity();
+//        }else{
+//            showCancelDialog();
+//        }
+        gotoFragmentManagerActivity();
     }
     private boolean checkIMEI(){
         TelephonyManager mTelManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);

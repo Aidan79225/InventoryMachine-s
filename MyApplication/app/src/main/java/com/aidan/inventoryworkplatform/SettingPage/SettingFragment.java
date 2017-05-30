@@ -1,4 +1,4 @@
-package com.aidan.inventoryworkplatform.SearchPage;
+package com.aidan.inventoryworkplatform.SettingPage;
 
 import android.app.AlertDialog;
 import android.app.DialogFragment;
@@ -19,13 +19,9 @@ import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.inventoryworkplatform.Dialog.SearchItemDialog;
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Item;
-import com.aidan.inventoryworkplatform.Entity.Location;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
-import com.aidan.inventoryworkplatform.Model.ItemSingleton;
-import com.aidan.inventoryworkplatform.Model.LocationSingleton;
 import com.aidan.inventoryworkplatform.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,38 +29,41 @@ import java.util.List;
  * Created by Aidan on 2017/1/8.
  */
 
-public class SearchFragment extends DialogFragment implements SearchContract.view {
-    SearchContract.presenter presenter;
+public class SettingFragment extends DialogFragment implements SettingContract.view {
+    SettingContract.presenter presenter;
     ViewGroup rootView;
-    EditText idEditText, serialNumberEditText;
     TextView locationTextView, agentTextView, departmentTextView;
-    TextView searchTextView, clearTextView;
+    TextView settingTextView, cancelTextView;
     TextView useGroupTextView, userTextView;
     BaseFragmentManager baseFragmentManager;
+    Reload reload;
 
-    public static SearchFragment newInstance(BaseFragmentManager baseFragmentManager) {
-        SearchFragment fragment = new SearchFragment();
+    public interface Reload{
+        void reload();
+    }
+    public static SettingFragment newInstance(BaseFragmentManager baseFragmentManager,List<Item> itemList,Reload reload) {
+        SettingFragment fragment = new SettingFragment();
         fragment.baseFragmentManager = baseFragmentManager;
+        fragment.presenter = new SettingPresenter(fragment,itemList);
+        fragment.reload = reload;
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        rootView = (ViewGroup) inflater.inflate(R.layout.fragment_search, container, false);
-        if (presenter == null) presenter = new SearchPresenter(this);
+        rootView = (ViewGroup) inflater.inflate(R.layout.fragment_setting, container, false);
+        if (presenter == null) dismissAllowingStateLoss();
         presenter.start();
         return rootView;
     }
 
     @Override
     public void findView() {
-        idEditText = (EditText) rootView.findViewById(R.id.idEditText);
-        serialNumberEditText = (EditText) rootView.findViewById(R.id.serialNumberEditText);
         locationTextView = (TextView) rootView.findViewById(R.id.locationTextView);
         agentTextView = (TextView) rootView.findViewById(R.id.agentTextView);
         departmentTextView = (TextView) rootView.findViewById(R.id.departmentTextView);
-        searchTextView = (TextView) rootView.findViewById(R.id.searchTextView);
-        clearTextView = (TextView) rootView.findViewById(R.id.clearTextView);
+        cancelTextView = (TextView) rootView.findViewById(R.id.cancelTextView);
+        settingTextView = (TextView) rootView.findViewById(R.id.settingTextView);
         useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
         userTextView = (TextView) rootView.findViewById(R.id.userTextView);
     }
@@ -101,45 +100,43 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
                 presenter.useGroupTextViewClick(useGroupTextView);
             }
         });
-        clearTextView.setOnClickListener(new View.OnClickListener() {
+        cancelTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.clearAll();
+                dismiss();
             }
         });
-        searchTextView.setOnClickListener(new View.OnClickListener() {
+        settingTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.searchTextViewClick(idEditText.getText().toString(), serialNumberEditText.getText().toString());
-            }
-        });
-        idEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.length() == 11){
-                    serialNumberEditText.requestFocus();
-                }
+                showAlertDialog();
             }
         });
     }
 
+    private void showAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("警告");
+        builder.setMessage("將修改目前顯示上的所有項目");
+        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                presenter.searchTextViewClick();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
     @Override
-    public void clearViews() {
-        idEditText.setText("");
-        serialNumberEditText.setText("");
-        locationTextView.setText("請點選存置地點");
-        agentTextView.setText("請點選保管人");
-        departmentTextView.setText("請點選保管單位");
+    public void dismiss(){
+        reload.reload();
+        super.dismiss();
     }
 
     @Override
@@ -149,12 +146,5 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         dialog.setOnClickListener(clickListener);
         dialog.show();
     }
-
-    @Override
-    public void showFragmentWithResult(List<Item> items) {
-        Fragment fragment = ItemListFragment.newInstance(items, baseFragmentManager,true);
-        baseFragmentManager.loadFragment(fragment);
-    }
-
 
 }

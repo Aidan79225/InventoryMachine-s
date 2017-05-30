@@ -150,7 +150,7 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
 
     @Override
     public void loadItemListFragment() {
-        Fragment fragment = ItemListFragment.newInstance(ItemSingleton.getInstance().getItemList(), this);
+        Fragment fragment = ItemListFragment.newInstance(ItemSingleton.getInstance().getItemList(), this,false);
         loadFragment(fragment);
     }
 

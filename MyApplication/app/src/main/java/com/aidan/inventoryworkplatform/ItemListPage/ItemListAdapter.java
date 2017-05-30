@@ -35,6 +35,10 @@ public class ItemListAdapter extends BaseAdapter {
         return itemList.get(position);
     }
 
+    public  List<Item> getItems() {
+        return itemList;
+    }
+
     @Override
     public long getItemId(int position) {
         return position;
