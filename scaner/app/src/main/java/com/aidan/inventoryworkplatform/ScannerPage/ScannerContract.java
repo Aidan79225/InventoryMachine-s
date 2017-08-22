@@ -14,6 +14,7 @@ public interface ScannerContract {
         void setEditTextScan();
         void setListView(List<Item> itemList);
         void refreshList();
+        void showToast(String msg);
     }
     interface presenter{
         void start();

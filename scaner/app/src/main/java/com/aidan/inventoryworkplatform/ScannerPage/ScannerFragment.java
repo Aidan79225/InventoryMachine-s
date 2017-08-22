@@ -8,8 +8,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.PointF;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputType;
@@ -43,19 +45,27 @@ import com.cipherlab.barcode.decoderparams.ReaderOutputConfiguration;
 
 import java.util.List;
 
+import cn.bingoogolapple.qrcode.core.QRCodeView;
+import cn.bingoogolapple.qrcode.zbar.ZBarView;
+import eu.livotov.labs.android.camview.ScannerLiveView;
+import eu.livotov.labs.android.camview.scanner.decoder.zxing.ZXDecoder;
+
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import static android.content.Context.VIBRATOR_SERVICE;
 
 /**
  * Created by Aidan on 2017/1/22.
  */
 
-public class ScannerFragment extends DialogFragment implements ScannerContract.view {
+public class ScannerFragment extends DialogFragment implements ScannerContract.view, QRCodeView.Delegate {
     ViewGroup rootView;
     EditText scanEditText;
     ListView itemListView;
     ScannerContract.presenter presenter;
     BaseFragmentManager baseFragmentManager;
     ItemListAdapter adapter;
+//    ScannerLiveView qrCodeReaderView;
+    ZBarView zbarview;
     private ReaderManager readerManager;
     private IntentFilter filter;
 
@@ -74,24 +84,76 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
     }
 
     @Override
+    public void onDestroy() {
+        zbarview.onDestroy();
+        super.onDestroy();
+    }
+
+    private void vibrate() {
+        Vibrator vibrator = (Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(200);
+    }
+    @Override
     public void findView() {
         scanEditText = (EditText) rootView.findViewById(R.id.scanEditText);
         itemListView = (ListView) rootView.findViewById(R.id.itemListView);
+        zbarview = (ZBarView)rootView.findViewById(R.id.zbarview);
+        zbarview.setDelegate(this);
+        zbarview.changeToScanBarcodeStyle();
+//        qrCodeReaderView = (ScannerLiveView ) rootView.findViewById(R.id.qrdecoderview);
+//        qrCodeReaderView.setScannerViewEventListener(new ScannerLiveView.ScannerViewEventListener()
+//        {
+//            @Override
+//            public void onScannerStarted(ScannerLiveView scanner) {
+//                showToast("Scanner Started");
+//            }
+//
+//            @Override
+//            public void onScannerStopped(ScannerLiveView scanner) {
+//                showToast("Scanner Stopped");
+//            }
+//
+//            @Override
+//            public void onScannerError(Throwable err) {
+//                showToast("Scanner Error: ");
+//            }
+//
+//            @Override
+//            public void onCodeScanned(String data) {
+//                presenter.scan(data);
+//            }
+//        });
+//        qrCodeReaderView.setDecodeThrottleMillis(10);
+//        qrCodeReaderView.setHudVisible(true);
     }
 
     private static final int scanTextNum = 25;
+
 
     @Override
     public void onPause() {
         super.onPause();
         getActivity().unregisterReceiver(scanReceiver);
+//        qrCodeReaderView.stopScanner();
+        zbarview.stopCamera();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(scanReceiver, filter);
+//        ZXDecoder decoder = new ZXDecoder();
+//        decoder.setScanAreaPercent(1.0);
+//        qrCodeReaderView.setDecoder(decoder);
+//        qrCodeReaderView.startScanner();
+
+        zbarview.startCamera();
+        zbarview.showScanRect();
+        zbarview.startSpot();
     }
+
+
+
 
     @Override
     public void setEditTextScan() {
@@ -168,6 +230,11 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void showToast(String msg) {
+        Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
+    }
+
     private final BroadcastReceiver scanReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -215,4 +282,16 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
             }
         }
     };
+
+    @Override
+    public void onScanQRCodeSuccess(String result) {
+        presenter.scan(result);
+        zbarview.startSpot();
+    }
+
+    @Override
+    public void onScanQRCodeOpenCameraError() {
+        showToast("Scanner Error: ");
+        zbarview.startSpot();
+    }
 }

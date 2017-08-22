@@ -3,6 +3,7 @@ package com.aidan.inventoryworkplatform;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,10 +12,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.view.Gravity;
+import android.widget.EditText;
 
 import com.aidan.inventoryworkplatform.FragmentManager.FragmentManagerActivity;
 
+import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_PHONE_STATE;
+import static com.aidan.inventoryworkplatform.KeyConstants.data;
+import static com.aidan.inventoryworkplatform.KeyConstants.isLogin;
 
 /**
  * Created by Aidan on 2017/3/30.
@@ -24,6 +30,7 @@ public class StartActivity extends AppCompatActivity {
     private ActivityJumpTimer timer;
     private static final int ACTIVITYJUMP_DELAY = 300;
     private static final int REQUEST_PHONE_STATE = 0x1;
+    private SharedPreferences settings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +52,15 @@ public class StartActivity extends AppCompatActivity {
                     REQUEST_PHONE_STATE
             );
         }
+
+        permission = ActivityCompat.checkSelfPermission(this,
+                CAMERA);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{CAMERA},
+                    REQUEST_PHONE_STATE
+            );
+        }
         //未取得權限，向使用者要求允許權限
         else {
             //已有權限
@@ -52,12 +68,11 @@ public class StartActivity extends AppCompatActivity {
         }
     }
     private void action(){
-//        if(checkIMEI()){
-//            gotoFragmentManagerActivity();
-//        }else{
-//            showCancelDialog();
-//        }
-        gotoFragmentManagerActivity();
+        if(checkIMEI() || checkLogin()){
+            gotoFragmentManagerActivity();
+        }else{
+            showLoginDialog();
+        }
     }
     private boolean checkIMEI(){
         TelephonyManager mTelManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
@@ -66,6 +81,40 @@ public class StartActivity extends AppCompatActivity {
             if(mIMEI.equals(IMEI))return true;
         }
         return false;
+    }
+    private boolean checkLogin(){
+        settings = getSharedPreferences(data,0);
+        return settings.getBoolean(isLogin,false);
+    }
+
+    private void showLoginDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("請輸入認證碼");
+        final EditText editText = new EditText(this);
+        editText.setGravity(Gravity.CENTER);
+        editText.setHint("請輸入認證碼");
+        builder.setView(editText);
+        builder.setPositiveButton("確認", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if(KeyConstants.key.equals(editText.getText().toString())){
+                    settings = getSharedPreferences(data,0);
+                    settings.edit().putBoolean(isLogin,true).apply();
+                    gotoFragmentManagerActivity();
+                }else{
+                    showCancelDialog();
+                }
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+        builder.create().show();
     }
     private void showCancelDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -116,7 +165,7 @@ public class StartActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //取得權限，進行檔案存取
-                    action();
+                    start();
                 }else{
                     showCancelDialog();
                 }

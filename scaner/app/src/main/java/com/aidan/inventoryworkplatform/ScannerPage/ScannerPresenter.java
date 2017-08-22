@@ -30,8 +30,11 @@ public class ScannerPresenter implements ScannerContract.presenter {
     public void scan(String key) {
         Singleton.log(key);
         String[] temps = key.split("-");
-        Singleton.log(temps.length+"");
-        if (temps.length < 3) return;
+        Singleton.log(temps.length + "");
+        if (temps.length < 3) {
+            view.showToast("找不到對應編號 : " + key);
+            return;
+        }
         String temp = temps[1] + "-" + temps[2].substring(2);
         Singleton.log(temp);
         for (Item item : itemList) {
@@ -42,10 +45,12 @@ public class ScannerPresenter implements ScannerContract.presenter {
         for (Item item : ItemSingleton.getInstance().getItemList()) {
             if (item.getIdNumber().equals(temp)) {
                 item.setConfirm(true);
-                itemList.add(0,item);
+                itemList.add(0, item);
                 view.refreshList();
-                break;
+                return;
             }
         }
+        view.showToast("找不到對應編號 : " + key);
+
     }
 }
