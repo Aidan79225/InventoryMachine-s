@@ -13,10 +13,11 @@ import java.util.List;
 
 public class ScannerPresenter implements ScannerContract.presenter {
     private ScannerContract.view view;
-    private List<Item> itemList = new ArrayList<>();
+    private List<Item> itemList;
 
     public ScannerPresenter(ScannerContract.view view) {
         this.view = view;
+        this.itemList = ScannerItemManager.getInstance().getItemList();
     }
 
     @Override
@@ -24,6 +25,7 @@ public class ScannerPresenter implements ScannerContract.presenter {
         view.findView();
         view.setEditTextScan();
         view.setListView(itemList);
+        view.setViewClick();
     }
 
     @Override
@@ -39,6 +41,7 @@ public class ScannerPresenter implements ScannerContract.presenter {
         Singleton.log(temp);
         for (Item item : itemList) {
             if (item.getIdNumber().equals(temp)) {
+                view.showToast("已重複盤點 : " + temp);
                 return;
             }
         }
@@ -46,6 +49,7 @@ public class ScannerPresenter implements ScannerContract.presenter {
             if (item.getIdNumber().equals(temp)) {
                 item.setConfirm(true);
                 itemList.add(0, item);
+                ItemSingleton.getInstance().saveItem(item);
                 view.refreshList();
                 return;
             }

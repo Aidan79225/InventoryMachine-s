@@ -17,6 +17,7 @@ import com.aidan.inventoryworkplatform.Model.AgentSingleton;
 import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.Model.LocationSingleton;
+import com.aidan.inventoryworkplatform.ScannerPage.ScannerItemManager;
 import com.aidan.inventoryworkplatform.Singleton;
 
 
@@ -73,6 +74,7 @@ public class FilePresenter implements FileContract.presenter {
         locationList.clear();
         agentList.clear();
         departmentList.clear();
+        ScannerItemManager.getInstance().getItemList().clear();
         dropTable();
 
         try {

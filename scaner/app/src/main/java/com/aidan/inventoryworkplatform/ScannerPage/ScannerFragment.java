@@ -8,10 +8,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputType;
@@ -36,6 +38,7 @@ import com.aidan.inventoryworkplatform.ItemDetailPage.ItemDetailFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListAdapter;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.R;
+import com.aidan.inventoryworkplatform.SettingConstants;
 import com.aidan.inventoryworkplatform.Singleton;
 import com.cipherlab.barcode.GeneralString;
 import com.cipherlab.barcode.ReaderManager;
@@ -64,8 +67,10 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
     ScannerContract.presenter presenter;
     BaseFragmentManager baseFragmentManager;
     ItemListAdapter adapter;
-//    ScannerLiveView qrCodeReaderView;
     ZBarView zbarview;
+    TextView cameraButton, listTitleTextView, titleTextView;
+    boolean isOpenCamera = false;
+
     private ReaderManager readerManager;
     private IntentFilter filter;
 
@@ -78,6 +83,7 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_scanner, container, false);
+        isOpenCamera = getActivity().getSharedPreferences(SettingConstants.SETTING_CAMERA,0).getBoolean(SettingConstants.CAMERA_IS_OPEN,false);
         presenter = new ScannerPresenter(this);
         presenter.start();
         return rootView;
@@ -89,45 +95,37 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
         super.onDestroy();
     }
 
-    private void vibrate() {
-        Vibrator vibrator = (Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE);
-        vibrator.vibrate(200);
-    }
     @Override
     public void findView() {
         scanEditText = (EditText) rootView.findViewById(R.id.scanEditText);
         itemListView = (ListView) rootView.findViewById(R.id.itemListView);
-        zbarview = (ZBarView)rootView.findViewById(R.id.zbarview);
+        zbarview = (ZBarView) rootView.findViewById(R.id.zbarview);
+        cameraButton = (TextView) rootView.findViewById(R.id.cameraButton);
+        listTitleTextView = (TextView) rootView.findViewById(R.id.listTitleTextView);
+        titleTextView = (TextView) rootView.findViewById(R.id.titleTextView);
         zbarview.setDelegate(this);
         zbarview.changeToScanBarcodeStyle();
-//        qrCodeReaderView = (ScannerLiveView ) rootView.findViewById(R.id.qrdecoderview);
-//        qrCodeReaderView.setScannerViewEventListener(new ScannerLiveView.ScannerViewEventListener()
-//        {
-//            @Override
-//            public void onScannerStarted(ScannerLiveView scanner) {
-//                showToast("Scanner Started");
-//            }
-//
-//            @Override
-//            public void onScannerStopped(ScannerLiveView scanner) {
-//                showToast("Scanner Stopped");
-//            }
-//
-//            @Override
-//            public void onScannerError(Throwable err) {
-//                showToast("Scanner Error: ");
-//            }
-//
-//            @Override
-//            public void onCodeScanned(String data) {
-//                presenter.scan(data);
-//            }
-//        });
-//        qrCodeReaderView.setDecodeThrottleMillis(10);
-//        qrCodeReaderView.setHudVisible(true);
     }
 
-    private static final int scanTextNum = 25;
+    public void configView() {
+        if (isOpenCamera) {
+            cameraButton.setText("關閉相機");
+            cameraButton.setTextColor(getResources().getColor(R.color.bg_white));
+            listTitleTextView.setTextColor(getResources().getColor(R.color.bg_white));
+            titleTextView.setVisibility(View.VISIBLE);
+            zbarview.setVisibility(View.VISIBLE);
+            zbarview.startCamera();
+            zbarview.showScanRect();
+            zbarview.startSpotDelay(333);
+        } else {
+            cameraButton.setText("開啟相機");
+            cameraButton.setTextColor(getResources().getColor(R.color.text_black));
+            listTitleTextView.setTextColor(getResources().getColor(R.color.text_black));
+            titleTextView.setVisibility(View.GONE);
+            zbarview.setVisibility(View.GONE);
+            zbarview.stopCamera();
+        }
+    }
 
 
     @Override
@@ -142,27 +140,15 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(scanReceiver, filter);
-//        ZXDecoder decoder = new ZXDecoder();
-//        decoder.setScanAreaPercent(1.0);
-//        qrCodeReaderView.setDecoder(decoder);
-//        qrCodeReaderView.startScanner();
-
-        zbarview.startCamera();
-        zbarview.showScanRect();
-        zbarview.startSpot();
+        configView();
     }
-
-
 
 
     @Override
     public void setEditTextScan() {
-
-        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(scanEditText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
         scanEditText.setShowSoftInputOnFocus(false);
-
         scanEditText.requestFocus();
         scanEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -209,7 +195,7 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
         itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                gotoDetailFragment(adapter.getItem(position-1), new ItemListFragment.RefreshItems() {
+                gotoDetailFragment(adapter.getItem(position - 1), new ItemListFragment.RefreshItems() {
                     @Override
                     public void refresh() {
                         adapter.notifyDataSetChanged();
@@ -218,10 +204,10 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
             }
         });
     }
-    private void gotoDetailFragment(Item item,ItemListFragment.RefreshItems refreshItems){
-        DialogFragment fragment = ItemDetailFragment.newInstance(item,refreshItems);
-//        if(baseFragmentManager != null) baseFragmentManager.loadFragment(fragment);
-        fragment.show(getFragmentManager(),ItemDetailFragment.class.getName());
+
+    private void gotoDetailFragment(Item item, ItemListFragment.RefreshItems refreshItems) {
+        DialogFragment fragment = ItemDetailFragment.newInstance(item, refreshItems);
+        fragment.show(getFragmentManager(), ItemDetailFragment.class.getName());
     }
 
 
@@ -232,7 +218,19 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
 
     @Override
     public void showToast(String msg) {
-        Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setViewClick() {
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isOpenCamera = !isOpenCamera;
+                v.getContext().getSharedPreferences(SettingConstants.SETTING_CAMERA,0).edit().putBoolean(SettingConstants.CAMERA_IS_OPEN,isOpenCamera).commit();
+                configView();
+            }
+        });
     }
 
     private final BroadcastReceiver scanReceiver = new BroadcastReceiver() {
@@ -286,12 +284,12 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
     @Override
     public void onScanQRCodeSuccess(String result) {
         presenter.scan(result);
-        zbarview.startSpot();
+        zbarview.startSpotDelay(333);
     }
 
     @Override
     public void onScanQRCodeOpenCameraError() {
         showToast("Scanner Error: ");
-        zbarview.startSpot();
+        zbarview.startSpotDelay(333);
     }
 }

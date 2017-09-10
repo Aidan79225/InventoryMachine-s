@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.aidan.inventoryworkplatform.FragmentManager.FragmentManagerActivity;
 
@@ -51,6 +52,7 @@ public class StartActivity extends AppCompatActivity {
                     new String[]{READ_PHONE_STATE},
                     REQUEST_PHONE_STATE
             );
+            return;
         }
 
         permission = ActivityCompat.checkSelfPermission(this,
@@ -60,17 +62,16 @@ public class StartActivity extends AppCompatActivity {
                     new String[]{CAMERA},
                     REQUEST_PHONE_STATE
             );
+            return;
         }
-        //未取得權限，向使用者要求允許權限
-        else {
             //已有權限
-            action();
-        }
+        action();
+
     }
     private void action(){
-        if(checkIMEI() || checkLogin()){
+        if(checkLogin()){
             gotoFragmentManagerActivity();
-        }else{
+        } else if(checkIMEI() ){
             showLoginDialog();
         }
     }
@@ -80,6 +81,7 @@ public class StartActivity extends AppCompatActivity {
         for(String IMEI : KeyConstants.IMEIS){
             if(mIMEI.equals(IMEI))return true;
         }
+        Toast.makeText(this,"IMEI不符合資格，請洽管理員",Toast.LENGTH_SHORT).show();
         return false;
     }
     private boolean checkLogin(){
