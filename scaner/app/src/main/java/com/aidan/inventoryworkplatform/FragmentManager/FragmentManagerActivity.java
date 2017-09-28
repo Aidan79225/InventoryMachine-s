@@ -52,7 +52,7 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
     FragmentManagerContract.presenter presenter;
     View fragmentContainer;
     TextView fileTextView, scanTextView, searchTextView, itemListTextView, itemDetailTextView;
-
+    private Fragment curFragment;
     private IntentFilter filter;
 
 
@@ -174,8 +174,16 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
         for (int i = 0; i < backStackCount; i++) {
             fragmentManager.popBackStackImmediate();
         }
+        curFragment = fragment;
         transaction.replace(R.id.fragmentContainer, fragment, fragment.getClass().getName());
         transaction.commit();
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(curFragment != null){
+            curFragment.onActivityResult(requestCode,resultCode,data);
+        }
     }
 
 

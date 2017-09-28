@@ -185,6 +185,7 @@ public class Item {
     public void setCustodian(Agent agent) {
         PA3OUN = agent.name;
         PA3OU = agent.number;
+        setConfirm(true);
     }
 
     public Agent getUser() {
@@ -193,6 +194,7 @@ public class Item {
     public void setUser(Agent agent) {
         PA3URN = agent.name;
         PA3UR = agent.number;
+        setConfirm(true);
     }
 
     public Department getCustodyGroup() {
@@ -201,6 +203,7 @@ public class Item {
     public void setCustodyGroup(Department department) {
         PA3OUTN = department.name;
         PA3OUT = department.number;
+        setConfirm(true);
     }
 
     public Department getUseGroup() {
@@ -209,6 +212,7 @@ public class Item {
     public void setUseGroup(Department department) {
         PA3UUTN = department.name;
         PA3UUT = department.number;
+        setConfirm(true);
     }
 
     public Location getLocation() {
@@ -217,6 +221,7 @@ public class Item {
     public void setLocation(Location location) {
         PA3LOCN = location.name;
         PA3LOC = location.number;
+        setConfirm(true);
     }
 
     public boolean isConfirm() {
@@ -241,6 +246,7 @@ public class Item {
     }
     public void setDelete(String key){
         PA3DEL = key;
+        setConfirm(true);
     }
 
     public boolean isPrint() {
@@ -255,6 +261,7 @@ public class Item {
     }
     public void setPrint(String key){
         PA3PRN = key;
+        setConfirm(true);
     }
 
     public long getId() {

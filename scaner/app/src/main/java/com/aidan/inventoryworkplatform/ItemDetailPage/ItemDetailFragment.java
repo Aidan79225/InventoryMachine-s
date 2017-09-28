@@ -109,8 +109,6 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.saveItemToChecked(false);
-                refreshItems.refresh();
                 dismiss();
             }
         });
