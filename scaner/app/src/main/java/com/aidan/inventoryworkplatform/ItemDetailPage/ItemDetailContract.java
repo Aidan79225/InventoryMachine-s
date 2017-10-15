@@ -19,6 +19,7 @@ public interface ItemDetailContract {
         void setViewClick();
         void showSetDialog(DialogInterface.OnClickListener clickListener, String title, final String[] temp);
         void showSetDialog(SearchItemAdapter.OnClickListener clickListener, String title, List<SearchableItem> dataList);
+        void showPrintDialog(Item item);
     }
     interface presenter{
         void start();
@@ -30,5 +31,6 @@ public interface ItemDetailContract {
         void userTextViewClick(TextView agentTextView);
         void deleteTextViewClick(TextView deleteTextView);
         void printTextViewClick(TextView printTextView);
+        void printButtonClick();
     }
 }

@@ -1,6 +1,7 @@
 package com.aidan.inventoryworkplatform.ItemDetailPage;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.widget.TextView;
 
 import com.aidan.inventoryworkplatform.Database.ItemDAO;
@@ -13,9 +14,17 @@ import com.aidan.inventoryworkplatform.Entity.Location;
 import com.aidan.inventoryworkplatform.Model.AgentSingleton;
 import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.LocationSingleton;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.pdf417.encoder.BarcodeMatrix;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by s352431 on 2016/11/22.
@@ -159,5 +168,10 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
                 model.getItem().setPrint(printStrings[position]);
             }
         },"補印",printStrings);
+    }
+
+    @Override
+    public void printButtonClick() {
+        view.showPrintDialog(model.getItem());
     }
 }

@@ -490,6 +490,14 @@
                 android:textSize="20sp" />
 
             <Button
+                android:id="@+id/printButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/print_it"
+                android:textSize="20sp" />
+
+            <Button
                 android:id="@+id/cancelButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

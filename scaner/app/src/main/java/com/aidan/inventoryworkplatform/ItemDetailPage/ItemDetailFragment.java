@@ -17,6 +17,7 @@ import com.aidan.inventoryworkplatform.Dialog.SearchItemDialog;
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
+import com.aidan.inventoryworkplatform.Printer.PrinterItemDialog;
 import com.aidan.inventoryworkplatform.R;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
             custodyGroupTextView, custodianTextView,
             useGroupTextView, userTextView,
             deleteTextView,printTextView;
-    Button confirmButton, cancelButton;
+    Button confirmButton,printButton , cancelButton;
     ItemListFragment.RefreshItems refreshItems;
 
     public static ItemDetailFragment newInstance(Item item, ItemListFragment.RefreshItems refreshItems) {
@@ -56,6 +57,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
     public void findView() {
         confirmButton = (Button) rootView.findViewById(R.id.confirmButton);
         cancelButton = (Button) rootView.findViewById(R.id.cancelButton);
+        printButton= (Button) rootView.findViewById(R.id.printButton);
         yearsTextView = (TextView) rootView.findViewById(R.id.yearsTextView);
         buyDateTextView = (TextView) rootView.findViewById(R.id.buyDateTextView);
         brandTextView = (TextView) rootView.findViewById(R.id.brandTextView);
@@ -154,6 +156,12 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
                 presenter.printTextViewClick(printTextView);
             }
         });
+        printButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.printButtonClick();
+            }
+        });
 
     }
     @Override
@@ -168,6 +176,14 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         SearchItemDialog dialog = new SearchItemDialog(getActivity(),dataList);
         dialog.setTitle(title);
         dialog.setOnClickListener(clickListener);
+        dialog.show();
+    }
+
+    @Override
+    public void showPrintDialog(Item item) {
+        PrinterItemDialog dialog = new PrinterItemDialog(getActivity());
+        dialog.setItem(item);
+        dialog.setCancelable(false);
         dialog.show();
     }
 }

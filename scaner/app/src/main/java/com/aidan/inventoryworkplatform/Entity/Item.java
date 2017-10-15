@@ -158,6 +158,10 @@ public class Item {
         return getNumber() + "-" + getSerialNumber();
     }
 
+    public String getBarcodeNumber(){
+        return "110-" + getNumber() + "-00" + getSerialNumber();
+    }
+
     public String getName() {
         return PA3P3;
     }
