@@ -65,7 +65,7 @@ public class ItemListAdapter extends BaseAdapter {
             viewHolder.idTextView.setText(item.getNumber());
             viewHolder.waterTextView.setText(item.getSerialNumber());
 
-            viewHolder.nameTextView.setText(item.getName());
+            viewHolder.nameTextView.setText(item.getNickName());
             viewHolder.statusTextView.setText(item.isConfirm()?"Y":"N");
         }
         return convertView;

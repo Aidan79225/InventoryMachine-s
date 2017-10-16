@@ -86,7 +86,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         userTextView.setText(item.getUser().name);
         useGroupTextView.setText(item.getUseGroup().name);
         locationTextView.setText(item.getLocation().name);
-        nameTextView.setText(item.getName());
+        nameTextView.setText(item.getNickName());
         itemIdTextView.setText(item.getIdNumber());
         deleteTextView.setText(item.isDelete() ? "Y" : "N");
         printTextView.setText(item.isPrint() ? "Y" : "N");

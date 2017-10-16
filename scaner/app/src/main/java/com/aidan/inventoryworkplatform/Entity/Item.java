@@ -165,6 +165,9 @@ public class Item {
     public String getName() {
         return PA3P3;
     }
+    public String getNickName() {
+        return PA3P3;
+    }
 
     public String getType() {
         return PA3PS;

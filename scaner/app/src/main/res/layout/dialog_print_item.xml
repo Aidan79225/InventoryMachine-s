@@ -22,6 +22,7 @@
                 android:text="財產區分別："
                 android:textColor="@color/text_black"/>
             <TextView
+                android:id="@+id/areaTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -40,6 +41,7 @@
                 android:text="財產編號："
                 android:textColor="@color/text_black"/>
             <TextView
+                android:id="@+id/idTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -58,6 +60,7 @@
                 android:text="財產名稱："
                 android:textColor="@color/text_black"/>
             <TextView
+                android:id="@+id/itemNameTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -76,6 +79,7 @@
                 android:text="財產別名："
                 android:textColor="@color/text_black"/>
             <TextView
+                android:id="@+id/itemNickNameTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -94,6 +98,7 @@
             android:text="取得日期："
             android:textColor="@color/text_black"/>
             <TextView
+                android:id="@+id/itemDateTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -105,6 +110,7 @@
                 android:text="年限："
                 android:textColor="@color/text_black"/>
             <TextView
+                android:id="@+id/itemYearTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -120,13 +126,34 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="保管人："
+                android:text="保管人/單位："
                 android:textColor="@color/text_black"/>
             <TextView
+                android:id="@+id/agentGroupTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="林立中"
+                android:text="林立中/行政室"
+                android:textColor="@color/text_black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="廠牌/型式："
+                android:textColor="@color/text_black"/>
+            <TextView
+                android:id="@+id/brandTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Samsung/note548692"
                 android:textColor="@color/text_black"/>
         </LinearLayout>
         <ImageView

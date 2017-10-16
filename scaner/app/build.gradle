@@ -35,8 +35,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
     compile files('libs/BarcodeAPI.jar')
-    compile ('eu.livotov.labs.android:CAMView:2.0.1@aar') {transitive=true}
+    compile('eu.livotov.labs.android:CAMView:2.0.1@aar') { transitive = true }
     compile 'cn.bingoogolapple:bga-qrcodecore:1.1.7@aar'
     compile 'cn.bingoogolapple:bga-zbar:1.1.7@aar'
-
+    compile files('libs/BrotherPrintLibrary.jar')
+    compile files('libs/MobilePrintLib.jar')
 }
