@@ -15,7 +15,7 @@
         android:label="@string/check_system"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StartActivity"
+        <activity android:name="com.aidan.inventoryworkplatform.StartActivity"
             android:windowSoftInputMode="adjustPan">
 
             <intent-filter>
