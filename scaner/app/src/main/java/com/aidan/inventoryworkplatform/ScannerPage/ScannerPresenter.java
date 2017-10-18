@@ -41,7 +41,7 @@ public class ScannerPresenter implements ScannerContract.presenter {
         Singleton.log(temp);
         for (Item item : itemList) {
             if (item.getIdNumber().equals(temp)) {
-                view.showToast("已重複盤點 : " + temp);
+                view.showToast("已重複盤點 : " + key);
                 return;
             }
         }

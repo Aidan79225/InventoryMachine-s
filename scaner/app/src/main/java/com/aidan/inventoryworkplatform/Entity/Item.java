@@ -158,6 +158,10 @@ public class Item {
         return getNumber() + "-" + getSerialNumber();
     }
 
+    public String getTagIdNumber() {
+        return PA3C1 + PA3C2 + PA3C3 + PA3C4+ "-" + PA3C5 + "-" + getSerialNumber();
+    }
+
     public String getBarcodeNumber(){
         return "110-" + getNumber() + "-00" + getSerialNumber();
     }
