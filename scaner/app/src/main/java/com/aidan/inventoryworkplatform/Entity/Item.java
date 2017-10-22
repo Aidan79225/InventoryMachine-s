@@ -1,5 +1,7 @@
 package com.aidan.inventoryworkplatform.Entity;
 
+import com.aidan.inventoryworkplatform.KeyConstants;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,9 +38,11 @@ public class Item {
     private String PA308 = "PA308";
     private String PA3DEL = "PA3DEL";
     private String PA3PRN = "PA3PRN";
-    public Item(){
+
+    public Item() {
 
     }
+
     public Item(JSONObject jsonObject) {
         try {
             PA341 = jsonObject.getString(ItemConstants.PA341);
@@ -72,7 +76,8 @@ public class Item {
             e.printStackTrace();
         }
     }
-    public void setData(String data){
+
+    public void setData(String data) {
         try {
             JSONObject jsonObject = new JSONObject(data);
             PA341 = jsonObject.getString(ItemConstants.PA341);
@@ -102,11 +107,12 @@ public class Item {
             PA308 = jsonObject.getString(ItemConstants.PA308);
             PA3DEL = jsonObject.getString(ItemConstants.PA3DEL);
             PA3PRN = jsonObject.getString(ItemConstants.PA3PRN);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public JSONObject toJSON(){
+
+    public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(ItemConstants.PA341, PA341);
@@ -118,25 +124,25 @@ public class Item {
             jsonObject.put(ItemConstants.PA3C4, PA3C4);
             jsonObject.put(ItemConstants.PA3C5, PA3C5);
             jsonObject.put(ItemConstants.PA3C6, PA3C6);
-            jsonObject.put(ItemConstants.PA3P3,PA3P3);
-            jsonObject.put(ItemConstants.PA3PS,PA3PS);
-            jsonObject.put(ItemConstants.PA3MK,PA3MK);
-            jsonObject.put(ItemConstants.PA3BD,PA3BD);
-            jsonObject.put(ItemConstants.PA3PY,PA3PY);
-            jsonObject.put(ItemConstants.PA3LOC,PA3LOC);
-            jsonObject.put(ItemConstants.PA3LOCN,PA3LOCN);
-            jsonObject.put(ItemConstants.PA3OUT,PA3OUT);
-            jsonObject.put(ItemConstants.PA3OUTN,PA3OUTN);
-            jsonObject.put(ItemConstants.PA3OU,PA3OU);
-            jsonObject.put(ItemConstants.PA3OUN,PA3OUN);
-            jsonObject.put(ItemConstants.PA3UUT,PA3UUT);
-            jsonObject.put(ItemConstants.PA3UUTN,PA3UUTN);
-            jsonObject.put(ItemConstants.PA3UR,PA3UR);
-            jsonObject.put(ItemConstants.PA3URN,PA3URN);
-            jsonObject.put(ItemConstants.PA308,PA308);
-            jsonObject.put(ItemConstants.PA3DEL,PA3DEL);
-            jsonObject.put(ItemConstants.PA3PRN,PA3PRN);
-        }catch (JSONException e){
+            jsonObject.put(ItemConstants.PA3P3, PA3P3);
+            jsonObject.put(ItemConstants.PA3PS, PA3PS);
+            jsonObject.put(ItemConstants.PA3MK, PA3MK);
+            jsonObject.put(ItemConstants.PA3BD, PA3BD);
+            jsonObject.put(ItemConstants.PA3PY, PA3PY);
+            jsonObject.put(ItemConstants.PA3LOC, PA3LOC);
+            jsonObject.put(ItemConstants.PA3LOCN, PA3LOCN);
+            jsonObject.put(ItemConstants.PA3OUT, PA3OUT);
+            jsonObject.put(ItemConstants.PA3OUTN, PA3OUTN);
+            jsonObject.put(ItemConstants.PA3OU, PA3OU);
+            jsonObject.put(ItemConstants.PA3OUN, PA3OUN);
+            jsonObject.put(ItemConstants.PA3UUT, PA3UUT);
+            jsonObject.put(ItemConstants.PA3UUTN, PA3UUTN);
+            jsonObject.put(ItemConstants.PA3UR, PA3UR);
+            jsonObject.put(ItemConstants.PA3URN, PA3URN);
+            jsonObject.put(ItemConstants.PA308, PA308);
+            jsonObject.put(ItemConstants.PA3DEL, PA3DEL);
+            jsonObject.put(ItemConstants.PA3PRN, PA3PRN);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
@@ -159,16 +165,17 @@ public class Item {
     }
 
     public String getTagIdNumber() {
-        return PA3C1 + PA3C2 + PA3C3 + PA3C4+ "-" + PA3C5 + "-" + getSerialNumber();
+        return PA3C1 + PA3C2 + PA3C3 + PA3C4 + "-" + PA3C5 + "-" + getSerialNumber();
     }
 
-    public String getBarcodeNumber(){
+    public String getBarcodeNumber() {
         return "110-" + getNumber() + "-00" + getSerialNumber();
     }
 
     public String getName() {
         return PA3P3;
     }
+
     public String getNickName() {
         return PA3P3;
     }
@@ -193,6 +200,7 @@ public class Item {
     public Agent getCustodian() {
         return new Agent(PA3OUN, PA3OU);
     }
+
     public void setCustodian(Agent agent) {
         PA3OUN = agent.name;
         PA3OU = agent.number;
@@ -202,6 +210,7 @@ public class Item {
     public Agent getUser() {
         return new Agent(PA3URN, PA3UR);
     }
+
     public void setUser(Agent agent) {
         PA3URN = agent.name;
         PA3UR = agent.number;
@@ -211,6 +220,7 @@ public class Item {
     public Department getCustodyGroup() {
         return new Department(PA3OUTN, PA3OUT);
     }
+
     public void setCustodyGroup(Department department) {
         PA3OUTN = department.name;
         PA3OUT = department.number;
@@ -220,6 +230,7 @@ public class Item {
     public Department getUseGroup() {
         return new Department(PA3UUTN, PA3UUT);
     }
+
     public void setUseGroup(Department department) {
         PA3UUTN = department.name;
         PA3UUT = department.number;
@@ -229,6 +240,7 @@ public class Item {
     public Location getLocation() {
         return new Location(PA3LOCN, PA3LOC);
     }
+
     public void setLocation(Location location) {
         PA3LOCN = location.name;
         PA3LOC = location.number;
@@ -238,24 +250,28 @@ public class Item {
     public boolean isConfirm() {
         return PA308.equals("Y");
     }
-    public void setConfirm(boolean flag){
-        if(flag){
+
+    public void setConfirm(boolean flag) {
+        if (flag) {
             PA308 = "Y";
-        }else{
+        } else {
             PA308 = "N";
         }
     }
+
     public boolean isDelete() {
         return PA3DEL.equals("Y");
     }
-    public void setDelete(boolean flag){
-        if(flag){
+
+    public void setDelete(boolean flag) {
+        if (flag) {
             PA3DEL = "Y";
-        }else{
+        } else {
             PA3DEL = "N";
         }
     }
-    public void setDelete(String key){
+
+    public void setDelete(String key) {
         PA3DEL = key;
         setConfirm(true);
     }
@@ -263,14 +279,16 @@ public class Item {
     public boolean isPrint() {
         return PA3PRN.equals("Y");
     }
-    public void setPrint(boolean flag){
-        if(flag){
+
+    public void setPrint(boolean flag) {
+        if (flag) {
             PA3PRN = "Y";
-        }else{
+        } else {
             PA3PRN = "N";
         }
     }
-    public void setPrint(String key){
+
+    public void setPrint(String key) {
         PA3PRN = key;
         setConfirm(true);
     }
@@ -281,5 +299,23 @@ public class Item {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getTagContentString() {
+        String ans = "";
+        ans += KeyConstants.AuthorityName + "\n";
+        ans += "財產區分別：110公務用_一般\n";
+        ans += "財產編號：" + getTagIdNumber() + "\n";
+        ans += "財產名稱：" + "\n";
+        ans += "財產別名：" + getNickName() + "\n";
+        ans += "取得日期：" + ADtoCal() + "\t年限：" + getYears() + "\n";
+        ans += "保管人/單位：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
+        ans += "廠牌/型式：" + getBrand() + "/" + getType() + "\n";
+        return ans;
+    }
+
+    public String ADtoCal() {
+        String temp = String.valueOf((Integer.parseInt(getDate()) - 19110000));
+        return temp.substring(0, temp.length() - 4) + "/" + temp.substring(temp.length() - 4, temp.length() - 2) + "/" + temp.substring(temp.length() - 2);
     }
 }

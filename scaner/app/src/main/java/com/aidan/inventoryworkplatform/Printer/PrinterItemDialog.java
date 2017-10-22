@@ -43,7 +43,7 @@ import java.io.FileOutputStream;
 public class PrinterItemDialog extends Dialog {
     private Item item;
     private ImageView barcodeImageView;
-    private TextView AuthorityNameTextView,brandTextView, agentGroupTextView, itemYearTextView, itemDateTextView, itemNickNameTextView, itemNameTextView, idTextView, areaTextView;
+    private TextView AuthorityNameTextView, brandTextView, agentGroupTextView, itemYearTextView, itemDateTextView, itemNickNameTextView, itemNameTextView, idTextView, areaTextView;
     private View itemInformationContainer;
 
     public PrinterItemDialog(@NonNull Context context) {
@@ -87,15 +87,10 @@ public class PrinterItemDialog extends Dialog {
         brandTextView.setText(item.getBrand() + "/" + item.getType());
         agentGroupTextView.setText(item.getCustodian().getName() + "/" + item.getCustodyGroup().getName());
         itemYearTextView.setText(item.getYears());
-        itemDateTextView.setText(ADtoCal(item));
+        itemDateTextView.setText(item.ADtoCal());
         itemNickNameTextView.setText(item.getNickName());
         idTextView.setText(item.getTagIdNumber());
         areaTextView.setText(item.getLoaclNumber());
-    }
-
-    private String ADtoCal(Item item) {
-        String temp = String.valueOf((Integer.parseInt(item.getDate()) - 19110000));
-        return temp.substring(0, temp.length() - 4) + "/" + temp.substring(temp.length() - 4, temp.length() - 2) + "/" + temp.substring(temp.length() - 2);
     }
 
     private void setBarCodeImage() {
@@ -111,25 +106,9 @@ public class PrinterItemDialog extends Dialog {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
 
-    public Bitmap getBitmapFromView(View view) {
-        //Define a bitmap with the same size as the view
-        Bitmap returnedBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        //Bind a canvas to it
-        Canvas canvas = new Canvas(returnedBitmap);
-        //Get the view's background
-        Drawable bgDrawable = view.getBackground();
-        if (bgDrawable != null)
-            //has background drawable, then draw it on the canvas
-            bgDrawable.draw(canvas);
-        else
-            //does not have background drawable, then draw white background on the canvas
-            canvas.drawColor(Color.WHITE);
-        // draw the view on the canvas
-        view.draw(canvas);
-        //return the bitmap
-        return returnedBitmap;
+    public int dpToPix(int dp) {
+        return (int) Resources.getSystem().getDisplayMetrics().density * dp;
     }
-
 
     public void print() {
         Thread trd = new Thread(new Runnable() {
@@ -141,7 +120,16 @@ public class PrinterItemDialog extends Dialog {
                     dirFile.mkdirs();
                 }
 
-                Bitmap bitmap = getBitmapFromView(itemInformationContainer);
+//                Bitmap bitmap = getBitmapFromView(itemInformationContainer);
+                int width = getScreenWidth();
+                int height = getScreenWidth() * 3 / 7;
+                Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), width, height, height / 10 - dpToPix(2) * 2, dpToPix(2));
+                try {
+                    bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, width, height / 5), dpToPix(2));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 String fileName = "temp.png";
                 File file = new File(dir, fileName);
                 if (file.exists()) {
@@ -179,8 +167,8 @@ public class PrinterItemDialog extends Dialog {
                     printInfo.orientation = PrinterInfo.Orientation.LANDSCAPE;
                     printInfo.align = PrinterInfo.Align.CENTER;
                     printInfo.isAutoCut = false;
-                    printInfo.isCutAtEnd =true;
-                    printInfo.isHalfCut =true;
+                    printInfo.isCutAtEnd = true;
+                    printInfo.isHalfCut = true;
                     printer.setPrinterInfo(printInfo);
                     printer.startCommunication();
                     PrinterStatus status = printer.printFile(file.getAbsolutePath());

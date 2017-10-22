@@ -36,10 +36,11 @@ import java.util.List;
 public class SearchFragment extends DialogFragment implements SearchContract.view {
     SearchContract.presenter presenter;
     ViewGroup rootView;
-    EditText idEditText, serialNumberEditText;
+    EditText serialMinNumberEditText,serialMaxNumberEditText;
     TextView locationTextView, agentTextView, departmentTextView;
     TextView searchTextView, clearTextView;
     TextView useGroupTextView, userTextView;
+    EditText c1EditText,c2EditText,c3EditText,c4EditText,c5EditText;
     BaseFragmentManager baseFragmentManager;
 
     public static SearchFragment newInstance(BaseFragmentManager baseFragmentManager) {
@@ -58,8 +59,13 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
     @Override
     public void findView() {
-        idEditText = (EditText) rootView.findViewById(R.id.idEditText);
-        serialNumberEditText = (EditText) rootView.findViewById(R.id.serialNumberEditText);
+        c1EditText = (EditText) rootView.findViewById(R.id.c1EditText);
+        c2EditText = (EditText) rootView.findViewById(R.id.c2EditText);
+        c3EditText = (EditText) rootView.findViewById(R.id.c3EditText);
+        c4EditText = (EditText) rootView.findViewById(R.id.c4EditText);
+        c5EditText = (EditText) rootView.findViewById(R.id.c5EditText);
+        serialMinNumberEditText = (EditText) rootView.findViewById(R.id.serialMinNumberEditText);
+        serialMaxNumberEditText = (EditText) rootView.findViewById(R.id.serialMaxNumberEditText);
         locationTextView = (TextView) rootView.findViewById(R.id.locationTextView);
         agentTextView = (TextView) rootView.findViewById(R.id.agentTextView);
         departmentTextView = (TextView) rootView.findViewById(R.id.departmentTextView);
@@ -110,10 +116,25 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         searchTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.searchTextViewClick(idEditText.getText().toString(), serialNumberEditText.getText().toString());
+                String id = "";
+                id += c1EditText.getText().toString();
+                id += c2EditText.getText().toString();
+                id += c3EditText.getText().toString();
+                id += c4EditText.getText().toString();
+                id += c5EditText.getText().toString();
+                presenter.searchTextViewClick(id, serialMinNumberEditText.getText().toString(),serialMaxNumberEditText.getText().toString());
             }
         });
-        idEditText.addTextChangedListener(new TextWatcher() {
+        c1EditText.addTextChangedListener(getNextTextWatcher(1,c2EditText));
+        c2EditText.addTextChangedListener(getNextTextWatcher(2,c3EditText));
+        c3EditText.addTextChangedListener(getNextTextWatcher(2,c4EditText));
+        c4EditText.addTextChangedListener(getNextTextWatcher(2,c5EditText));
+        c5EditText.addTextChangedListener(getNextTextWatcher(4,serialMinNumberEditText));
+        serialMinNumberEditText.addTextChangedListener(getNextTextWatcher(7,serialMaxNumberEditText));
+    }
+
+    private TextWatcher getNextTextWatcher(final int length, final EditText next){
+        return new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -126,17 +147,22 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length() == 11){
-                    serialNumberEditText.requestFocus();
+                if(s.length() == length){
+                    next.requestFocus();
                 }
             }
-        });
+        };
     }
 
     @Override
     public void clearViews() {
-        idEditText.setText("");
-        serialNumberEditText.setText("");
+        c1EditText.setText("");
+        c2EditText.setText("");
+        c3EditText.setText("");
+        c4EditText.setText("");
+        c5EditText.setText("");
+        serialMinNumberEditText.setText("");
+        serialMaxNumberEditText.setText("");
         locationTextView.setText("請點選存置地點");
         agentTextView.setText("請點選保管人");
         departmentTextView.setText("請點選保管單位");

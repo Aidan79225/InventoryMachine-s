@@ -134,9 +134,11 @@ public class SearchPresenter implements SearchContract.presenter{
     }
 
     @Override
-    public void searchTextViewClick(String number,String serialNumber) {
+    public void searchTextViewClick(String number,String serialMinNumber,String serialMaxNumber) {
         List<Item> itemList = new ArrayList<>();
-        serialNumber = serialNumber.length() > 0 ? getFormatSerialNumber(serialNumber) : serialNumber ;
+        int minSerialNumber = serialMinNumber.length() > 0 ? Integer.valueOf(serialMinNumber) : 0;
+        int maxSerialNumber = serialMaxNumber.length() > 0 ? Integer.valueOf(serialMaxNumber) : Integer.MAX_VALUE;
+
         for(Item item : ItemSingleton.getInstance().getItemList()){
             if(location != null && !item.getLocation().number.equals(location.number)){
                 continue;
@@ -156,7 +158,8 @@ public class SearchPresenter implements SearchContract.presenter{
             if(number.length() > 1 && !item.getNumber().equals(number)){
                 continue;
             }
-            if(serialNumber.length() > 1 && !item.getSerialNumber().equals(serialNumber)){
+            int serialNumber = Integer.valueOf(item.getSerialNumber());
+            if(serialNumber < minSerialNumber || serialNumber > maxSerialNumber ){
                 continue;
             }
 
