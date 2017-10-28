@@ -32,4 +32,5 @@ public class ItemConstants {
     public static final String PA308 = "PA308";
     public static final String PA3DEL = "PA3DEL";
     public static final String PA3PRN = "PA3PRN";
+    public static final String NAME = "NAME";
 }
