@@ -38,15 +38,16 @@ public class ScannerPresenter implements ScannerContract.presenter {
             return;
         }
         String temp = temps[1] + "-" + temps[2].substring(2);
+        int serialNumber = Integer.valueOf(temps[2]);
         Singleton.log(temp);
         for (Item item : itemList) {
-            if (item.getIdNumber().equals(temp)) {
+            if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber())) {
                 view.showToast("已重複盤點 : " + key);
                 return;
             }
         }
         for (Item item : ItemSingleton.getInstance().getItemList()) {
-            if (item.getIdNumber().equals(temp)) {
+            if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber())) {
                 item.setConfirm(true);
                 itemList.add(0, item);
                 ItemSingleton.getInstance().saveItem(item);
@@ -55,6 +56,5 @@ public class ScannerPresenter implements ScannerContract.presenter {
             }
         }
         view.showToast("找不到對應編號 : " + key);
-
     }
 }

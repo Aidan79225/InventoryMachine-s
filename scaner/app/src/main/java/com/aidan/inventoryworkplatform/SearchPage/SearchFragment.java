@@ -38,10 +38,11 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
     ViewGroup rootView;
     EditText serialMinNumberEditText,serialMaxNumberEditText;
     TextView locationTextView, agentTextView, departmentTextView;
-    TextView searchTextView, clearTextView;
+    TextView searchTextView, clearTextView, printTextView;
     TextView useGroupTextView, userTextView;
     EditText c1EditText,c2EditText,c3EditText,c4EditText,c5EditText;
     BaseFragmentManager baseFragmentManager;
+    TextView tagContentTextView,sortTextView,minDateTextView,maxDateTextView;
 
     public static SearchFragment newInstance(BaseFragmentManager baseFragmentManager) {
         SearchFragment fragment = new SearchFragment();
@@ -71,8 +72,13 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         departmentTextView = (TextView) rootView.findViewById(R.id.departmentTextView);
         searchTextView = (TextView) rootView.findViewById(R.id.searchTextView);
         clearTextView = (TextView) rootView.findViewById(R.id.clearTextView);
+        printTextView = (TextView)rootView.findViewById(R.id.printTextView);
         useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
         userTextView = (TextView) rootView.findViewById(R.id.userTextView);
+        tagContentTextView = (TextView) rootView.findViewById(R.id.tagContentTextView);
+        sortTextView = (TextView) rootView.findViewById(R.id.sortTextView);
+        minDateTextView = (TextView) rootView.findViewById(R.id.minDateTextView);
+        maxDateTextView = (TextView) rootView.findViewById(R.id.maxDateTextView);
     }
 
     @Override
@@ -105,6 +111,30 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
             @Override
             public void onClick(View v) {
                 presenter.useGroupTextViewClick(useGroupTextView);
+            }
+        });
+        tagContentTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.tagContentTextViewClick(tagContentTextView);
+            }
+        });
+        sortTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.sortTextViewClick(sortTextView);
+            }
+        });
+        minDateTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.minDateTextViewClick(minDateTextView);
+            }
+        });
+        maxDateTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.maxDateTextViewClick(maxDateTextView);
             }
         });
         clearTextView.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +196,11 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         locationTextView.setText("請點選存置地點");
         agentTextView.setText("請點選保管人");
         departmentTextView.setText("請點選保管單位");
+
+        tagContentTextView.setText("請點選標籤內容");
+        sortTextView.setText("請點選排序條件");
+        minDateTextView.setText("請點選日期");
+        maxDateTextView.setText("請點選日期");
     }
 
     @Override

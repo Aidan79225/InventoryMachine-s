@@ -131,7 +131,7 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().unregisterReceiver(scanReceiver);
+//        getActivity().unregisterReceiver(scanReceiver);
 //        qrCodeReaderView.stopScanner();
         zbarview.stopCamera();
     }
@@ -139,7 +139,7 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().registerReceiver(scanReceiver, filter);
+//        getActivity().registerReceiver(scanReceiver, filter);
         configView();
     }
 
@@ -171,19 +171,11 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
             }
         });
         readerManager = ReaderManager.InitInstance(getActivity().getApplicationContext());
-//        readerManager.SetActive(true);
-
-
-        // ***************************************************//
-        // Register for the IntentFilter whose content is the
-        // com.cipherlab.barcode.GeneralString.Intent_SOFTTRIGGER_DATA string
-        // Later, when myDataReceiver, a BroadcastReceiver class, receives the intent coming from service, it will then be able to deal with something else.
-        // ***************************************************//
         filter = new IntentFilter();
         filter.addAction(com.cipherlab.barcode.GeneralString.Intent_SOFTTRIGGER_DATA);
         filter.addAction(com.cipherlab.barcode.GeneralString.Intent_PASS_TO_APP);
         filter.addAction(com.cipherlab.barcode.GeneralString.Intent_READERSERVICE_CONNECTED);
-        getActivity().registerReceiver(scanReceiver, filter);
+//        getActivity().registerReceiver(scanReceiver, filter);
 
 
     }
@@ -233,53 +225,53 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
         });
     }
 
-    private final BroadcastReceiver scanReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // If intent of the Intent_SOFTTRIGGER_DATA string is received
-            if (intent.getAction().equals(GeneralString.Intent_SOFTTRIGGER_DATA)) {
-
-                // fetch the data within the intent
-                String data = intent.getStringExtra(GeneralString.BcReaderData);
-
-                // display the fetched data
-                Singleton.log(data);
-                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
-//                    scanEditText.setText(data);
-                presenter.scan(data);
-
-//                if (readerManager != null) {
-//                    readerManager.SoftScanTrigger();
+//    private final BroadcastReceiver scanReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            // If intent of the Intent_SOFTTRIGGER_DATA string is received
+//            if (intent.getAction().equals(GeneralString.Intent_SOFTTRIGGER_DATA)) {
+//
+//                // fetch the data within the intent
+//                String data = intent.getStringExtra(GeneralString.BcReaderData);
+//
+//                // display the fetched data
+//                Singleton.log(data);
+//                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
+////                    scanEditText.setText(data);
+//                presenter.scan(data);
+//
+////                if (readerManager != null) {
+////                    readerManager.SoftScanTrigger();
+////                }
+//
+//            } else if (intent.getAction().equals(GeneralString.Intent_PASS_TO_APP)) {
+//
+//                // fetch the data within the intent
+//                String data = intent.getStringExtra(GeneralString.BcReaderData);
+//
+//                // display the fetched data
+//                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
+//                Singleton.log(data);
+//
+//            } else if (intent.getAction().equals(GeneralString.Intent_READERSERVICE_CONNECTED)) {
+//                try {
+//
+//                    BcReaderType myReaderType = readerManager.GetReaderType();
+//
+//                    Toast.makeText(context, myReaderType.toString(), Toast.LENGTH_SHORT).show();
+//                    ReaderOutputConfiguration settings = new ReaderOutputConfiguration();
+//                    settings.enableKeyboardEmulation = Enable_State.FALSE;
+//                    readerManager.Set_ReaderOutputConfiguration(settings);
+////                    if (readerManager != null) {
+////                        readerManager.SoftScanTrigger();
+////                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
 //                }
-
-            } else if (intent.getAction().equals(GeneralString.Intent_PASS_TO_APP)) {
-
-                // fetch the data within the intent
-                String data = intent.getStringExtra(GeneralString.BcReaderData);
-
-                // display the fetched data
-                Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
-                Singleton.log(data);
-
-            } else if (intent.getAction().equals(GeneralString.Intent_READERSERVICE_CONNECTED)) {
-                try {
-
-                    BcReaderType myReaderType = readerManager.GetReaderType();
-
-                    Toast.makeText(context, myReaderType.toString(), Toast.LENGTH_SHORT).show();
-                    ReaderOutputConfiguration settings = new ReaderOutputConfiguration();
-                    settings.enableKeyboardEmulation = Enable_State.FALSE;
-                    readerManager.Set_ReaderOutputConfiguration(settings);
-//                    if (readerManager != null) {
-//                        readerManager.SoftScanTrigger();
-//                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
-    };
+//
+//            }
+//        }
+//    };
 
     @Override
     public void onScanQRCodeSuccess(String result) {

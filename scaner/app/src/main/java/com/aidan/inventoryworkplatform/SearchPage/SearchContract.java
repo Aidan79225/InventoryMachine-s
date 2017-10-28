@@ -29,6 +29,10 @@ public interface SearchContract {
         void useGroupTextViewClick(TextView departmentTextView);
         void userTextViewClick(TextView agentTextView);
         void searchTextViewClick(String number,String serialMinNumber,String serialMaxNumber);
+        void tagContentTextViewClick(TextView tagContentTextView);
+        void sortTextViewClick(TextView sortTextView);
+        void minDateTextViewClick(TextView minDateTextView);
+        void maxDateTextViewClick(TextView maxDateTextView);
         void clearAll();
     }
 }

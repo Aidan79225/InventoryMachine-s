@@ -1,9 +1,14 @@
 package com.aidan.inventoryworkplatform.Entity;
 
+import android.nfc.Tag;
+
 import com.aidan.inventoryworkplatform.KeyConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Aidan on 2016/10/24.
@@ -38,7 +43,7 @@ public class Item {
     private String PA308 = "PA308";
     private String PA3DEL = "PA3DEL";
     private String PA3PRN = "PA3PRN";
-
+    private TagContent tagContent = null;
     public Item() {
 
     }
@@ -188,8 +193,10 @@ public class Item {
         return PA3MK;
     }
 
-    public String getDate() {
-        return PA3BD;
+    public Date getDate() {
+        Calendar c = Calendar.getInstance();
+        c.set(Integer.valueOf(PA3BD.substring(0,4)),Integer.valueOf(PA3BD.substring(4,5)),Integer.valueOf(PA3BD.substring(5)));
+        return c.getTime();
     }
 
     public String getYears() {
@@ -309,13 +316,30 @@ public class Item {
         ans += "財產名稱：" + "\n";
         ans += "財產別名：" + getNickName() + "\n";
         ans += "取得日期：" + ADtoCal() + "\t年限：" + getYears() + "\n";
-        ans += "保管人/單位：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
+        if(tagContent != null){
+            switch (tagContent){
+                case Agent:
+                    ans += "保管人：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
+                    break;
+                case AgentGroup:
+                    ans += "保管人/單位：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
+                    break;
+                case AgentGroupLocation:
+                    ans += "保管人/單位/存置地點：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "/" + getLocation().getName() + "\n";
+                    break;
+            }
+        }
+
         ans += "廠牌/型式：" + getBrand() + "/" + getType() + "\n";
         return ans;
     }
 
     public String ADtoCal() {
-        String temp = String.valueOf((Integer.parseInt(getDate()) - 19110000));
+        String temp = String.valueOf((Integer.parseInt(PA3BD) - 19110000));
         return temp.substring(0, temp.length() - 4) + "/" + temp.substring(temp.length() - 4, temp.length() - 2) + "/" + temp.substring(temp.length() - 2);
+    }
+
+    public void setTagContent(TagContent tagContent){
+        this.tagContent = tagContent;
     }
 }

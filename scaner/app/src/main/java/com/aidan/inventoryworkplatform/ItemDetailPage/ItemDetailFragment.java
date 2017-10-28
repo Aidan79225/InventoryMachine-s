@@ -78,7 +78,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
     @Override
     public void setViewValue(Item item) {
         yearsTextView.setText(item.getYears());
-        buyDateTextView.setText(ADtoCal(item));
+        buyDateTextView.setText(item.ADtoCal());
         brandTextView.setText(item.getBrand());
         typeTextView.setText(item.getType());
         custodianTextView.setText(item.getCustodian().name);
@@ -90,11 +90,6 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         itemIdTextView.setText(item.getIdNumber());
         deleteTextView.setText(item.isDelete() ? "Y" : "N");
         printTextView.setText(item.isPrint() ? "Y" : "N");
-    }
-
-    private String ADtoCal(Item item) {
-        String temp = String.valueOf((Integer.parseInt(item.getDate()) - 19110000));
-        return temp.substring(0, temp.length() - 4) + "/" + temp.substring(temp.length() - 4, temp.length() - 2) + "/" + temp.substring(temp.length() - 2);
     }
 
     @Override
