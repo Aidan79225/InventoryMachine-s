@@ -223,16 +223,19 @@ public class SearchPresenter implements SearchContract.presenter {
     }
 
     @Override
-    public void searchTextViewClick(String number, String serialMinNumber, String serialMaxNumber) {
+    public void searchTextViewClick(String name, String number, String serialMinNumber, String serialMaxNumber) {
         int minSerialNumber = serialMinNumber.length() > 0 ? Integer.valueOf(serialMinNumber) : 0;
         int maxSerialNumber = serialMaxNumber.length() > 0 ? Integer.valueOf(serialMaxNumber) : Integer.MAX_VALUE;
-        List<Item> itemList = getItemListWithCondition(number,minSerialNumber,maxSerialNumber);
+        List<Item> itemList = getItemListWithCondition(name, number,minSerialNumber,maxSerialNumber);
         view.showFragmentWithResult(itemList);
     }
 
-    public List<Item> getItemListWithCondition(String number, int minSerialNumber, int maxSerialNumber) {
+    public List<Item> getItemListWithCondition(String name, String number, int minSerialNumber, int maxSerialNumber) {
         List<Item> itemList = new ArrayList<>();
         for (Item item : ItemSingleton.getInstance().getItemList()) {
+            if(!item.getName().contains(name)){
+                continue;
+            }
             if (location != null && !item.getLocation().number.equals(location.number)) {
                 continue;
             }

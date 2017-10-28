@@ -43,6 +43,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
     EditText c1EditText,c2EditText,c3EditText,c4EditText,c5EditText;
     BaseFragmentManager baseFragmentManager;
     TextView tagContentTextView,sortTextView,minDateTextView,maxDateTextView;
+    EditText nameEditText;
 
     public static SearchFragment newInstance(BaseFragmentManager baseFragmentManager) {
         SearchFragment fragment = new SearchFragment();
@@ -79,6 +80,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         sortTextView = (TextView) rootView.findViewById(R.id.sortTextView);
         minDateTextView = (TextView) rootView.findViewById(R.id.minDateTextView);
         maxDateTextView = (TextView) rootView.findViewById(R.id.maxDateTextView);
+        nameEditText = (EditText) rootView.findViewById(R.id.nameEditText);
     }
 
     @Override
@@ -152,7 +154,8 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
                 id += c3EditText.getText().toString();
                 id += c4EditText.getText().toString();
                 id += c5EditText.getText().toString();
-                presenter.searchTextViewClick(id, serialMinNumberEditText.getText().toString(),serialMaxNumberEditText.getText().toString());
+                String name = nameEditText.getText().toString();
+                presenter.searchTextViewClick(name, id, serialMinNumberEditText.getText().toString(),serialMaxNumberEditText.getText().toString());
             }
         });
         c1EditText.addTextChangedListener(getNextTextWatcher(1,c2EditText));
@@ -199,8 +202,9 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
         tagContentTextView.setText("請點選標籤內容");
         sortTextView.setText("請點選排序條件");
-        minDateTextView.setText("請點選日期");
-        maxDateTextView.setText("請點選日期");
+        minDateTextView.setText("請點選起始日期");
+        maxDateTextView.setText("請點選最後日期");
+        nameEditText.setText("");
     }
 
     @Override
