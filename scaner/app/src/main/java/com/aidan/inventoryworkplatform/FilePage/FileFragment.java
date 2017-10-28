@@ -55,14 +55,15 @@ import static android.app.Activity.RESULT_OK;
 public class FileFragment extends DialogFragment implements FileContract.view {
     ViewGroup rootView;
     FileContract.presenter presenter;
-    TextView inputTextView, outputTextView;
+    TextView inputTextView, outputTextView,readNameTextView;
     ArrayList<String> filePaths = new ArrayList<>();
     ArrayList<String> docPaths = new ArrayList<>();
     Runnable fileRunnable;
     int type = 0;
     private static final int readTxtType = 19;
-    private static final int REQUEST_EXTERNAL_STORAGE = 0x1;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final int FILE_SELECT_CODE = 0;
+    private static final int FILE_SELECT_NAME_CODE = 2;
     @Override
     public void checkPermission() {
         int permission = ActivityCompat.checkSelfPermission(getActivity(),
@@ -111,6 +112,7 @@ public class FileFragment extends DialogFragment implements FileContract.view {
     public void findView() {
         inputTextView = (TextView) rootView.findViewById(R.id.inputTextView);
         outputTextView = (TextView) rootView.findViewById(R.id.outputTextView);
+        readNameTextView = (TextView)rootView.findViewById(R.id.readNameTextView);
     }
 
     @Override
@@ -121,8 +123,7 @@ public class FileFragment extends DialogFragment implements FileContract.view {
                 fileRunnable = new Runnable(){
                     @Override
                     public void run() {
-                        showFileChooser();
-//                        startPickerActivity();
+                        showFileChooser(FILE_SELECT_CODE);
                     }
                 };
                 checkPermission();
@@ -140,6 +141,19 @@ public class FileFragment extends DialogFragment implements FileContract.view {
                 checkPermission();
             }
         });
+        readNameTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fileRunnable = new Runnable(){
+                    @Override
+                    public void run() {
+                        showFileChooser(FILE_SELECT_NAME_CODE);
+                    }
+                };
+                checkPermission();
+            }
+        });
+
     }
 
     @Override
@@ -181,7 +195,7 @@ public class FileFragment extends DialogFragment implements FileContract.view {
         });
         editDialog.show();
     }
-    private void showFileChooser() {
+    private void showFileChooser(int resultCode) {
         final String mimeType = "text/plain";
         final PackageManager packageManager = getActivity().getPackageManager();
         final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -193,7 +207,7 @@ public class FileFragment extends DialogFragment implements FileContract.view {
             picker.setType(mimeType);
             // 使用Intent Chooser
             Intent destIntent = Intent.createChooser(picker, "選取輸入檔案");
-            startActivityForResult(destIntent, FILE_SELECT_CODE);
+            startActivityForResult(destIntent, resultCode);
         } else {
             startPickerActivity();
         }
@@ -221,16 +235,16 @@ public class FileFragment extends DialogFragment implements FileContract.view {
                 break;
             case FILE_SELECT_CODE:
                 if (resultCode == RESULT_OK) {
-                    // Get the Uri of the selected file
                     Uri uri = data.getData();
-                    Log.d("FileFragment", "File Uri: " + uri.toString());
-                    // Get the path
                     String path = getPath(getActivity(), uri);
                     presenter.readTxtButtonClick(path);
-                    Log.d("FileFragment", "File Path: " + path);
-                    // Get the file instance
-                    // File file = new File(path);
-                    // Initiate the upload
+                }
+                break;
+            case FILE_SELECT_NAME_CODE:
+                if (resultCode == RESULT_OK) {
+                    Uri uri = data.getData();
+                    String path = getPath(getActivity(), uri);
+                    presenter.readNameTextViewClick(path);
                 }
                 break;
         }

@@ -14,6 +14,7 @@ public interface FileContract {
     interface presenter{
         void start();
         void readTxtButtonClick(String path);
+        void readNameTextViewClick(String path);
         void saveFile(String fileName);
     }
 }

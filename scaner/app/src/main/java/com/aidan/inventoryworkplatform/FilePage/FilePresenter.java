@@ -19,6 +19,7 @@ import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.Model.LocationSingleton;
 import com.aidan.inventoryworkplatform.ScannerPage.ScannerItemManager;
 import com.aidan.inventoryworkplatform.Singleton;
+import com.aidan.inventoryworkplatform.Utils.ReadExcel;
 
 
 import org.json.JSONArray;
@@ -108,6 +109,11 @@ public class FilePresenter implements FileContract.presenter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void readNameTextViewClick(String path) {
+        ReadExcel.read(path);
     }
 
     private void dropTable() {

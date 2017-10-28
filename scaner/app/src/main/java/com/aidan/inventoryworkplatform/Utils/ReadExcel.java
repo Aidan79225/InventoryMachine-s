@@ -18,7 +18,7 @@ import jxl.read.biff.BiffException;
  */
 
 public class ReadExcel {
-    public void read(String inputFile) {
+    public static void read(String inputFile) {
         File inputWorkbook = new File(inputFile);
         Workbook w;
         try {
@@ -30,8 +30,8 @@ public class ReadExcel {
             iOException.printStackTrace();
         }
     }
-    
-    public void loadAndSetName(Workbook w) {
+
+    public static void loadAndSetName(Workbook w) {
         Sheet sheet = w.getSheet(0);
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
         Map<String,Item> itemMap = new HashMap<>();
