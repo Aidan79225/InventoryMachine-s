@@ -1,9 +1,7 @@
 package com.aidan.inventoryworkplatform.SearchPage;
 
-import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -19,13 +17,9 @@ import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.inventoryworkplatform.Dialog.SearchItemDialog;
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Item;
-import com.aidan.inventoryworkplatform.Entity.Location;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
-import com.aidan.inventoryworkplatform.Model.ItemSingleton;
-import com.aidan.inventoryworkplatform.Model.LocationSingleton;
 import com.aidan.inventoryworkplatform.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,13 +30,13 @@ import java.util.List;
 public class SearchFragment extends DialogFragment implements SearchContract.view {
     SearchContract.presenter presenter;
     ViewGroup rootView;
-    EditText serialMinNumberEditText,serialMaxNumberEditText;
+    EditText serialMinNumberEditText, serialMaxNumberEditText;
     TextView locationTextView, agentTextView, departmentTextView;
     TextView searchTextView, clearTextView, printTextView;
     TextView useGroupTextView, userTextView;
-    EditText c1EditText,c2EditText,c3EditText,c4EditText,c5EditText;
+    EditText c1EditText, c2EditText, c3EditText, c4EditText, c5EditText;
     BaseFragmentManager baseFragmentManager;
-    TextView tagContentTextView,sortTextView,minDateTextView,maxDateTextView;
+    TextView tagContentTextView, sortTextView, minDateTextView, maxDateTextView;
     EditText nameEditText;
 
     public static SearchFragment newInstance(BaseFragmentManager baseFragmentManager) {
@@ -73,7 +67,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         departmentTextView = (TextView) rootView.findViewById(R.id.departmentTextView);
         searchTextView = (TextView) rootView.findViewById(R.id.searchTextView);
         clearTextView = (TextView) rootView.findViewById(R.id.clearTextView);
-        printTextView = (TextView)rootView.findViewById(R.id.printTextView);
+        printTextView = (TextView) rootView.findViewById(R.id.printTextView);
         useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
         userTextView = (TextView) rootView.findViewById(R.id.userTextView);
         tagContentTextView = (TextView) rootView.findViewById(R.id.tagContentTextView);
@@ -155,18 +149,18 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
                 id += c4EditText.getText().toString();
                 id += c5EditText.getText().toString();
                 String name = nameEditText.getText().toString();
-                presenter.searchTextViewClick(name, id, serialMinNumberEditText.getText().toString(),serialMaxNumberEditText.getText().toString());
+                presenter.searchTextViewClick(name, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
             }
         });
-        c1EditText.addTextChangedListener(getNextTextWatcher(1,c2EditText));
-        c2EditText.addTextChangedListener(getNextTextWatcher(2,c3EditText));
-        c3EditText.addTextChangedListener(getNextTextWatcher(2,c4EditText));
-        c4EditText.addTextChangedListener(getNextTextWatcher(2,c5EditText));
-        c5EditText.addTextChangedListener(getNextTextWatcher(4,serialMinNumberEditText));
-        serialMinNumberEditText.addTextChangedListener(getNextTextWatcher(7,serialMaxNumberEditText));
+        c1EditText.addTextChangedListener(getNextTextWatcher(1, c2EditText));
+        c2EditText.addTextChangedListener(getNextTextWatcher(2, c3EditText));
+        c3EditText.addTextChangedListener(getNextTextWatcher(2, c4EditText));
+        c4EditText.addTextChangedListener(getNextTextWatcher(2, c5EditText));
+        c5EditText.addTextChangedListener(getNextTextWatcher(4, serialMinNumberEditText));
+        serialMinNumberEditText.addTextChangedListener(getNextTextWatcher(7, serialMaxNumberEditText));
     }
 
-    private TextWatcher getNextTextWatcher(final int length, final EditText next){
+    private TextWatcher getNextTextWatcher(final int length, final EditText next) {
         return new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -180,7 +174,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.length() == length){
+                if (s.length() == length) {
                     next.requestFocus();
                 }
             }
@@ -199,7 +193,6 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         locationTextView.setText("請點選存置地點");
         agentTextView.setText("請點選保管人");
         departmentTextView.setText("請點選保管單位");
-
         tagContentTextView.setText("請點選標籤內容");
         sortTextView.setText("請點選排序條件");
         minDateTextView.setText("請點選起始日期");
@@ -209,7 +202,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
     @Override
     public void showSetDialog(SearchItemAdapter.OnClickListener clickListener, String title, List<SearchableItem> dataList) {
-        SearchItemDialog dialog = new SearchItemDialog(getActivity(),dataList);
+        SearchItemDialog dialog = new SearchItemDialog(getActivity(), dataList);
         dialog.setTitle(title);
         dialog.setOnClickListener(clickListener);
         dialog.show();
@@ -217,7 +210,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
     @Override
     public void showFragmentWithResult(List<Item> items) {
-        Fragment fragment = ItemListFragment.newInstance(items, baseFragmentManager,true);
+        Fragment fragment = ItemListFragment.newInstance(items, baseFragmentManager, true);
         baseFragmentManager.loadFragment(fragment);
     }
 
