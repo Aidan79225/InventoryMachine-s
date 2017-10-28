@@ -46,4 +46,5 @@ dependencies {
     compile 'cn.bingoogolapple:bga-zbar:1.1.7@aar'
     compile files('libs/BrotherPrintLibrary.jar')
     compile files('libs/MobilePrintLib.jar')
+    compile files('libs/jxl.jar')
 }

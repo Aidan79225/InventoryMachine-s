@@ -3,6 +3,7 @@ package com.aidan.inventoryworkplatform.Entity;
 import android.nfc.Tag;
 
 import com.aidan.inventoryworkplatform.KeyConstants;
+import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -217,7 +218,11 @@ public class Item {
     }
 
     public String getName() {
-        return PA3P3;
+        return NAME;
+    }
+
+    public void setNAME(String NAME){
+       this.NAME = NAME;
     }
 
     public String getNickName() {
@@ -300,6 +305,7 @@ public class Item {
     public void setConfirm(boolean flag) {
         if (flag) {
             PA308 = "Y";
+            ItemSingleton.getInstance().saveItem(this);
         } else {
             PA308 = "N";
         }
