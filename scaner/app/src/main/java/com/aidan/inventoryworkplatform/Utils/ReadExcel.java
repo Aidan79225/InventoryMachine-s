@@ -5,6 +5,7 @@ import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,9 +35,14 @@ public class ReadExcel {
     public static void loadAndSetName(Workbook w) {
         Sheet sheet = w.getSheet(0);
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
-        Map<String,Item> itemMap = new HashMap<>();
+        Map<String,List<Item>> itemMap = new HashMap<>();
         for(Item item : itemList){
-            itemMap.put(item.getNumber(),item);
+            List<Item> list = itemMap.get(item.getNumber());
+            if(list == null){
+                list = new ArrayList<>();
+            }
+            list.add(item);
+            itemMap.put(item.getNumber(),list);
         }
         for (int i = 0; i < sheet.getRows(); i++) {
             if (i == 0) continue;
@@ -47,9 +53,12 @@ public class ReadExcel {
             id += sheet.getCell(3, i).getContents();
             id += sheet.getCell(4, i).getContents();
             String name = sheet.getCell(5, i).getContents();
-            Item item = itemMap.get(id);
-            if(item != null){
-                item.setNAME(name);
+
+            List<Item> list = itemMap.get(id);
+            if(list != null){
+                for(Item item : list){
+                    item.setNAME(name);
+                }
             }
         }
         ItemSingleton.getInstance().saveToDB();

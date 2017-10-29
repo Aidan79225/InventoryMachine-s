@@ -354,28 +354,28 @@ public class Item {
     }
 
     public String getTagContentString() {
-        String ans = "";
+        String ans = "  ";
         ans += KeyConstants.AuthorityName + "\n";
-        ans += "財產區分別：110公務用_一般\n";
-        ans += "財產編號：" + getTagIdNumber() + "\n";
-        ans += "財產名稱：" + "\n";
-        ans += "財產別名：" + getNickName() + "\n";
-        ans += "取得日期：" + ADtoCal() + "\t年限：" + getYears() + "\n";
+        ans += "  財產區分別：110公務用_一般\n";
+        ans += "  財產編號：" + getTagIdNumber() + "\n";
+        ans += "  財產名稱：" + getName() + "\n";
+        ans += "  財產別名：" + getNickName() + "\n";
+        ans += "  取得日期：" + ADtoCal() + "\t年限：" + getYears() + "\n";
         if(tagContent != null){
             switch (tagContent){
                 case Agent:
-                    ans += "保管人：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
+                    ans += " 保管人：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
                     break;
                 case AgentGroup:
-                    ans += "保管人/單位：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
+                    ans += " 保管人/單位：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
                     break;
                 case AgentGroupLocation:
-                    ans += "保管人/單位/存置地點：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "/" + getLocation().getName() + "\n";
+                    ans += " 保管人/單位/存置地點：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "/" + getLocation().getName() + "\n";
                     break;
             }
         }
 
-        ans += "廠牌/型式：" + getBrand() + "/" + getType() + "\n";
+        ans += " 廠牌/型式：" + getBrand() + "/" + getType() + "\n";
         return ans;
     }
 

@@ -89,6 +89,7 @@ public class PrinterItemDialog extends Dialog {
         itemYearTextView.setText(item.getYears());
         itemDateTextView.setText(item.ADtoCal());
         itemNickNameTextView.setText(item.getNickName());
+        itemNameTextView.setText(item.getName());
         idTextView.setText(item.getTagIdNumber());
         areaTextView.setText(item.getLoaclNumber());
     }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aidan.inventoryworkplatform.BaseFragmentManager;
 import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
@@ -152,6 +153,20 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
                 presenter.searchTextViewClick(name, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
             }
         });
+
+        printTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = "";
+                id += c1EditText.getText().toString();
+                id += c2EditText.getText().toString();
+                id += c3EditText.getText().toString();
+                id += c4EditText.getText().toString();
+                id += c5EditText.getText().toString();
+                String name = nameEditText.getText().toString();
+                presenter.printTextViewClick(rootView.getContext(), name, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
+            }
+        });
         c1EditText.addTextChangedListener(getNextTextWatcher(1, c2EditText));
         c2EditText.addTextChangedListener(getNextTextWatcher(2, c3EditText));
         c3EditText.addTextChangedListener(getNextTextWatcher(2, c4EditText));
@@ -198,6 +213,16 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         minDateTextView.setText("請點選起始日期");
         maxDateTextView.setText("請點選最後日期");
         nameEditText.setText("");
+    }
+
+    @Override
+    public void showToast(final String msg) {
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(rootView.getContext(),msg,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
