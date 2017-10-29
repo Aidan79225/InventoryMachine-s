@@ -369,6 +369,7 @@ public class SearchPresenter implements SearchContract.presenter {
         Thread trd = new Thread(new Runnable() {
             @Override
             public void run() {
+                view.showProgress("製造標籤中");
                 String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/欣華盤點系統/圖片暫存";
                 List<File> fileList = new ArrayList<>();
                 File dirFile = new File(dir);
@@ -377,8 +378,8 @@ public class SearchPresenter implements SearchContract.presenter {
                 }
                 int width = getScreenWidth();
                 int height = getScreenWidth() * 3 / 7;
-                for (Item item : itemList) {
-//                    Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), width, height, height / 10 - dpToPix(2) * 2, dpToPix(2));
+                for (int i = 0 ; i < itemList.size(); i++ ) {
+                    Item item  =  itemList.get(i);
                     Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), width, height, height / 10, 0);
                     try {
                         bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, width, height / 5), dpToPix(2));
@@ -399,12 +400,15 @@ public class SearchPresenter implements SearchContract.presenter {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    view.updateProgress((i + 1) * 100 / itemList.size());
                 }
+                view.hideProgress();
 
-
+                view.showProgress("列印中");
                 Printer printer = new Printer();
                 NetPrinter[] netPrinters = printer.getNetPrinters("PT-P900W");
                 if (netPrinters == null || netPrinters.length == 0) {
+                    view.hideProgress();
                     view.showToast("列印失敗,找不到機器");
                 } else {
                     PrinterInfo printInfo = new PrinterInfo();
@@ -420,21 +424,26 @@ public class SearchPresenter implements SearchContract.presenter {
                     printInfo.isHalfCut = true;
                     printer.setPrinterInfo(printInfo);
                     printer.startCommunication();
-                    int count = 0;
-                    for(File file : fileList){
+                    for (int i = 0; i < fileList.size(); i++) {
+                        File file = fileList.get(i);
                         PrinterStatus status = printer.printFile(file.getAbsolutePath());
                         if (status.errorCode != PrinterInfo.ErrorCode.ERROR_NONE) {
+                            view.hideProgress();
                             view.showToast("列印失敗,找不到機器");
-                            break;
+                            printer.endCommunication();
+                            return;
                         }
-                        if(count > 0)break;
-                        count++ ;
+                        view.updateProgress((i + 1) * 100 / fileList.size());
+
                     }
                     printer.endCommunication();
+                    view.hideProgress();
                     view.showToast("列印成功");
                 }
             }
         });
         trd.start();
     }
+
+
 }

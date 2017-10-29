@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,7 +28,7 @@ import android.widget.Toast;
 import com.aidan.inventoryworkplatform.Constants;
 import com.aidan.inventoryworkplatform.R;
 import com.aidan.inventoryworkplatform.Singleton;
-
+import com.aidan.inventoryworkplatform.Utils.ReadExcel;
 
 
 import org.json.JSONException;
@@ -52,18 +53,20 @@ import static android.app.Activity.RESULT_OK;
  * Created by Aidan on 2016/11/20.
  */
 
-public class FileFragment extends DialogFragment implements FileContract.view {
+public class FileFragment extends DialogFragment implements FileContract.view, ReadExcel.ProgressAction {
     ViewGroup rootView;
     FileContract.presenter presenter;
-    TextView inputTextView, outputTextView,readNameTextView;
+    TextView inputTextView, outputTextView, readNameTextView;
     ArrayList<String> filePaths = new ArrayList<>();
     ArrayList<String> docPaths = new ArrayList<>();
     Runnable fileRunnable;
+    ProgressDialog mProgressDialog;
     int type = 0;
     private static final int readTxtType = 19;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final int FILE_SELECT_CODE = 0;
     private static final int FILE_SELECT_NAME_CODE = 2;
+
     @Override
     public void checkPermission() {
         int permission = ActivityCompat.checkSelfPermission(getActivity(),
@@ -77,11 +80,21 @@ public class FileFragment extends DialogFragment implements FileContract.view {
         //未取得權限，向使用者要求允許權限
         else {
             //已有權限，可進行檔案存取
-            if(fileRunnable != null){
+            if (fileRunnable != null) {
                 fileRunnable.run();
             }
         }
 
+    }
+
+    @Override
+    public void showToast(final String msg) {
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(rootView.getContext(),msg,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -92,7 +105,7 @@ public class FileFragment extends DialogFragment implements FileContract.view {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //取得權限，進行檔案存取
-                    if(fileRunnable != null){
+                    if (fileRunnable != null) {
                         fileRunnable.run();
                     }
                 }
@@ -112,7 +125,7 @@ public class FileFragment extends DialogFragment implements FileContract.view {
     public void findView() {
         inputTextView = (TextView) rootView.findViewById(R.id.inputTextView);
         outputTextView = (TextView) rootView.findViewById(R.id.outputTextView);
-        readNameTextView = (TextView)rootView.findViewById(R.id.readNameTextView);
+        readNameTextView = (TextView) rootView.findViewById(R.id.readNameTextView);
     }
 
     @Override
@@ -120,7 +133,7 @@ public class FileFragment extends DialogFragment implements FileContract.view {
         inputTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fileRunnable = new Runnable(){
+                fileRunnable = new Runnable() {
                     @Override
                     public void run() {
                         showFileChooser(FILE_SELECT_CODE);
@@ -132,7 +145,7 @@ public class FileFragment extends DialogFragment implements FileContract.view {
         outputTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fileRunnable = new Runnable(){
+                fileRunnable = new Runnable() {
                     @Override
                     public void run() {
                         showFileNameDialog();
@@ -144,7 +157,7 @@ public class FileFragment extends DialogFragment implements FileContract.view {
         readNameTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fileRunnable = new Runnable(){
+                fileRunnable = new Runnable() {
                     @Override
                     public void run() {
                         showFileChooser(FILE_SELECT_NAME_CODE);
@@ -154,11 +167,43 @@ public class FileFragment extends DialogFragment implements FileContract.view {
             }
         });
 
+
     }
 
     @Override
-    public void showProgressUpdate(int value) {
+    public void showProgress(final String title) {
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+                mProgressDialog = new ProgressDialog(rootView.getContext());
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.setTitle(title);
+                mProgressDialog.setMessage("正在處理請稍後...");
+                mProgressDialog.setMax(100);
+                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                mProgressDialog.show();
+            }
+        });
+    }
 
+    @Override
+    public void hideProgress() {
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+                mProgressDialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void updateProgress(final int value) {
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+                mProgressDialog.setProgress(value);
+            }
+        });
     }
 
     public void showFileNameDialog() {
@@ -195,6 +240,7 @@ public class FileFragment extends DialogFragment implements FileContract.view {
         });
         editDialog.show();
     }
+
     private void showFileChooser(int resultCode) {
         final String mimeType = "text/plain";
         final PackageManager packageManager = getActivity().getPackageManager();
@@ -262,9 +308,10 @@ public class FileFragment extends DialogFragment implements FileContract.view {
                 break;
         }
     }
+
     public static String getPath(Context context, Uri uri) {
         if ("content".equalsIgnoreCase(uri.getScheme())) {
-            String[] projection = { "_data" };
+            String[] projection = {"_data"};
             Cursor cursor = null;
 
             try {
@@ -276,8 +323,7 @@ public class FileFragment extends DialogFragment implements FileContract.view {
             } catch (Exception e) {
                 // Eat it
             }
-        }
-        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
             return uri.getPath();
         }
 

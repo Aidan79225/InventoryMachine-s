@@ -19,20 +19,36 @@ import jxl.read.biff.BiffException;
  */
 
 public class ReadExcel {
-    public static void read(String inputFile) {
-        File inputWorkbook = new File(inputFile);
-        Workbook w;
-        try {
-            w = Workbook.getWorkbook(inputWorkbook);
-            loadAndSetName(w);
-        } catch (BiffException e) {
-            e.printStackTrace();
-        } catch (IOException iOException) {
-            iOException.printStackTrace();
-        }
+    private ProgressAction progressAction;
+
+    public void read(final String inputFile) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(progressAction != null){
+                    progressAction.showProgress("讀取名稱中");
+                }
+                File inputWorkbook = new File(inputFile);
+                Workbook w;
+                try {
+                    w = Workbook.getWorkbook(inputWorkbook);
+                    loadAndSetName(w);
+                } catch (BiffException e) {
+                    progressAction.showToast("檔案格式錯誤");
+                    e.printStackTrace();
+                } catch (IOException iOException) {
+                    progressAction.showToast("檔案格式錯誤");
+                    iOException.printStackTrace();
+                }finally {
+                    if(progressAction != null){
+                        progressAction.hideProgress();
+                    }
+                }
+            }
+        }).start();
     }
 
-    public static void loadAndSetName(Workbook w) {
+    public void loadAndSetName(Workbook w) {
         Sheet sheet = w.getSheet(0);
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
         Map<String,List<Item>> itemMap = new HashMap<>();
@@ -60,7 +76,20 @@ public class ReadExcel {
                     item.setNAME(name);
                 }
             }
+            if(progressAction != null){
+                progressAction.updateProgress((i+1)*100/sheet.getRows());
+            }
         }
         ItemSingleton.getInstance().saveToDB();
+    }
+
+    public void setProgressAction(ProgressAction progressAction){
+        this.progressAction = progressAction;
+    }
+    public interface ProgressAction{
+        void showProgress(String msg);
+        void hideProgress();
+        void updateProgress(int value);
+        void showToast(String msg);
     }
 }

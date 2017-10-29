@@ -22,6 +22,9 @@ public interface SearchContract {
         void showFragmentWithResult(List<Item> items);
         void clearViews();
         void showToast(String msg);
+        void showProgress(String msg);
+        void hideProgress();
+        void updateProgress(int value);
     }
     interface presenter{
         void start();

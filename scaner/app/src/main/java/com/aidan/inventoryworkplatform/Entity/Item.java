@@ -46,6 +46,7 @@ public class Item {
     private String PA3PRN = "PA3PRN";
     private String NAME = "";
     private TagContent tagContent = null;
+
     public Item() {
 
     }
@@ -221,8 +222,8 @@ public class Item {
         return NAME;
     }
 
-    public void setNAME(String NAME){
-       this.NAME = NAME;
+    public void setNAME(String NAME) {
+        this.NAME = NAME;
     }
 
     public String getNickName() {
@@ -239,7 +240,7 @@ public class Item {
 
     public Date getDate() {
         Calendar c = Calendar.getInstance();
-        c.set(Integer.valueOf(PA3BD.substring(0,4)),Integer.valueOf(PA3BD.substring(4,5)),Integer.valueOf(PA3BD.substring(5)));
+        c.set(Integer.valueOf(PA3BD.substring(0, 4)), Integer.valueOf(PA3BD.substring(4, 5)), Integer.valueOf(PA3BD.substring(5)));
         return c.getTime();
     }
 
@@ -361,21 +362,25 @@ public class Item {
         ans += "  財產名稱：" + getName() + "\n";
         ans += "  財產別名：" + getNickName() + "\n";
         ans += "  取得日期：" + ADtoCal() + "\t年限：" + getYears() + "\n";
-        if(tagContent != null){
-            switch (tagContent){
+        if (tagContent != null) {
+            ans += "  " + tagContent.getName() + "：";
+            switch (tagContent) {
                 case Agent:
-                    ans += " 保管人：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
+                    ans += getCustodian().getName() + "\n";
                     break;
                 case AgentGroup:
-                    ans += " 保管人/單位：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
+                    ans +=  getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
+                    break;
+                case AgentLocation:
+                    ans +=  getCustodian().getName() + "/" + getLocation().getName() + "\n";
                     break;
                 case AgentGroupLocation:
-                    ans += " 保管人/單位/存置地點：" + getCustodian().getName() + "/" + getCustodyGroup().getName() + "/" + getLocation().getName() + "\n";
+                    ans +=  getCustodian().getName() + "/" + getCustodyGroup().getName() + "/" + getLocation().getName() + "\n";
                     break;
             }
         }
 
-        ans += " 廠牌/型式：" + getBrand() + "/" + getType() + "\n";
+        ans += "  廠牌/型式：" + getBrand() + "/" + getType() + "\n";
         return ans;
     }
 
@@ -384,7 +389,7 @@ public class Item {
         return temp.substring(0, temp.length() - 4) + "/" + temp.substring(temp.length() - 4, temp.length() - 2) + "/" + temp.substring(temp.length() - 2);
     }
 
-    public void setTagContent(TagContent tagContent){
+    public void setTagContent(TagContent tagContent) {
         this.tagContent = tagContent;
     }
 }

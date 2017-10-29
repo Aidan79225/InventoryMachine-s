@@ -66,7 +66,17 @@ public class FilePresenter implements FileContract.presenter {
     }
 
     @Override
-    public void readTxtButtonClick(String path) {
+    public void readTxtButtonClick(final String path) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                loadData(path);
+            }
+        }).start();
+    }
+
+    private void loadData(String path) {
+        view.showProgress("讀取物品中");
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
         List<Location> locationList = LocationSingleton.getInstance().getLocationList();
         List<Agent> agentList = AgentSingleton.getInstance().getAgentList();
@@ -107,13 +117,17 @@ public class FilePresenter implements FileContract.presenter {
             LocationSingleton.getInstance().saveToDB();
 
         } catch (Exception e) {
+            view.hideProgress();
+            view.showToast("檔案格式錯誤");
             e.printStackTrace();
         }
     }
 
     @Override
     public void readNameTextViewClick(String path) {
-        ReadExcel.read(path);
+        ReadExcel readExcel = new ReadExcel();
+        readExcel.setProgressAction(( ReadExcel.ProgressAction)view);
+        readExcel.read(path);
     }
 
     private void dropTable() {
@@ -148,7 +162,9 @@ public class FilePresenter implements FileContract.presenter {
                 JSONObject c = data.getJSONObject(i);
                 Item item = new Item(c);
                 itemList.add(item);
+                view.updateProgress((i + 1) * 100 / size);
             }
+            view.hideProgress();
             Singleton.log("itemList size : " + itemList.size());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -159,12 +175,15 @@ public class FilePresenter implements FileContract.presenter {
         try {
             JSONArray data = ASSETs.getJSONArray("D1");
             Singleton.log("agentList size : " + data.length());
+            view.showProgress("讀取人名中");
             for (int i = 0; i < data.length(); i++) {
                 JSONObject c = data.getJSONObject(i);
                 Agent agent = new Agent(c);
                 agentList.add(agent);
+                view.updateProgress((i + 1) * 100 / data.length());
             }
             Singleton.log("agentList size : " + agentList.size());
+            view.hideProgress();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -175,12 +194,15 @@ public class FilePresenter implements FileContract.presenter {
         try {
             JSONArray data = ASSETs.getJSONArray("D2");
             Singleton.log("departmentList size : " + data.length());
+            view.showProgress("讀取部門中");
             for (int i = 0; i < data.length(); i++) {
                 JSONObject c = data.getJSONObject(i);
                 Department department = new Department(c);
                 departmentList.add(department);
+                view.updateProgress((i + 1) * 100 / data.length());
             }
             Singleton.log("departmentList size : " + departmentList.size());
+            view.hideProgress();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -191,12 +213,15 @@ public class FilePresenter implements FileContract.presenter {
         try {
             JSONArray data = ASSETs.getJSONArray("D3");
             Singleton.log("locationList size : " + data.length());
+            view.showProgress("讀取地點中");
             for (int i = 0; i < data.length(); i++) {
                 JSONObject c = data.getJSONObject(i);
                 Location location = new Location(c);
                 locationList.add(location);
+                view.updateProgress((i + 1) * 100 / data.length());
             }
             Singleton.log("locationList size : " + locationList.size());
+            view.hideProgress();
         } catch (JSONException e) {
             e.printStackTrace();
         }

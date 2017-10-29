@@ -2,6 +2,7 @@ package com.aidan.inventoryworkplatform.SearchPage;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -39,6 +40,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
     BaseFragmentManager baseFragmentManager;
     TextView tagContentTextView, sortTextView, minDateTextView, maxDateTextView;
     EditText nameEditText;
+    ProgressDialog mProgressDialog;
 
     public static SearchFragment newInstance(BaseFragmentManager baseFragmentManager) {
         SearchFragment fragment = new SearchFragment();
@@ -237,6 +239,42 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
     public void showFragmentWithResult(List<Item> items) {
         Fragment fragment = ItemListFragment.newInstance(items, baseFragmentManager, true);
         baseFragmentManager.loadFragment(fragment);
+    }
+
+    @Override
+    public void showProgress(final String title) {
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+                mProgressDialog = new ProgressDialog(rootView.getContext());
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.setTitle(title);
+                mProgressDialog.setMessage("正在處理請稍後...");
+                mProgressDialog.setMax(100);
+                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                mProgressDialog.show();
+            }
+        });
+    }
+
+    @Override
+    public void hideProgress() {
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+                mProgressDialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void updateProgress(final int value) {
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+                mProgressDialog.setProgress(value);
+            }
+        });
     }
 
 
