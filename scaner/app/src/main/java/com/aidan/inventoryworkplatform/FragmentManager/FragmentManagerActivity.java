@@ -48,6 +48,9 @@ import com.cipherlab.barcodebase.*;
 import com.cipherlab.barcode.decoder.*;
 import com.cipherlab.barcode.decoderparams.*;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class FragmentManagerActivity extends AppCompatActivity implements FragmentManagerContract.view, BaseFragmentManager {
     FragmentManagerContract.presenter presenter;
     View fragmentContainer;
@@ -183,6 +186,27 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(curFragment != null){
             curFragment.onActivityResult(requestCode,resultCode,data);
+        }
+    }
+
+    /* For Back Control */
+    private Boolean hasPressBack = false;
+    private Timer timer = new Timer(true);
+    private class BackTimerTask extends TimerTask {
+        public void run() {
+            hasPressBack = false;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(hasPressBack){
+            timer.cancel();
+        }else {
+            hasPressBack = true;
+            Toast.makeText(this, "再按一次離開本程式", Toast.LENGTH_SHORT).show();
+            //設定時間點刪去back記錄
+            timer.schedule(new BackTimerTask(), 2500);
         }
     }
 
