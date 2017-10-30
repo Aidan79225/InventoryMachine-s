@@ -207,13 +207,17 @@ public class SearchPresenter implements SearchContract.presenter {
     }
 
     @Override
-    public void minDateTextViewClick(TextView minDateTextView) {
+    public void minDateTextViewClick(final TextView minDateTextView) {
         showDatePicker(minCalendar, new Runnable() {
             @Override
             public void run() {
                 minDate = minCalendar.getTime();
+                maxCalendar.set(minCalendar.get(Calendar.YEAR), minCalendar.get(Calendar.MONTH), minCalendar.get(Calendar.DAY_OF_MONTH));
+                maxDate = maxCalendar.getTime();
+                view.setMinDateTextView(minCalendar);
+                view.setMaxDateTextView(maxCalendar);
             }
-        }, minDateTextView);
+        });
     }
 
     @Override
@@ -222,16 +226,16 @@ public class SearchPresenter implements SearchContract.presenter {
             @Override
             public void run() {
                 maxDate = maxCalendar.getTime();
+                view.setMaxDateTextView(maxCalendar);
             }
-        }, maxDateTextView);
+        });
     }
 
-    public void showDatePicker(final Calendar c, final Runnable callback, final TextView textView) {
-        new DatePickerDialog(textView.getContext(), new DatePickerDialog.OnDateSetListener() {
+    public void showDatePicker(final Calendar c, final Runnable callback) {
+        new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 c.set(year, month, day);
-                textView.setText(String.valueOf(c.get(Calendar.YEAR) - 1911) + "/" + String.valueOf(c.get(Calendar.MONTH)) + "/" + String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
                 callback.run();
             }
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
@@ -356,11 +360,6 @@ public class SearchPresenter implements SearchContract.presenter {
         view.clearViews();
     }
 
-
-    public static int getScreenWidth() {
-        return Resources.getSystem().getDisplayMetrics().widthPixels;
-    }
-
     public int dpToPix(int dp) {
         return (int) Resources.getSystem().getDisplayMetrics().density * dp;
     }
@@ -376,8 +375,8 @@ public class SearchPresenter implements SearchContract.presenter {
                 if (!dirFile.exists()) {
                     dirFile.mkdirs();
                 }
-                int width = getScreenWidth();
-                int height = getScreenWidth() * 3 / 7;
+                int width = 1080;
+                int height = 462;
                 for (int i = 0 ; i < itemList.size(); i++ ) {
                     Item item  =  itemList.get(i);
                     Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), width, height, height / 10, 0);

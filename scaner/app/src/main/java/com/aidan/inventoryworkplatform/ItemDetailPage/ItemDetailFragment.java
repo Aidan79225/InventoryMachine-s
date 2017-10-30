@@ -34,7 +34,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
             nameTextView, itemIdTextView,
             custodyGroupTextView, custodianTextView,
             useGroupTextView, userTextView,
-            deleteTextView,printTextView,nickNameTextView;
+            deleteTextView,printTextView,nickNameTextView,tagContentTextView;
     Button confirmButton,printButton , cancelButton;
     ItemListFragment.RefreshItems refreshItems;
 
@@ -74,6 +74,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         deleteTextView = (TextView) rootView.findViewById(R.id.deleteTextView);
         printTextView = (TextView) rootView.findViewById(R.id.printTextView);
         nickNameTextView = (TextView) rootView.findViewById(R.id.nickNameTextView);
+        tagContentTextView= (TextView) rootView.findViewById(R.id.tagContentTextView);
     }
 
     @Override
@@ -92,6 +93,9 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         itemIdTextView.setText(item.getIdNumber());
         deleteTextView.setText(item.isDelete() ? "Y" : "N");
         printTextView.setText(item.isPrint() ? "Y" : "N");
+        if(item.getTagContent() != null){
+            tagContentTextView.setText(item.getTagContent().getName());
+        }
     }
 
     @Override
@@ -115,49 +119,56 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         locationTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.locationTextViewClick(locationTextView);
+                presenter.locationTextViewClick();
             }
         });
         custodianTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.agentTextViewClick(custodianTextView);
+                presenter.agentTextViewClick();
             }
         });
         custodyGroupTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.departmentTextViewClick(custodyGroupTextView);
+                presenter.departmentTextViewClick();
             }
         });
         userTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.userTextViewClick(userTextView);
+                presenter.userTextViewClick();
             }
         });
         useGroupTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.useGroupTextViewClick(useGroupTextView);
+                presenter.useGroupTextViewClick();
             }
         });
         deleteTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.deleteTextViewClick(deleteTextView);
+                presenter.deleteTextViewClick();
             }
         });
         printTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.printTextViewClick(printTextView);
+                presenter.printTextViewClick();
             }
         });
         printButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.printButtonClick();
+            }
+        });
+
+        tagContentTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.tagContentTextViewClick();
             }
         });
 

@@ -11,6 +11,7 @@ import com.aidan.inventoryworkplatform.Entity.Agent;
 import com.aidan.inventoryworkplatform.Entity.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Entity.Location;
+import com.aidan.inventoryworkplatform.Entity.TagContent;
 import com.aidan.inventoryworkplatform.Model.AgentSingleton;
 import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
@@ -38,7 +39,7 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
     private String[] departmentStrings ={};
     private String[] deleteStrings ={"Y","N"};
     private String[] printStrings ={"Y","N"};
-
+    private String[] tagContentStrings;
     public ItemDetailPresenter(ItemDetailContract.view view,Item item){
         this.view = view;
         model = new ItemDetailModel(item);
@@ -66,6 +67,11 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
             departmentStringList.add(department.name);
         }
         departmentStrings = departmentStringList.toArray(departmentStrings);
+
+        tagContentStrings = new String[TagContent.values().length];
+        for(int i = 0 ;i < TagContent.values().length ; i++){
+            tagContentStrings[i] = TagContent.values()[i].getName();
+        }
     }
 
     @Override
@@ -87,86 +93,86 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
     }
 
     @Override
-    public void locationTextViewClick(final TextView locationTextView){
+    public void locationTextViewClick(){
         List<SearchableItem> temp = new ArrayList<>();
         temp.addAll( LocationSingleton.getInstance().getLocationList());
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
-                locationTextView.setText(item.getName());
                 model.getItem().setLocation((Location)item);
+                view.setViewValue(model.getItem());
             }
         },"地點列表",temp);
     }
     @Override
-    public void departmentTextViewClick(final TextView departmentTextView){
+    public void departmentTextViewClick(){
         List<SearchableItem> temp = new ArrayList<>();
         temp.addAll( DepartmentSingleton.getInstance().getDepartmentList());
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
-                departmentTextView.setText(item.getName());
                 model.getItem().setCustodyGroup((Department) item);
+                view.setViewValue(model.getItem());
             }
         },"保管部門列表",temp);
     }
     @Override
-    public void agentTextViewClick(final TextView agentTextView){
+    public void agentTextViewClick(){
         List<SearchableItem> temp = new ArrayList<>();
         temp.addAll( AgentSingleton.getInstance().getAgentList());
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
-                agentTextView.setText(item.getName());
                 model.getItem().setCustodian((Agent) item);
+                view.setViewValue(model.getItem());
             }
         },"保管人列表",temp);
     }
 
     @Override
-    public void useGroupTextViewClick(final TextView useGroupTextVie) {
+    public void useGroupTextViewClick(){
         List<SearchableItem> temp = new ArrayList<>();
         temp.addAll( DepartmentSingleton.getInstance().getDepartmentList());
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
-                useGroupTextVie.setText(item.getName());
                 model.getItem().setUseGroup((Department) item);
+                view.setViewValue(model.getItem());
             }
         },"使用部門列表",temp);
     }
 
     @Override
-    public void userTextViewClick(final TextView userTextView) {
+    public void userTextViewClick() {
         List<SearchableItem> temp = new ArrayList<>();
         temp.addAll( AgentSingleton.getInstance().getAgentList());
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
-                userTextView.setText(item.getName());
                 model.getItem().setUser((Agent) item);
+                view.setViewValue(model.getItem());
             }
         },"使用人列表",temp);
     }
 
     @Override
-    public void deleteTextViewClick(final TextView deleteTextView) {
+    public void deleteTextViewClick() {
         view.showSetDialog(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int position) {
-                deleteTextView.setText(deleteStrings[position]);
                 model.getItem().setDelete(deleteStrings[position]);
+                view.setViewValue(model.getItem());
             }
         },"報廢",deleteStrings);
     }
 
     @Override
-    public void printTextViewClick(final TextView printTextView) {
+    public void printTextViewClick() {
         view.showSetDialog(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int position) {
-                printTextView.setText(printStrings[position]);
                 model.getItem().setPrint(printStrings[position]);
+                view.setViewValue(model.getItem());
             }
         },"補印",printStrings);
     }
@@ -174,5 +180,16 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
     @Override
     public void printButtonClick() {
         view.showPrintDialog(model.getItem());
+    }
+
+    @Override
+    public void tagContentTextViewClick() {
+        view.showSetDialog(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int position) {
+                model.getItem().setTagContent(TagContent.values()[position]);
+                view.setViewValue(model.getItem());
+            }
+        },"標籤內容", tagContentStrings);
     }
 }

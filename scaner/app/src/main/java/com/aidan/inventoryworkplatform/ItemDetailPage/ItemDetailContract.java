@@ -24,13 +24,14 @@ public interface ItemDetailContract {
     interface presenter{
         void start();
         void saveItemToChecked(boolean flag);
-        void locationTextViewClick(TextView locationTextView);
-        void departmentTextViewClick(TextView departmentTextView);
-        void agentTextViewClick(TextView agentTextView);
-        void useGroupTextViewClick(TextView departmentTextView);
-        void userTextViewClick(TextView agentTextView);
-        void deleteTextViewClick(TextView deleteTextView);
-        void printTextViewClick(TextView printTextView);
+        void locationTextViewClick();
+        void departmentTextViewClick();
+        void agentTextViewClick();
+        void useGroupTextViewClick();
+        void userTextViewClick();
+        void deleteTextViewClick();
+        void printTextViewClick();
         void printButtonClick();
+        void tagContentTextViewClick();
     }
 }

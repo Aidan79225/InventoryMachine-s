@@ -356,7 +356,7 @@ public class Item {
 
     public String getTagContentString() {
         String ans = "  ";
-        ans += KeyConstants.AuthorityName + "\n";
+        ans += KeyConstants.AuthorityName + (PA3C1.equals("6") ? "非消耗物品\n" : "\n");
         ans += "  財產區分別：110公務用_一般\n";
         ans += "  財產編號：" + getTagIdNumber() + "\n";
         ans += "  財產名稱：" + getName() + "\n";
@@ -391,5 +391,8 @@ public class Item {
 
     public void setTagContent(TagContent tagContent) {
         this.tagContent = tagContent;
+    }
+    public TagContent getTagContent(){
+        return tagContent;
     }
 }

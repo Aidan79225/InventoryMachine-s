@@ -43,8 +43,7 @@ import java.io.FileOutputStream;
 public class PrinterItemDialog extends Dialog {
     private Item item;
     private ImageView barcodeImageView;
-    private TextView AuthorityNameTextView, brandTextView, agentGroupTextView, itemYearTextView, itemDateTextView, itemNickNameTextView, itemNameTextView, idTextView, areaTextView;
-    private View itemInformationContainer;
+
 
     public PrinterItemDialog(@NonNull Context context) {
         super(context);
@@ -59,7 +58,6 @@ public class PrinterItemDialog extends Dialog {
         setContentView(R.layout.dialog_print_item);
         findView();
         setContent();
-        setBarCodeImage();
         setOnShowListener(new OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
@@ -69,43 +67,23 @@ public class PrinterItemDialog extends Dialog {
     }
 
     private void findView() {
-        AuthorityNameTextView = (TextView) findViewById(R.id.AuthorityNameTextView);
         barcodeImageView = (ImageView) findViewById(R.id.barcodeImageView);
-        brandTextView = (TextView) findViewById(R.id.brandTextView);
-        agentGroupTextView = (TextView) findViewById(R.id.agentGroupTextView);
-        itemYearTextView = (TextView) findViewById(R.id.itemYearTextView);
-        itemDateTextView = (TextView) findViewById(R.id.itemDateTextView);
-        itemNickNameTextView = (TextView) findViewById(R.id.itemNickNameTextView);
-        itemNameTextView = (TextView) findViewById(R.id.itemNameTextView);
-        idTextView = (TextView) findViewById(R.id.idTextView);
-        areaTextView = (TextView) findViewById(R.id.areaTextView);
-        itemInformationContainer = findViewById(R.id.itemInformationContainer);
     }
 
     private void setContent() {
-        AuthorityNameTextView.setText(KeyConstants.AuthorityName);
-        brandTextView.setText(item.getBrand() + "/" + item.getType());
-        agentGroupTextView.setText(item.getCustodian().getName() + "/" + item.getCustodyGroup().getName());
-        itemYearTextView.setText(item.getYears());
-        itemDateTextView.setText(item.ADtoCal());
-        itemNickNameTextView.setText(item.getNickName());
-        itemNameTextView.setText(item.getName());
-        idTextView.setText(item.getTagIdNumber());
-        areaTextView.setText(item.getLoaclNumber());
-    }
-
-    private void setBarCodeImage() {
+        int width = 1080;
+        int height = 462;
+        Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), width, height, height / 10 - dpToPix(2) * 2, dpToPix(2));
         try {
-            barcodeImageView.setImageBitmap(BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, getScreenWidth(), getScreenWidth() / 12));
+            bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, width, height / 5), dpToPix(2));
         } catch (Exception e) {
-            Toast.makeText(getContext(), "創造條碼失敗", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
-
+        barcodeImageView.setImageBitmap(bitmap);
     }
 
-    public static int getScreenWidth() {
-        return Resources.getSystem().getDisplayMetrics().widthPixels;
-    }
+
+
 
     public int dpToPix(int dp) {
         return (int) Resources.getSystem().getDisplayMetrics().density * dp;
@@ -121,9 +99,8 @@ public class PrinterItemDialog extends Dialog {
                     dirFile.mkdirs();
                 }
 
-//                Bitmap bitmap = getBitmapFromView(itemInformationContainer);
-                int width = getScreenWidth();
-                int height = getScreenWidth() * 3 / 7;
+                int width = 1080;
+                int height = 462;
                 Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), width, height, height / 10 - dpToPix(2) * 2, dpToPix(2));
                 try {
                     bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, width, height / 5), dpToPix(2));
@@ -131,7 +108,7 @@ public class PrinterItemDialog extends Dialog {
                     e.printStackTrace();
                 }
 
-                String fileName = "temp.png";
+                String fileName = item.getNumber() + item.getSerialNumber() + ".png";
                 File file = new File(dir, fileName);
                 if (file.exists()) {
                     file.delete();

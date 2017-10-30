@@ -242,7 +242,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
     }
 
     private void showFileChooser(int resultCode) {
-        final String mimeType = "text/plain";
+        final String mimeType = "*/*";
         final PackageManager packageManager = getActivity().getPackageManager();
         final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType(mimeType);

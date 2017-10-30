@@ -22,6 +22,7 @@ import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.R;
 
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -275,6 +276,16 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
                 mProgressDialog.setProgress(value);
             }
         });
+    }
+
+    @Override
+    public void setMinDateTextView(Calendar c) {
+        minDateTextView.setText(String.valueOf(c.get(Calendar.YEAR) - 1911) + "/" + String.valueOf(c.get(Calendar.MONTH)+1) + "/" + String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
+    }
+
+    @Override
+    public void setMaxDateTextView(Calendar c) {
+        maxDateTextView.setText(String.valueOf(c.get(Calendar.YEAR) - 1911) + "/" + String.valueOf(c.get(Calendar.MONTH)+1) + "/" + String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
     }
 
 

@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:gravity="center"
-                android:text="已掃描到的物品"
+                android:text="已掃描到的財產/物品"
                 android:textColor="@color/bg_white"
                 android:textSize="20sp"
                 android:layout_centerInParent="true"

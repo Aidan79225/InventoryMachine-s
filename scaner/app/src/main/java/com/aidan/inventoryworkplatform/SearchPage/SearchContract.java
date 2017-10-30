@@ -8,6 +8,7 @@ import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Item;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -25,6 +26,9 @@ public interface SearchContract {
         void showProgress(String msg);
         void hideProgress();
         void updateProgress(int value);
+        void setMinDateTextView(Calendar c);
+        void setMaxDateTextView(Calendar c);
+        Context getContext();
     }
     interface presenter{
         void start();
