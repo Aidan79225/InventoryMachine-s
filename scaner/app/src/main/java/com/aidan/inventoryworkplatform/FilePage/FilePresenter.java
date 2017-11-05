@@ -81,13 +81,6 @@ public class FilePresenter implements FileContract.presenter {
         List<Location> locationList = LocationSingleton.getInstance().getLocationList();
         List<Agent> agentList = AgentSingleton.getInstance().getAgentList();
         List<Department> departmentList = DepartmentSingleton.getInstance().getDepartmentList();
-        itemList.clear();
-        locationList.clear();
-        agentList.clear();
-        departmentList.clear();
-        ScannerItemManager.getInstance().getItemList().clear();
-        dropTable();
-
         try {
             File yourFile = new File(path);
             FileInputStream stream = new FileInputStream(yourFile);
@@ -241,7 +234,6 @@ public class FilePresenter implements FileContract.presenter {
             file.delete();
             file = new File(dir, fileName + ".txt");
         }
-
         try {
             BufferedWriter bufWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), "big5"));
             bufWriter.write(jsonObject.toString());
@@ -252,11 +244,22 @@ public class FilePresenter implements FileContract.presenter {
         }
     }
 
-    public JSONObject getAllDataJSON() {
+    @Override
+    public void clearData() {
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
         List<Location> locationList = LocationSingleton.getInstance().getLocationList();
         List<Agent> agentList = AgentSingleton.getInstance().getAgentList();
         List<Department> departmentList = DepartmentSingleton.getInstance().getDepartmentList();
+        itemList.clear();
+        locationList.clear();
+        agentList.clear();
+        departmentList.clear();
+        ScannerItemManager.getInstance().getItemList().clear();
+        dropTable();
+    }
+
+    public JSONObject getAllDataJSON() {
+        List<Item> itemList = ItemSingleton.getInstance().getItemList();
         JSONObject jsonObject = new JSONObject();
         try {
             JSONObject MS = new JSONObject(Singleton.preferences.getString(Constants.MS, ""));
@@ -271,18 +274,8 @@ public class FilePresenter implements FileContract.presenter {
                 PA3.put(item.toJSON());
             }
             JSONArray D1 = new JSONArray();
-//            for (Agent agent : agentList) {
-//                D1.put(agent.toJSON());
-//            }
             JSONArray D2 = new JSONArray();
-//            for (Department department : departmentList) {
-//                D2.put(department.toJSON());
-//            }
             JSONArray D3 = new JSONArray();
-//            for (Location location : locationList) {
-//                D3.put(location.toJSON());
-//            }
-
             ASSETs.put("D1", D1);
             ASSETs.put("D2", D2);
             ASSETs.put("D3", D3);

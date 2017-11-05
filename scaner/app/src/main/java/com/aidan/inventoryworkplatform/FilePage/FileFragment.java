@@ -61,6 +61,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
     ArrayList<String> docPaths = new ArrayList<>();
     Runnable fileRunnable;
     ProgressDialog mProgressDialog;
+    TextView clearTextView;
     int type = 0;
     private static final int readTxtType = 19;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -126,6 +127,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
         inputTextView = (TextView) rootView.findViewById(R.id.inputTextView);
         outputTextView = (TextView) rootView.findViewById(R.id.outputTextView);
         readNameTextView = (TextView) rootView.findViewById(R.id.readNameTextView);
+        clearTextView = (TextView) rootView.findViewById(R.id.clearTextView);
     }
 
     @Override
@@ -164,6 +166,27 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
                     }
                 };
                 checkPermission();
+            }
+        });
+        clearTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+                builder.setTitle(R.string.clear_data).
+                        setMessage(R.string.clear_data_msg).
+                        setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).
+                        setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                presenter.clearData();
+                                dialog.dismiss();
+                            }
+                        }).show();
             }
         });
 
