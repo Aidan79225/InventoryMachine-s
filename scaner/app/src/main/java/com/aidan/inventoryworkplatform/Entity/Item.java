@@ -198,6 +198,10 @@ public class Item {
         return PA341 + PA342 + PA343;
     }
 
+    public String getPA3C1(){
+        return PA3C1;
+    }
+
     public String getNumber() {
         return PA3C1 + PA3C2 + PA3C3 + PA3C4 + PA3C5;
     }

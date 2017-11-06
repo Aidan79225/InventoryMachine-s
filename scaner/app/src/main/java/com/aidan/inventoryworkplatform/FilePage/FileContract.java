@@ -22,5 +22,6 @@ public interface FileContract {
         void readNameTextViewClick(String path);
         void saveFile(String fileName);
         void clearData();
+        void inputItemTextViewClick(String path);
     }
 }

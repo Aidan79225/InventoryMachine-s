@@ -57,6 +57,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
     ViewGroup rootView;
     FileContract.presenter presenter;
     TextView inputTextView, outputTextView, readNameTextView;
+    TextView outputItemTextView,inputItemTextView;
     ArrayList<String> filePaths = new ArrayList<>();
     ArrayList<String> docPaths = new ArrayList<>();
     Runnable fileRunnable;
@@ -67,6 +68,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final int FILE_SELECT_CODE = 0;
     private static final int FILE_SELECT_NAME_CODE = 2;
+    private static final int FILE_SELECT_ITEM_CODE = 3;
 
     @Override
     public void checkPermission() {
@@ -128,6 +130,8 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
         outputTextView = (TextView) rootView.findViewById(R.id.outputTextView);
         readNameTextView = (TextView) rootView.findViewById(R.id.readNameTextView);
         clearTextView = (TextView) rootView.findViewById(R.id.clearTextView);
+        outputItemTextView = (TextView) rootView.findViewById(R.id.outputItemTextView);
+        inputItemTextView = (TextView) rootView.findViewById(R.id.inputItemTextView);
     }
 
     @Override
@@ -150,7 +154,19 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
                 fileRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        showFileNameDialog();
+                        showFileNameDialog("請輸入財產檔名",Constants.PREFERENCE_PROPERTY_KEY);
+                    }
+                };
+                checkPermission();
+            }
+        });
+        outputItemTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fileRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        showFileNameDialog("請輸入物品檔名",Constants.PREFERENCE_ITEM_KEY);
                     }
                 };
                 checkPermission();
@@ -187,6 +203,18 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
                                 dialog.dismiss();
                             }
                         }).show();
+            }
+        });
+        inputItemTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fileRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        showFileChooser(FILE_SELECT_ITEM_CODE);
+                    }
+                };
+                checkPermission();
             }
         });
 
@@ -229,16 +257,16 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
         });
     }
 
-    public void showFileNameDialog() {
+    public void showFileNameDialog(String title,String preferencesKey) {
         final AlertDialog.Builder editDialog = new AlertDialog.Builder(getActivity());
-        editDialog.setTitle("請輸入檔名");
+        editDialog.setTitle(title);
 
         final EditText editText = new EditText(getActivity());
         SimpleDateFormat parse_DateFormatter = new SimpleDateFormat("yyyyMMddHHmm");
         Date date = new Date();
         String id = "";
         try {
-            String MS = Singleton.preferences.getString(Constants.MS, "");
+            String MS = Singleton.preferences.getString(preferencesKey, "");
             JSONObject jsonObject = new JSONObject(MS);
             id = jsonObject.getString(Constants.MS01);
         } catch (JSONException e) {
@@ -314,6 +342,13 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
                     Uri uri = data.getData();
                     String path = getPath(getActivity(), uri);
                     presenter.readNameTextViewClick(path);
+                }
+                break;
+            case FILE_SELECT_ITEM_CODE:
+                if (resultCode == RESULT_OK) {
+                    Uri uri = data.getData();
+                    String path = getPath(getActivity(), uri);
+                    presenter.inputItemTextViewClick(path);
                 }
                 break;
         }

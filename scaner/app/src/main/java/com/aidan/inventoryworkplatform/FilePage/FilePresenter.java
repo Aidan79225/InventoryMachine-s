@@ -43,7 +43,9 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static android.R.attr.data;
 import static android.R.attr.value;
@@ -70,13 +72,20 @@ public class FilePresenter implements FileContract.presenter {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                loadData(path);
+                Set<String> allowType = new HashSet<>();
+                allowType.add("0");
+                allowType.add("1");
+                allowType.add("2");
+                allowType.add("3");
+                allowType.add("4");
+                allowType.add("5");
+                loadData(path, "讀取財產中", allowType,Constants.PREFERENCE_PROPERTY_KEY);
             }
         }).start();
     }
 
-    private void loadData(String path) {
-        view.showProgress("讀取物品中");
+    private void loadData(String path, String msg, Set<String> allowType,String key) {
+        view.showProgress(msg);
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
         List<Location> locationList = LocationSingleton.getInstance().getLocationList();
         List<Agent> agentList = AgentSingleton.getInstance().getAgentList();
@@ -98,8 +107,8 @@ public class FilePresenter implements FileContract.presenter {
             JSONObject jsonObj = new JSONObject(jsonStr);
             JSONObject ASSETs = jsonObj.getJSONObject("ASSETs");
             JSONObject MS = jsonObj.getJSONObject(Constants.MS);
-            Singleton.preferenceEditor.putString(Constants.MS, MS.toString()).commit();
-            getItems(ASSETs, itemList);
+            Singleton.preferenceEditor.putString(key, MS.toString()).commit();
+            getItems(ASSETs, itemList,allowType);
             getAgents(ASSETs, agentList);
             getDepartments(ASSETs, departmentList);
             getLocations(ASSETs, locationList);
@@ -116,10 +125,11 @@ public class FilePresenter implements FileContract.presenter {
         }
     }
 
+
     @Override
     public void readNameTextViewClick(String path) {
         ReadExcel readExcel = new ReadExcel();
-        readExcel.setProgressAction(( ReadExcel.ProgressAction)view);
+        readExcel.setProgressAction((ReadExcel.ProgressAction) view);
         readExcel.read(path);
     }
 
@@ -146,7 +156,7 @@ public class FilePresenter implements FileContract.presenter {
         }
     }
 
-    private void getItems(JSONObject ASSETs, List<Item> itemList) {
+    private void getItems(JSONObject ASSETs, List<Item> itemList, Set<String> allowType) {
         try {
             JSONArray data = ASSETs.getJSONArray("PA3");
             Singleton.log("itemList size : " + data.length());
@@ -154,7 +164,9 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < size; i++) {
                 JSONObject c = data.getJSONObject(i);
                 Item item = new Item(c);
-                itemList.add(item);
+                if(allowType.contains(item.getPA3C1())){
+                    itemList.add(item);
+                }
                 view.updateProgress((i + 1) * 100 / size);
             }
             view.hideProgress();
@@ -256,6 +268,18 @@ public class FilePresenter implements FileContract.presenter {
         departmentList.clear();
         ScannerItemManager.getInstance().getItemList().clear();
         dropTable();
+    }
+
+    @Override
+    public void inputItemTextViewClick(final String path) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Set<String> allowType = new HashSet<>();
+                allowType.add("6");
+                loadData(path, "讀取物品中", allowType,Constants.PREFERENCE_ITEM_KEY);
+            }
+        }).start();
     }
 
     public JSONObject getAllDataJSON() {
