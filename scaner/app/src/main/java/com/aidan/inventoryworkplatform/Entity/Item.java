@@ -198,7 +198,7 @@ public class Item {
         return PA341 + PA342 + PA343;
     }
 
-    public String getPA3C1(){
+    public String getPA3C1() {
         return PA3C1;
     }
 
@@ -243,9 +243,14 @@ public class Item {
     }
 
     public Date getDate() {
+        String PA3BD = this.PA3BD.replace("/", "");
         Calendar c = Calendar.getInstance();
-        c.set(Integer.valueOf(PA3BD.substring(0, 4)), Integer.valueOf(PA3BD.substring(4, 5)), Integer.valueOf(PA3BD.substring(5)));
+        c.set(Integer.valueOf(PA3BD.substring(0, PA3BD.length() - 4)), Integer.valueOf(PA3BD.substring(PA3BD.length() - 4, PA3BD.length() - 2)) - 1, Integer.valueOf(PA3BD.substring(PA3BD.length() - 2)));
         return c.getTime();
+    }
+
+    public String getPA3BD() {
+        return PA3BD;
     }
 
     public String getYears() {
@@ -373,13 +378,13 @@ public class Item {
                     ans += getCustodian().getName() + "\n";
                     break;
                 case AgentGroup:
-                    ans +=  getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
+                    ans += getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
                     break;
                 case AgentLocation:
-                    ans +=  getCustodian().getName() + "/" + getLocation().getName() + "\n";
+                    ans += getCustodian().getName() + "/" + getLocation().getName() + "\n";
                     break;
                 case AgentGroupLocation:
-                    ans +=  getCustodian().getName() + "/" + getCustodyGroup().getName() + "/" + getLocation().getName() + "\n";
+                    ans += getCustodian().getName() + "/" + getCustodyGroup().getName() + "/" + getLocation().getName() + "\n";
                     break;
             }
         }
@@ -389,14 +394,15 @@ public class Item {
     }
 
     public String ADtoCal() {
-        String temp = String.valueOf((Integer.parseInt(PA3BD) - 19110000));
+        String temp = String.valueOf((Integer.parseInt(PA3BD.replace("/", "")) - 19110000));
         return temp.substring(0, temp.length() - 4) + "/" + temp.substring(temp.length() - 4, temp.length() - 2) + "/" + temp.substring(temp.length() - 2);
     }
 
     public void setTagContent(TagContent tagContent) {
         this.tagContent = tagContent;
     }
-    public TagContent getTagContent(){
+
+    public TagContent getTagContent() {
         return tagContent;
     }
 }

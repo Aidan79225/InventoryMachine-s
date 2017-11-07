@@ -20,7 +20,9 @@ import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.Printer.PrinterItemDialog;
 import com.aidan.inventoryworkplatform.R;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.SimpleFormatter;
 
 
 /**

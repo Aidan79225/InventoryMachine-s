@@ -39,7 +39,9 @@ import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import droidninja.filepicker.FilePickerActivity;
 import droidninja.filepicker.FilePickerBuilder;
@@ -154,7 +156,14 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
                 fileRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        showFileNameDialog("請輸入財產檔名",Constants.PREFERENCE_PROPERTY_KEY);
+                        Set<String> allowType = new HashSet<>();
+                        allowType.add("0");
+                        allowType.add("1");
+                        allowType.add("2");
+                        allowType.add("3");
+                        allowType.add("4");
+                        allowType.add("5");
+                        showFileNameDialog("請輸入財產檔名",Constants.PREFERENCE_PROPERTY_KEY,allowType);
                     }
                 };
                 checkPermission();
@@ -166,7 +175,9 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
                 fileRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        showFileNameDialog("請輸入物品檔名",Constants.PREFERENCE_ITEM_KEY);
+                        Set<String> allowType = new HashSet<>();
+                        allowType.add("6");
+                        showFileNameDialog("請輸入物品檔名",Constants.PREFERENCE_ITEM_KEY,allowType);
                     }
                 };
                 checkPermission();
@@ -257,7 +268,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
         });
     }
 
-    public void showFileNameDialog(String title,String preferencesKey) {
+    public void showFileNameDialog(String title, final  String preferencesKey, final Set<String> allowType) {
         final AlertDialog.Builder editDialog = new AlertDialog.Builder(getActivity());
         editDialog.setTitle(title);
 
@@ -279,7 +290,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
         editDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
-                presenter.saveFile(editText.getText().toString());
+                presenter.saveFile(editText.getText().toString(),preferencesKey,allowType);
                 arg0.dismiss();
             }
         });

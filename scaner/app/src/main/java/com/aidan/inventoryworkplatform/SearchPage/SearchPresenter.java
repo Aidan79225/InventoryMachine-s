@@ -31,6 +31,7 @@ import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.Model.LocationSingleton;
 import com.aidan.inventoryworkplatform.Printer.TagCreator;
+import com.aidan.inventoryworkplatform.R;
 import com.brother.ptouch.sdk.LabelInfo;
 import com.brother.ptouch.sdk.NetPrinter;
 import com.brother.ptouch.sdk.Printer;
@@ -232,13 +233,14 @@ public class SearchPresenter implements SearchContract.presenter {
     }
 
     public void showDatePicker(final Calendar c, final Runnable callback) {
-        new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog d = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 c.set(year, month, day);
                 callback.run();
             }
-        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+        d.show();
     }
 
     @Override
@@ -308,6 +310,7 @@ public class SearchPresenter implements SearchContract.presenter {
             }
             item.setTagContent(selectTagContent);
             itemList.add(item);
+
         }
         if (sortCategory != null) {
             switch (sortCategory) {

@@ -79,12 +79,12 @@ public class FilePresenter implements FileContract.presenter {
                 allowType.add("3");
                 allowType.add("4");
                 allowType.add("5");
-                loadData(path, "讀取財產中", allowType,Constants.PREFERENCE_PROPERTY_KEY);
+                loadData(path, "讀取財產中", allowType, Constants.PREFERENCE_PROPERTY_KEY);
             }
         }).start();
     }
 
-    private void loadData(String path, String msg, Set<String> allowType,String key) {
+    private void loadData(String path, String msg, Set<String> allowType, String key) {
         view.showProgress(msg);
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
         List<Location> locationList = LocationSingleton.getInstance().getLocationList();
@@ -108,7 +108,7 @@ public class FilePresenter implements FileContract.presenter {
             JSONObject ASSETs = jsonObj.getJSONObject("ASSETs");
             JSONObject MS = jsonObj.getJSONObject(Constants.MS);
             Singleton.preferenceEditor.putString(key, MS.toString()).commit();
-            getItems(ASSETs, itemList,allowType);
+            getItems(ASSETs, itemList, allowType);
             getAgents(ASSETs, agentList);
             getDepartments(ASSETs, departmentList);
             getLocations(ASSETs, locationList);
@@ -164,7 +164,7 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < size; i++) {
                 JSONObject c = data.getJSONObject(i);
                 Item item = new Item(c);
-                if(allowType.contains(item.getPA3C1())){
+                if (allowType.contains(item.getPA3C1())) {
                     itemList.add(item);
                 }
                 view.updateProgress((i + 1) * 100 / size);
@@ -233,9 +233,9 @@ public class FilePresenter implements FileContract.presenter {
         Collections.sort(locationList);
     }
 
-
-    public void saveFile(String fileName) {
-        JSONObject jsonObject = getAllDataJSON();
+    @Override
+    public void saveFile(String fileName, String preferencesKey, Set<String> allowType) {
+        JSONObject jsonObject = getAllDataJSON(preferencesKey, allowType);
         String dir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/欣華盤點系統/行動裝置轉至電腦";
         File dirFile = new File(dir);
         if (!dirFile.exists()) {
@@ -277,16 +277,16 @@ public class FilePresenter implements FileContract.presenter {
             public void run() {
                 Set<String> allowType = new HashSet<>();
                 allowType.add("6");
-                loadData(path, "讀取物品中", allowType,Constants.PREFERENCE_ITEM_KEY);
+                loadData(path, "讀取物品中", allowType, Constants.PREFERENCE_ITEM_KEY);
             }
         }).start();
     }
 
-    public JSONObject getAllDataJSON() {
+    public JSONObject getAllDataJSON(String key, Set<String> allowType) {
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
         JSONObject jsonObject = new JSONObject();
         try {
-            JSONObject MS = new JSONObject(Singleton.preferences.getString(Constants.MS, ""));
+            JSONObject MS = new JSONObject(Singleton.preferences.getString(key, ""));
             jsonObject.put(Constants.MS, MS);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -295,7 +295,9 @@ public class FilePresenter implements FileContract.presenter {
             JSONObject ASSETs = new JSONObject();
             JSONArray PA3 = new JSONArray();
             for (Item item : itemList) {
-                PA3.put(item.toJSON());
+                if (allowType.contains(item.getPA3C1())) {
+                    PA3.put(item.toJSON());
+                }
             }
             JSONArray D1 = new JSONArray();
             JSONArray D2 = new JSONArray();
