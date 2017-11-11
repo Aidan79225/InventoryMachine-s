@@ -30,17 +30,16 @@ public class ScannerPresenter implements ScannerContract.presenter {
 
     @Override
     public void scan(String key) {
+        if(key == null || key.length() == 0)return;
         Singleton.log(key);
         String[] temps = key.split("-");
-        temps[2] = temps[2].substring(2);
         Singleton.log(temps.length + "");
         if (temps.length < 3) {
             view.showToast("找不到對應編號 : " + key);
             return;
         }
-        String temp = temps[1] + "-" + temps[2];
+        temps[2] = temps[2].substring(2);
         int serialNumber = Integer.valueOf(temps[2]);
-        Singleton.log(temp);
         for (Item item : itemList) {
             if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber().substring(2))) {
                 view.showToast("已重複盤點 : " + key);
