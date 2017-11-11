@@ -145,7 +145,7 @@ public class PrinterItemDialog extends Dialog {
                     printInfo.orientation = PrinterInfo.Orientation.LANDSCAPE;
                     printInfo.align = PrinterInfo.Align.CENTER;
                     printInfo.isAutoCut = false;
-                    printInfo.isCutAtEnd = true;
+                    printInfo.isCutAtEnd = false;
                     printInfo.isHalfCut = true;
                     printer.setPrinterInfo(printInfo);
                     printer.startCommunication();

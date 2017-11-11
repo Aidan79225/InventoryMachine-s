@@ -1,22 +1,16 @@
 package com.aidan.inventoryworkplatform.SearchPage;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.database.DataSetObserver;
 import android.graphics.Bitmap;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.ListAdapter;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.aidan.inventoryworkplatform.DatePicker.TimePickerView;
 import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Agent;
@@ -31,7 +25,6 @@ import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.Model.LocationSingleton;
 import com.aidan.inventoryworkplatform.Printer.TagCreator;
-import com.aidan.inventoryworkplatform.R;
 import com.brother.ptouch.sdk.LabelInfo;
 import com.brother.ptouch.sdk.NetPrinter;
 import com.brother.ptouch.sdk.Printer;
@@ -42,7 +35,6 @@ import com.google.zxing.BarcodeFormat;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -208,7 +200,7 @@ public class SearchPresenter implements SearchContract.presenter {
     }
 
     @Override
-    public void minDateTextViewClick(final TextView minDateTextView) {
+    public void minDateTextViewClick(Activity activity) {
         showDatePicker(minCalendar, new Runnable() {
             @Override
             public void run() {
@@ -218,29 +210,42 @@ public class SearchPresenter implements SearchContract.presenter {
                 view.setMinDateTextView(minCalendar);
                 view.setMaxDateTextView(maxCalendar);
             }
-        });
+        },activity);
     }
 
     @Override
-    public void maxDateTextViewClick(TextView maxDateTextView) {
+    public void maxDateTextViewClick(Activity activity) {
         showDatePicker(maxCalendar, new Runnable() {
             @Override
             public void run() {
                 maxDate = maxCalendar.getTime();
                 view.setMaxDateTextView(maxCalendar);
             }
-        });
+        },activity);
     }
 
-    public void showDatePicker(final Calendar c, final Runnable callback) {
-        DatePickerDialog d = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+//    public void showDatePicker(final Calendar c, final Runnable callback) {
+//        DatePickerDialog d = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker view, int year, int month, int day) {
+//                c.set(year, month, day);
+//                callback.run();
+//            }
+//        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+//        d.show();
+//    }
+    public void showDatePicker(final Calendar c, final Runnable callback,Context context) {
+        TimePickerView pvTime = new TimePickerView.Builder(context, new TimePickerView.OnTimeSelectListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                c.set(year, month, day);
+            public void onTimeSelect(Date date,View v) {//选中事件回调
+                Calendar temp = Calendar.getInstance();
+                temp.setTime(date);
+                c.set(temp.get(Calendar.YEAR), temp.get(Calendar.MONTH), temp.get(Calendar.DAY_OF_MONTH));
                 callback.run();
             }
-        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-        d.show();
+        }).setType(new boolean[]{true,true,true,false,false,false}).build();
+        pvTime.setDate(c);
+        pvTime.show();
     }
 
     @Override
@@ -298,7 +303,7 @@ public class SearchPresenter implements SearchContract.presenter {
             if (number.length() > 1 && !item.getNumber().equals(number)) {
                 continue;
             }
-            int serialNumber = Integer.valueOf(item.getSerialNumber());
+            int serialNumber = Integer.valueOf(item.getSerialNumber().substring(2));
             if (serialNumber < minSerialNumber || serialNumber > maxSerialNumber) {
                 continue;
             }
@@ -422,7 +427,7 @@ public class SearchPresenter implements SearchContract.presenter {
                     printInfo.orientation = PrinterInfo.Orientation.LANDSCAPE;
                     printInfo.align = PrinterInfo.Align.CENTER;
                     printInfo.isAutoCut = false;
-                    printInfo.isCutAtEnd = true;
+                    printInfo.isCutAtEnd = false;
                     printInfo.isHalfCut = true;
                     printer.setPrinterInfo(printInfo);
                     printer.startCommunication();

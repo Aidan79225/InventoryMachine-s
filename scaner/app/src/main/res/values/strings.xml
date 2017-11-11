@@ -33,4 +33,12 @@
     <string name="already_check_information">已盤 %1$d 筆 / 總數 %2$d 筆</string>
     <string name="clear_data">清除全部資料</string>
     <string name="clear_data_msg">您確定要清除資料？（清除後將無法取回）</string>
+    <string name="pickerview_cancel">取消</string>
+    <string name="pickerview_submit">確定</string>
+    <string name="pickerview_year">年</string>
+    <string name="pickerview_month">月</string>
+    <string name="pickerview_day">日</string>
+    <string name="pickerview_hours">時</string>
+    <string name="pickerview_minutes">分</string>
+    <string name="pickerview_seconds">秒</string>
 </resources>

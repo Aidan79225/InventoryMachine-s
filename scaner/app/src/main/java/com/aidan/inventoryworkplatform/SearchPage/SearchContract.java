@@ -1,5 +1,6 @@
 package com.aidan.inventoryworkplatform.SearchPage;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.TextView;
@@ -41,8 +42,8 @@ public interface SearchContract {
         void printTextViewClick(Context context, String name, String number, String serialMinNumber, String serialMaxNumber);
         void tagContentTextViewClick(TextView tagContentTextView);
         void sortTextViewClick(TextView sortTextView);
-        void minDateTextViewClick(TextView minDateTextView);
-        void maxDateTextViewClick(TextView maxDateTextView);
+        void minDateTextViewClick(Activity activity);
+        void maxDateTextViewClick(Activity activity);
         void clearAll();
     }
 }

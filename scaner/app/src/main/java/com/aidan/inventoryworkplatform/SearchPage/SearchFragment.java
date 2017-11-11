@@ -128,13 +128,13 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         minDateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.minDateTextViewClick(minDateTextView);
+                presenter.minDateTextViewClick(getActivity());
             }
         });
         maxDateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.maxDateTextViewClick(maxDateTextView);
+                presenter.maxDateTextViewClick(getActivity());
             }
         });
         clearTextView.setOnClickListener(new View.OnClickListener() {
