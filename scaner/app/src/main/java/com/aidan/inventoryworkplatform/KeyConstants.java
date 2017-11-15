@@ -19,6 +19,8 @@ public class KeyConstants {
             "357640060110055",
             "357579080044789"
     };
-    public static final String AuthorityName = "臺灣臺北地方法院檢察署";
+    public static final String AuthorityName = "臺灣臺北地方法院檢察署";       //臺灣臺北地方法院檢察署
+    public static final String ItemName = "";                                 //非消耗物品
+    public static final boolean showPrint = true;   //true 顯示列印   false 不顯示列印
     public static final String key = "sin239593931016alice0215";
 }

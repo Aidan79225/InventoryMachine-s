@@ -12,11 +12,13 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.aidan.inventoryworkplatform.Constants;
 import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.inventoryworkplatform.Dialog.SearchItemDialog;
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
+import com.aidan.inventoryworkplatform.KeyConstants;
 import com.aidan.inventoryworkplatform.Printer.PrinterItemDialog;
 import com.aidan.inventoryworkplatform.R;
 
@@ -98,6 +100,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         if(item.getTagContent() != null){
             tagContentTextView.setText(item.getTagContent().getName());
         }
+        printTextView.setVisibility(KeyConstants.showPrint ? View.VISIBLE : View.GONE);
     }
 
     @Override

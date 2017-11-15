@@ -20,6 +20,7 @@ import com.aidan.inventoryworkplatform.Dialog.SearchItemDialog;
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
+import com.aidan.inventoryworkplatform.KeyConstants;
 import com.aidan.inventoryworkplatform.R;
 
 import java.util.Calendar;
@@ -176,6 +177,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         c4EditText.addTextChangedListener(getNextTextWatcher(2, c5EditText));
         c5EditText.addTextChangedListener(getNextTextWatcher(4, serialMinNumberEditText));
         serialMinNumberEditText.addTextChangedListener(getNextTextWatcher(7, serialMaxNumberEditText));
+        printTextView.setVisibility(KeyConstants.showPrint ? View.VISIBLE : View.GONE);
     }
 
     private TextWatcher getNextTextWatcher(final int length, final EditText next) {
