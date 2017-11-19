@@ -9,10 +9,7 @@ import org.json.JSONObject;
  * Created by Aidan on 2016/10/25.
  */
 
-public class Department implements Comparable<Department>,SearchableItem {
-    private long id = 0;
-    public String number ="";
-    public String name = "";
+public class Department extends SelectableItem{
     public Department(){
 
     }
@@ -46,21 +43,5 @@ public class Department implements Comparable<Department>,SearchableItem {
             e.printStackTrace();
         }
         return jsonObject;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-    @Override
-    public int compareTo(Department o) {
-        return name.compareTo(o.name);
-    }
-    @Override
-    public String getName() {
-        return name;
     }
 }

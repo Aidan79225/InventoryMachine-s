@@ -47,6 +47,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static android.R.attr.borderlessButtonStyle;
 import static android.R.attr.data;
 import static android.R.attr.value;
 
@@ -184,7 +185,16 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < data.length(); i++) {
                 JSONObject c = data.getJSONObject(i);
                 Agent agent = new Agent(c);
-                agentList.add(agent);
+                boolean isNotAdded = true;
+                for(Agent mAgent : agentList){
+                    if(agent.getName().equals(mAgent.getName()) && agent.getNumber().equals(mAgent.getNumber())){
+                        isNotAdded = false;
+                        break;
+                    }
+                }
+                if(isNotAdded){
+                    agentList.add(agent);
+                }
                 view.updateProgress((i + 1) * 100 / data.length());
             }
             Singleton.log("agentList size : " + agentList.size());
@@ -203,7 +213,16 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < data.length(); i++) {
                 JSONObject c = data.getJSONObject(i);
                 Department department = new Department(c);
-                departmentList.add(department);
+                boolean isNotAdded = true;
+                for(Department mDepartment : departmentList){
+                    if(department.getName().equals(mDepartment.getName()) && department.getNumber().equals(mDepartment.getNumber())){
+                        isNotAdded = false;
+                        break;
+                    }
+                }
+                if(isNotAdded){
+                    departmentList.add(department);
+                }
                 view.updateProgress((i + 1) * 100 / data.length());
             }
             Singleton.log("departmentList size : " + departmentList.size());
@@ -222,7 +241,16 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < data.length(); i++) {
                 JSONObject c = data.getJSONObject(i);
                 Location location = new Location(c);
-                locationList.add(location);
+                boolean isNotAdded = true;
+                for(Location mLocation : locationList){
+                    if(location.getName().equals(mLocation.getName()) && location.getNumber().equals(mLocation.getNumber())){
+                        isNotAdded = false;
+                        break;
+                    }
+                }
+                if(isNotAdded){
+                    locationList.add(location);
+                }
                 view.updateProgress((i + 1) * 100 / data.length());
             }
             Singleton.log("locationList size : " + locationList.size());
