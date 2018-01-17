@@ -131,25 +131,35 @@ public class SettingPresenter implements SettingContract.presenter{
 
     @Override
     public void searchTextViewClick() {
-        for(Item item : itemList){
-            if(location != null ){
-                item.setLocation(location);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                view.showProgress("設定中");
+                int count = 0;
+                for(Item item : itemList){
+                    if(location != null ){
+                        item.setLocation(location);
+                    }
+                    if(agent != null ){
+                        item.setCustodian(agent);
+                    }
+                    if(department != null){
+                        item.setCustodyGroup(department);
+                    }
+                    if(user != null){
+                        item.setUser(user);
+                    }
+                    if(useGroup != null){
+                        item.setUseGroup(useGroup);
+                    }
+                    count++;
+                    view.updateProgress(count * 100 / itemList.size());
+                }
+                ItemSingleton.getInstance().saveToDB();
+                view.hideProgress();
+                view.dismissAllowingStateLoss();
             }
-            if(agent != null ){
-                item.setCustodian(agent);
-            }
-            if(department != null){
-                item.setCustodyGroup(department);
-            }
-            if(user != null){
-                item.setUser(user);
-            }
-            if(useGroup != null){
-                item.setUseGroup(useGroup);
-            }
-            ItemSingleton.getInstance().saveItem(item);
-        }
-        view.dismiss();
+        }).start();
     }
 
 }

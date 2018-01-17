@@ -3,6 +3,7 @@ package com.aidan.inventoryworkplatform.SettingPage;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,6 +38,7 @@ public class SettingFragment extends DialogFragment implements SettingContract.v
     TextView useGroupTextView, userTextView;
     BaseFragmentManager baseFragmentManager;
     Reload reload;
+    ProgressDialog mProgressDialog;
 
     public interface Reload{
         void reload();
@@ -145,6 +147,42 @@ public class SettingFragment extends DialogFragment implements SettingContract.v
         dialog.setTitle(title);
         dialog.setOnClickListener(clickListener);
         dialog.show();
+    }
+
+    @Override
+    public void showProgress(final String title) {
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+                mProgressDialog = new ProgressDialog(rootView.getContext());
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.setTitle(title);
+                mProgressDialog.setMessage("正在處理請稍後...");
+                mProgressDialog.setMax(100);
+                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                mProgressDialog.show();
+            }
+        });
+    }
+
+    @Override
+    public void hideProgress() {
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+                mProgressDialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void updateProgress(final int value) {
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+                mProgressDialog.setProgress(value);
+            }
+        });
     }
 
 }

@@ -18,6 +18,10 @@ public interface SettingContract {
         void setViewClick();
         void showSetDialog(SearchItemAdapter.OnClickListener clickListener, String title, List<SearchableItem> dataList);
         void dismiss();
+        void showProgress(String msg);
+        void hideProgress();
+        void updateProgress(int value);
+        void dismissAllowingStateLoss();
     }
     interface presenter{
         void start();
