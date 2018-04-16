@@ -8,10 +8,14 @@ import com.aidan.inventoryworkplatform.Database.DepartmentDAO;
 import com.aidan.inventoryworkplatform.Database.ItemDAO;
 import com.aidan.inventoryworkplatform.Database.LocationDAO;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Agent;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.ApprovalNumber;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.ChangeItem;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Location;
 import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.AgentSingleton;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.ApprovalNumberSingleton;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.ChangeItemSingleton;
 import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.LocationSingleton;
@@ -76,9 +80,6 @@ public class FilePresenter implements FileContract.presenter {
     private void loadData(String path, String msg, Set<String> allowType, String key) {
         view.showProgress(msg);
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
-        List<Location> locationList = LocationSingleton.getInstance().getDataList();
-        List<Agent> agentList = AgentSingleton.getInstance().getDataList();
-        List<Department> departmentList = DepartmentSingleton.getInstance().getDataList();
         try {
             File yourFile = new File(path);
             FileInputStream stream = new FileInputStream(yourFile);
@@ -98,9 +99,16 @@ public class FilePresenter implements FileContract.presenter {
             JSONObject MS = jsonObj.getJSONObject(Constants.MS);
             Singleton.preferenceEditor.putString(key, MS.toString()).commit();
             getItems(ASSETs, itemList, allowType);
-            getAgents(ASSETs, agentList);
-            getDepartments(ASSETs, departmentList);
-            getLocations(ASSETs, locationList);
+            getAgents(ASSETs);
+            getDepartments(ASSETs);
+            getLocations(ASSETs);
+            getApprovalNumber(ASSETs);
+            getChangeItem(ASSETs);
+            getDepositPlace(ASSETs);
+            getImpairmentReason(ASSETs);
+            getSummonsNumber(ASSETs);
+            getSummonsTitle(ASSETs);
+
 
             ItemSingleton.getInstance().saveToDB();
             DepartmentSingleton.getInstance().saveToDB();
@@ -165,7 +173,8 @@ public class FilePresenter implements FileContract.presenter {
         }
     }
 
-    private void getAgents(JSONObject ASSETs, List<Agent> agentList) {
+    private void getAgents(JSONObject ASSETs) {
+        List<Agent> agentList = AgentSingleton.getInstance().getDataList();
         try {
             HashSet<String> mSet = new HashSet<>();
             JSONArray data = ASSETs.getJSONArray("PA83");
@@ -189,7 +198,8 @@ public class FilePresenter implements FileContract.presenter {
         Collections.sort(agentList);
     }
 
-    private void getDepartments(JSONObject ASSETs, List<Department> departmentList) {
+    private void getDepartments(JSONObject ASSETs) {
+        List<Department> departmentList = DepartmentSingleton.getInstance().getDataList();
         try {
             HashSet<String> mSet = new HashSet<>();
             JSONArray data = ASSETs.getJSONArray("PA82");
@@ -213,7 +223,8 @@ public class FilePresenter implements FileContract.presenter {
         Collections.sort(departmentList);
     }
 
-    private void getLocations(JSONObject ASSETs, List<Location> locationList) {
+    private void getLocations(JSONObject ASSETs) {
+        List<Location> locationList = LocationSingleton.getInstance().getDataList();
         try {
             HashSet<String> mSet = new HashSet<>();
             JSONArray data = ASSETs.getJSONArray("PA81");
@@ -236,6 +247,58 @@ public class FilePresenter implements FileContract.presenter {
         }
         Collections.sort(locationList);
     }
+
+    private void getApprovalNumber(JSONObject ASSETs) {
+        List<ApprovalNumber> dataList = ApprovalNumberSingleton.getInstance().getDataList();
+        try {
+            HashSet<String> mSet = new HashSet<>();
+            JSONArray dataArray = ASSETs.getJSONArray("PA89");
+
+            view.showProgress("讀取地點中");
+            for (int i = 0; i < dataArray.length(); i++) {
+                JSONObject c = dataArray.getJSONObject(i);
+                ApprovalNumber data = new ApprovalNumber(c);
+                if(mSet.contains(data.getName())){
+                    continue;
+                }
+                dataList.add(data);
+                mSet.add(data.getName());
+                view.updateProgress((i + 1) * 100 / dataArray.length());
+            }
+            Singleton.log("locationList size : " + dataList.size());
+            view.hideProgress();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(dataList);
+    }
+
+    private void getChangeItem(JSONObject ASSETs) {
+        List<ChangeItem> dataList = ChangeItemSingleton.getInstance().getDataList();
+        try {
+            HashSet<String> mSet = new HashSet<>();
+            JSONArray dataArray = ASSETs.getJSONArray("PA85");
+
+            view.showProgress("讀取地點中");
+            for (int i = 0; i < dataArray.length(); i++) {
+                JSONObject c = dataArray.getJSONObject(i);
+                ChangeItem data = new ChangeItem(c);
+                if(mSet.contains(data.getName())){
+                    continue;
+                }
+                dataList.add(data);
+                mSet.add(data.getName());
+                view.updateProgress((i + 1) * 100 / dataArray.length());
+            }
+            Singleton.log("locationList size : " + dataList.size());
+            view.hideProgress();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(dataList);
+    }
+
+
 
     @Override
     public void saveFile(String fileName, String preferencesKey, Set<String> allowType) {
