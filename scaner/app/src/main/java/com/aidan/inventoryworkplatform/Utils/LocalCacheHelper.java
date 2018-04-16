@@ -268,7 +268,7 @@ public class LocalCacheHelper {
 		preferenceEditor.commit();
 	}
 
-	public static void clearCache(Context mContext, String key) {
+	public void clearCache(String key) {
 		preferenceEditor.remove(key);
 		preferenceEditor.commit();
 	}

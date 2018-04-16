@@ -2,6 +2,7 @@ package com.aidan.inventoryworkplatform.Entity;
 
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Agent;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Department;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Location;
 import com.aidan.inventoryworkplatform.KeyConstants;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 

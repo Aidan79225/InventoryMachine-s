@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.aidan.inventoryworkplatform.Entity.Location;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Location;
 import com.aidan.inventoryworkplatform.Singleton;
 
 import java.util.ArrayList;

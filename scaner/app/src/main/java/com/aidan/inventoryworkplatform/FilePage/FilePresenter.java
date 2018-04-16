@@ -10,11 +10,11 @@ import com.aidan.inventoryworkplatform.Database.LocationDAO;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Agent;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
-import com.aidan.inventoryworkplatform.Entity.Location;
-import com.aidan.inventoryworkplatform.Model.AgentSingleton;
-import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Location;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.AgentSingleton;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
-import com.aidan.inventoryworkplatform.Model.LocationSingleton;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.LocationSingleton;
 import com.aidan.inventoryworkplatform.ScannerPage.ScannerItemManager;
 import com.aidan.inventoryworkplatform.Singleton;
 import com.aidan.inventoryworkplatform.Utils.ReadExcel;
@@ -76,9 +76,9 @@ public class FilePresenter implements FileContract.presenter {
     private void loadData(String path, String msg, Set<String> allowType, String key) {
         view.showProgress(msg);
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
-        List<Location> locationList = LocationSingleton.getInstance().getLocationList();
-        List<Agent> agentList = AgentSingleton.getInstance().getAgentList();
-        List<Department> departmentList = DepartmentSingleton.getInstance().getDepartmentList();
+        List<Location> locationList = LocationSingleton.getInstance().getDataList();
+        List<Agent> agentList = AgentSingleton.getInstance().getDataList();
+        List<Department> departmentList = DepartmentSingleton.getInstance().getDataList();
         try {
             File yourFile = new File(path);
             FileInputStream stream = new FileInputStream(yourFile);
@@ -263,9 +263,9 @@ public class FilePresenter implements FileContract.presenter {
     @Override
     public void clearData() {
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
-        List<Location> locationList = LocationSingleton.getInstance().getLocationList();
-        List<Agent> agentList = AgentSingleton.getInstance().getAgentList();
-        List<Department> departmentList = DepartmentSingleton.getInstance().getDepartmentList();
+        List<Location> locationList = LocationSingleton.getInstance().getDataList();
+        List<Agent> agentList = AgentSingleton.getInstance().getDataList();
+        List<Department> departmentList = DepartmentSingleton.getInstance().getDataList();
         itemList.clear();
         locationList.clear();
         agentList.clear();

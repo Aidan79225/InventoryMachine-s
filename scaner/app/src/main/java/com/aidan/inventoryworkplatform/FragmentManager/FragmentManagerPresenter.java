@@ -1,12 +1,9 @@
 package com.aidan.inventoryworkplatform.FragmentManager;
 
-import android.Manifest;
-import android.support.v4.app.ActivityCompat;
-
-import com.aidan.inventoryworkplatform.Model.AgentSingleton;
-import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.AgentSingleton;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
-import com.aidan.inventoryworkplatform.Model.LocationSingleton;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.LocationSingleton;
 
 /**
  * Created by Aidan on 2016/10/25.

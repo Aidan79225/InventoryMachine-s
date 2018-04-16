@@ -1,4 +1,4 @@
-package com.aidan.inventoryworkplatform.Model;
+package com.aidan.inventoryworkplatform.Model.SelecetableSingleton;
 
 import com.aidan.inventoryworkplatform.Constants;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Agent;
@@ -47,6 +47,11 @@ public abstract class SelectableItemSingleton<T extends SelectableItem> {
             }
         }
         LocalCacheHelper.getInstance().setJSONArray(getTableName(), array);
+    }
+
+    public void clear(){
+        dataList.clear();
+        LocalCacheHelper.getInstance().clearCache(getTableName());
     }
 
 }

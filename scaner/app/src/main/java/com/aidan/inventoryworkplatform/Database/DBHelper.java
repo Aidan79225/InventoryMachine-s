@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.aidan.inventoryworkplatform.Entity.Location;
-
 /**
  * Created by Aidan on 2017/2/21.
  */

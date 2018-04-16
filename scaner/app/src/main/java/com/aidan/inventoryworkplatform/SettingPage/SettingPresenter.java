@@ -7,11 +7,11 @@ import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Agent;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
-import com.aidan.inventoryworkplatform.Entity.Location;
-import com.aidan.inventoryworkplatform.Model.AgentSingleton;
-import com.aidan.inventoryworkplatform.Model.DepartmentSingleton;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Location;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.AgentSingleton;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
-import com.aidan.inventoryworkplatform.Model.LocationSingleton;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.LocationSingleton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +43,14 @@ public class SettingPresenter implements SettingContract.presenter{
         view.setViewClick();
     }
     private void init(){
-        List<Location> locationList = LocationSingleton.getInstance().getLocationList();
+        List<Location> locationList = LocationSingleton.getInstance().getDataList();
         List<String> locationStringList = new ArrayList<>();
         for(Location location : locationList ){
             locationStringList.add(location.name);
         }
         locationStrings = locationStringList.toArray(locationStrings);
 
-        List<Agent> agentList = AgentSingleton.getInstance().getAgentList();
+        List<Agent> agentList = AgentSingleton.getInstance().getDataList();
         List<String> agentStringList = new ArrayList<>();
         for(Agent agent : agentList ){
             agentStringList.add(agent.name);
@@ -58,7 +58,7 @@ public class SettingPresenter implements SettingContract.presenter{
         agentStrings = agentStringList.toArray(agentStrings);
 
 
-        List<Department> departmentList = DepartmentSingleton.getInstance().getDepartmentList();
+        List<Department> departmentList = DepartmentSingleton.getInstance().getDataList();
         List<String> departmentStringList = new ArrayList<>();
         for(Department department : departmentList ){
             departmentStringList.add(department.name);
@@ -68,7 +68,7 @@ public class SettingPresenter implements SettingContract.presenter{
     @Override
     public void locationTextViewClick(final TextView locationTextView){
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( LocationSingleton.getInstance().getLocationList());
+        temp.addAll( LocationSingleton.getInstance().getDataList());
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
@@ -80,7 +80,7 @@ public class SettingPresenter implements SettingContract.presenter{
     @Override
     public void departmentTextViewClick(final TextView departmentTextView){
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( DepartmentSingleton.getInstance().getDepartmentList());
+        temp.addAll( DepartmentSingleton.getInstance().getDataList());
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
@@ -92,7 +92,7 @@ public class SettingPresenter implements SettingContract.presenter{
     @Override
     public void agentTextViewClick(final TextView agentTextView){
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( AgentSingleton.getInstance().getAgentList());
+        temp.addAll( AgentSingleton.getInstance().getDataList());
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
@@ -105,7 +105,7 @@ public class SettingPresenter implements SettingContract.presenter{
     @Override
     public void useGroupTextViewClick(final TextView useGroupTextVie) {
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( DepartmentSingleton.getInstance().getDepartmentList());
+        temp.addAll( DepartmentSingleton.getInstance().getDataList());
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {
@@ -118,7 +118,7 @@ public class SettingPresenter implements SettingContract.presenter{
     @Override
     public void userTextViewClick(final TextView userTextView) {
         List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll( AgentSingleton.getInstance().getAgentList());
+        temp.addAll( AgentSingleton.getInstance().getDataList());
         view.showSetDialog(new SearchItemAdapter.OnClickListener() {
             @Override
             public void onClick(SearchableItem item) {

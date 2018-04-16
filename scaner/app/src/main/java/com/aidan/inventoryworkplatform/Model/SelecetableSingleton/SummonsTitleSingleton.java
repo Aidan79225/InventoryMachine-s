@@ -1,4 +1,4 @@
-package com.aidan.inventoryworkplatform.Model;
+package com.aidan.inventoryworkplatform.Model.SelecetableSingleton;
 
 import com.aidan.inventoryworkplatform.Constants;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.SummonsTitle;

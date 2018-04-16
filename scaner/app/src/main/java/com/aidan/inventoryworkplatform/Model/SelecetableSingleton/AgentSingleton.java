@@ -1,13 +1,7 @@
-package com.aidan.inventoryworkplatform.Model;
+package com.aidan.inventoryworkplatform.Model.SelecetableSingleton;
 
 import com.aidan.inventoryworkplatform.Constants;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Agent;
-import com.aidan.inventoryworkplatform.Utils.LocalCacheHelper;
-
-import org.json.JSONArray;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Aidan on 2016/11/20.

@@ -1,4 +1,4 @@
-package com.aidan.inventoryworkplatform.Entity;
+package com.aidan.inventoryworkplatform.Entity.SelectableItem;
 
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.SelectableItem;
 
