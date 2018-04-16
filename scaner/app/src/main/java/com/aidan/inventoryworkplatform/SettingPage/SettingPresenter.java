@@ -4,8 +4,8 @@ import android.widget.TextView;
 
 import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
-import com.aidan.inventoryworkplatform.Entity.Agent;
-import com.aidan.inventoryworkplatform.Entity.Department;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Agent;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Entity.Location;
 import com.aidan.inventoryworkplatform.Model.AgentSingleton;

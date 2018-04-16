@@ -1,7 +1,7 @@
 package com.aidan.inventoryworkplatform.Entity;
 
-import android.nfc.Tag;
-
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Agent;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Department;
 import com.aidan.inventoryworkplatform.KeyConstants;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
 
@@ -17,35 +17,53 @@ import java.util.Date;
 
 public class Item {
     private long id = 0;
-    private String PA341 = "PA341";
-    private String PA342 = "PA342";
-    private String PA343 = "PA343";
-    private String PA3C1 = "PA3C1";
-    private String PA3C2 = "PA3C2";
-    private String PA3C3 = "PA3C3";
-    private String PA3C4 = "PA3C4";
-    private String PA3C5 = "PA3C5";
-    private String PA3C6 = "PA3C6";
-    private String PA3P3 = "PA3P3";
-    private String PA3PS = "PA3PS";
-    private String PA3MK = "PA3MK";
-    private String PA3BD = "PA3BD";
-    private String PA3PY = "PA3PY";
-    private String PA3LOC = "PA3LOC";
-    private String PA3LOCN = "PA3LOCN";
-    private String PA3OUT = "PA3OUT";
-    private String PA3OUTN = "PA3OUTN";
-    private String PA3OU = "PA3OU";
-    private String PA3OUN = "PA3OUN";
-    private String PA3UUT = "PA3UUT";
-    private String PA3UUTN = "PA3UUTN";
-    private String PA3UR = "PA3UR";
-    private String PA3URN = "PA3URN";
-    private String PA308 = "PA308";
-    private String PA3DEL = "PA3DEL";
-    private String PA3PRN = "PA3PRN";
+    private String PA3C1 = "";
+    private String PA3C2 = "";
+    private String PA3C3 = "";
+    private String PA3C4 = "";
+    private String PA3C5 = "";
+    private String PA3C6 = "";
+    private String PA3P3 = "";
+    private String PA3PS = "";
+    private String PA3MK = "";
+    private String PA3BD = "";
+    private String PA3PY = "";
+    private String PA3LOC = "";
+    private String PA3LOCN = "";
+    private String PA3OUT = "";
+    private String PA3OUTN = "";
+    private String PA3OU = "";
+    private String PA3OUN = "";
+    private String PA3UUT = "";
+    private String PA3UUTN = "";
+    private String PA3UR = "";
+    private String PA3URN = "";
+    private String PA308 = "";
+    private String PA3DEL = "";
+    private String PA3PRN = "";
     private String NAME = "";
     private TagContent tagContent = null;
+
+    private String PA3INX = "";
+    private String PA3C0 = "";
+    private String PA3C7 = "";
+    private String PA3QY = "";
+    private String PA3UNP = "";
+    private String PA3TOP = "";
+    private String PA3MEMO = "";
+    private String PA3MOC8 = "";
+    private String PA3MOB = "";
+    private String PA3MOD = "";
+    private String PA3MONO = "";
+    private String PA3DED = "";
+    private String PA3DENO = "";
+    private String PA3TI = "";
+    private String PA3VWW = "";
+    private String PA3VN = "";
+    private String PA3DR = "";
+    private String PA3PD = "";
+    private String PA3AN = "";
+    private String PA3MOL = "";
 
     public Item() {
 
@@ -53,9 +71,6 @@ public class Item {
 
     public Item(JSONObject jsonObject) {
         try {
-            PA341 = jsonObject.getString(ItemConstants.PA341);
-            PA342 = jsonObject.getString(ItemConstants.PA342);
-            PA343 = jsonObject.getString(ItemConstants.PA343);
             PA3C1 = jsonObject.getString(ItemConstants.PA3C1);
             PA3C2 = jsonObject.getString(ItemConstants.PA3C2);
             PA3C3 = jsonObject.getString(ItemConstants.PA3C3);
@@ -80,6 +95,28 @@ public class Item {
             PA308 = jsonObject.getString(ItemConstants.PA308);
             PA3DEL = jsonObject.getString(ItemConstants.PA3DEL);
             PA3PRN = jsonObject.getString(ItemConstants.PA3PRN);
+
+            PA3INX = jsonObject.getString(ItemConstants.PA3INX);
+            PA3C0 = jsonObject.getString(ItemConstants.PA3C0);
+            PA3C7 = jsonObject.getString(ItemConstants.PA3C7);
+            PA3QY = jsonObject.getString(ItemConstants.PA3QY);
+            PA3UNP = jsonObject.getString(ItemConstants.PA3UNP);
+            PA3TOP = jsonObject.getString(ItemConstants.PA3TOP);
+            PA3MEMO = jsonObject.getString(ItemConstants.PA3MEMO);
+            PA3MOC8 = jsonObject.getString(ItemConstants.PA3MOC8);
+            PA3MOB = jsonObject.getString(ItemConstants.PA3MOB);
+
+            PA3MOD = jsonObject.getString(ItemConstants.PA3MOD);
+            PA3MONO = jsonObject.getString(ItemConstants.PA3MONO);
+            PA3DED = jsonObject.getString(ItemConstants.PA3DED);
+            PA3DENO = jsonObject.getString(ItemConstants.PA3DENO);
+            PA3TI = jsonObject.getString(ItemConstants.PA3TI);
+            PA3VWW = jsonObject.getString(ItemConstants.PA3VWW);
+            PA3VN = jsonObject.getString(ItemConstants.PA3VN);
+            PA3DR = jsonObject.getString(ItemConstants.PA3DR);
+            PA3PD = jsonObject.getString(ItemConstants.PA3PD);
+            PA3AN = jsonObject.getString(ItemConstants.PA3AN);
+            PA3MOL = jsonObject.getString(ItemConstants.PA3MOL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,9 +125,6 @@ public class Item {
     public void setData(String data) {
         try {
             JSONObject jsonObject = new JSONObject(data);
-            PA341 = jsonObject.getString(ItemConstants.PA341);
-            PA342 = jsonObject.getString(ItemConstants.PA342);
-            PA343 = jsonObject.getString(ItemConstants.PA343);
             PA3C1 = jsonObject.getString(ItemConstants.PA3C1);
             PA3C2 = jsonObject.getString(ItemConstants.PA3C2);
             PA3C3 = jsonObject.getString(ItemConstants.PA3C3);
@@ -116,6 +150,27 @@ public class Item {
             PA3DEL = jsonObject.getString(ItemConstants.PA3DEL);
             PA3PRN = jsonObject.getString(ItemConstants.PA3PRN);
             NAME = jsonObject.getString(ItemConstants.NAME);
+
+            PA3INX = jsonObject.getString(ItemConstants.PA3INX);
+            PA3C0 = jsonObject.getString(ItemConstants.PA3C0);
+            PA3C7 = jsonObject.getString(ItemConstants.PA3C7);
+            PA3QY = jsonObject.getString(ItemConstants.PA3QY);
+            PA3UNP = jsonObject.getString(ItemConstants.PA3UNP);
+            PA3TOP = jsonObject.getString(ItemConstants.PA3TOP);
+            PA3MEMO = jsonObject.getString(ItemConstants.PA3MEMO);
+            PA3MOC8 = jsonObject.getString(ItemConstants.PA3MOC8);
+            PA3MOB = jsonObject.getString(ItemConstants.PA3MOB);
+            PA3MOD = jsonObject.getString(ItemConstants.PA3MOD);
+            PA3MONO = jsonObject.getString(ItemConstants.PA3MONO);
+            PA3DED = jsonObject.getString(ItemConstants.PA3DED);
+            PA3DENO = jsonObject.getString(ItemConstants.PA3DENO);
+            PA3TI = jsonObject.getString(ItemConstants.PA3TI);
+            PA3VWW = jsonObject.getString(ItemConstants.PA3VWW);
+            PA3VN = jsonObject.getString(ItemConstants.PA3VN);
+            PA3DR = jsonObject.getString(ItemConstants.PA3DR);
+            PA3PD = jsonObject.getString(ItemConstants.PA3PD);
+            PA3AN = jsonObject.getString(ItemConstants.PA3AN);
+            PA3MOL = jsonObject.getString(ItemConstants.PA3MOL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,9 +179,6 @@ public class Item {
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(ItemConstants.PA341, PA341);
-            jsonObject.put(ItemConstants.PA342, PA342);
-            jsonObject.put(ItemConstants.PA343, PA343);
             jsonObject.put(ItemConstants.PA3C1, PA3C1);
             jsonObject.put(ItemConstants.PA3C2, PA3C2);
             jsonObject.put(ItemConstants.PA3C3, PA3C3);
@@ -151,6 +203,29 @@ public class Item {
             jsonObject.put(ItemConstants.PA308, PA308);
             jsonObject.put(ItemConstants.PA3DEL, PA3DEL);
             jsonObject.put(ItemConstants.PA3PRN, PA3PRN);
+
+            jsonObject.put(ItemConstants.PA3INX, PA3INX);
+            jsonObject.put(ItemConstants.PA3C0, PA3C0);
+            jsonObject.put(ItemConstants.PA3C7, PA3C7);
+            jsonObject.put(ItemConstants.PA3QY, PA3QY);
+            jsonObject.put(ItemConstants.PA3UNP, PA3UNP);
+            jsonObject.put(ItemConstants.PA3TOP, PA3TOP);
+            jsonObject.put(ItemConstants.PA3MEMO, PA3MEMO);
+            jsonObject.put(ItemConstants.PA3MOC8, PA3MOC8);
+            jsonObject.put(ItemConstants.PA3MOB, PA3MOB);
+            jsonObject.put(ItemConstants.PA3MOD, PA3MOD);
+            jsonObject.put(ItemConstants.PA3MONO, PA3MONO);
+            jsonObject.put(ItemConstants.PA3DED, PA3DED);
+            jsonObject.put(ItemConstants.PA3DENO, PA3DENO);
+            jsonObject.put(ItemConstants.PA3TI, PA3TI);
+            jsonObject.put(ItemConstants.PA3VWW, PA3VWW);
+            jsonObject.put(ItemConstants.PA3VN, PA3VN);
+            jsonObject.put(ItemConstants.PA3DR, PA3DR);
+            jsonObject.put(ItemConstants.PA3PD, PA3PD);
+            jsonObject.put(ItemConstants.PA3AN, PA3AN);
+            jsonObject.put(ItemConstants.PA3MOL, PA3MOL);
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -160,9 +235,6 @@ public class Item {
     public JSONObject toDbJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(ItemConstants.PA341, PA341);
-            jsonObject.put(ItemConstants.PA342, PA342);
-            jsonObject.put(ItemConstants.PA343, PA343);
             jsonObject.put(ItemConstants.PA3C1, PA3C1);
             jsonObject.put(ItemConstants.PA3C2, PA3C2);
             jsonObject.put(ItemConstants.PA3C3, PA3C3);
@@ -188,14 +260,31 @@ public class Item {
             jsonObject.put(ItemConstants.PA3DEL, PA3DEL);
             jsonObject.put(ItemConstants.PA3PRN, PA3PRN);
             jsonObject.put(ItemConstants.NAME, NAME);
+
+            jsonObject.put(ItemConstants.PA3INX, PA3INX);
+            jsonObject.put(ItemConstants.PA3C0, PA3C0);
+            jsonObject.put(ItemConstants.PA3C7, PA3C7);
+            jsonObject.put(ItemConstants.PA3QY, PA3QY);
+            jsonObject.put(ItemConstants.PA3UNP, PA3UNP);
+            jsonObject.put(ItemConstants.PA3TOP, PA3TOP);
+            jsonObject.put(ItemConstants.PA3MEMO, PA3MEMO);
+            jsonObject.put(ItemConstants.PA3MOC8, PA3MOC8);
+            jsonObject.put(ItemConstants.PA3MOB, PA3MOB);
+            jsonObject.put(ItemConstants.PA3MOD, PA3MOD);
+            jsonObject.put(ItemConstants.PA3MONO, PA3MONO);
+            jsonObject.put(ItemConstants.PA3DED, PA3DED);
+            jsonObject.put(ItemConstants.PA3DENO, PA3DENO);
+            jsonObject.put(ItemConstants.PA3TI, PA3TI);
+            jsonObject.put(ItemConstants.PA3VWW, PA3VWW);
+            jsonObject.put(ItemConstants.PA3VN, PA3VN);
+            jsonObject.put(ItemConstants.PA3DR, PA3DR);
+            jsonObject.put(ItemConstants.PA3PD, PA3PD);
+            jsonObject.put(ItemConstants.PA3AN, PA3AN);
+            jsonObject.put(ItemConstants.PA3MOL, PA3MOL);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
-    }
-
-    public String getLoaclNumber() {
-        return PA341 + PA342 + PA343;
     }
 
     public String getPA3C1() {
@@ -259,52 +348,47 @@ public class Item {
 
 
     public Agent getCustodian() {
-        return new Agent(PA3OUN, PA3OU);
+        return new Agent(PA3OUN);
     }
 
     public void setCustodian(Agent agent) {
         PA3OUN = agent.name;
-        PA3OU = agent.number;
         setConfirm(true);
     }
 
     public Agent getUser() {
-        return new Agent(PA3URN, PA3UR);
+        return new Agent(PA3URN);
     }
 
     public void setUser(Agent agent) {
         PA3URN = agent.name;
-        PA3UR = agent.number;
         setConfirm(true);
     }
 
     public Department getCustodyGroup() {
-        return new Department(PA3OUTN, PA3OUT);
+        return new Department(PA3OUTN);
     }
 
     public void setCustodyGroup(Department department) {
         PA3OUTN = department.name;
-        PA3OUT = department.number;
         setConfirm(true);
     }
 
     public Department getUseGroup() {
-        return new Department(PA3UUTN, PA3UUT);
+        return new Department(PA3UUTN);
     }
 
     public void setUseGroup(Department department) {
         PA3UUTN = department.name;
-        PA3UUT = department.number;
         setConfirm(true);
     }
 
     public Location getLocation() {
-        return new Location(PA3LOCN, PA3LOC);
+        return new Location(PA3LOCN);
     }
 
     public void setLocation(Location location) {
         PA3LOCN = location.name;
-        PA3LOC = location.number;
         setConfirm(true);
     }
 

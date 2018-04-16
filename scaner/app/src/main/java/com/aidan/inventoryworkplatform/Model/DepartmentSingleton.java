@@ -1,11 +1,8 @@
 package com.aidan.inventoryworkplatform.Model;
 
-import android.content.Context;
-
 import com.aidan.inventoryworkplatform.Database.DBHelper;
 import com.aidan.inventoryworkplatform.Database.DepartmentDAO;
-import com.aidan.inventoryworkplatform.Entity.Department;
-import com.aidan.inventoryworkplatform.Entity.Item;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Department;
 
 import java.util.ArrayList;
 import java.util.List;

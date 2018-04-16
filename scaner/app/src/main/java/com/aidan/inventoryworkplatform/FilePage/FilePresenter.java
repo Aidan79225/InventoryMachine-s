@@ -1,16 +1,14 @@
 package com.aidan.inventoryworkplatform.FilePage;
 
-import android.os.AsyncTask;
 import android.os.Environment;
-import android.provider.MediaStore;
 
 import com.aidan.inventoryworkplatform.Constants;
 import com.aidan.inventoryworkplatform.Database.AgentDAO;
 import com.aidan.inventoryworkplatform.Database.DepartmentDAO;
 import com.aidan.inventoryworkplatform.Database.ItemDAO;
 import com.aidan.inventoryworkplatform.Database.LocationDAO;
-import com.aidan.inventoryworkplatform.Entity.Agent;
-import com.aidan.inventoryworkplatform.Entity.Department;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Agent;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Entity.Location;
 import com.aidan.inventoryworkplatform.Model.AgentSingleton;
@@ -27,29 +25,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static android.R.attr.borderlessButtonStyle;
-import static android.R.attr.data;
-import static android.R.attr.value;
 
 /**
  * Created by Aidan on 2016/11/20.
@@ -179,22 +167,18 @@ public class FilePresenter implements FileContract.presenter {
 
     private void getAgents(JSONObject ASSETs, List<Agent> agentList) {
         try {
-            JSONArray data = ASSETs.getJSONArray("D1");
+            HashSet<String> mSet = new HashSet<>();
+            JSONArray data = ASSETs.getJSONArray("PA83");
             Singleton.log("agentList size : " + data.length());
             view.showProgress("讀取人名中");
             for (int i = 0; i < data.length(); i++) {
                 JSONObject c = data.getJSONObject(i);
                 Agent agent = new Agent(c);
-                boolean isNotAdded = true;
-                for(Agent mAgent : agentList){
-                    if(agent.getName().equals(mAgent.getName()) && agent.getNumber().equals(mAgent.getNumber())){
-                        isNotAdded = false;
-                        break;
-                    }
+                if(mSet.contains(agent.getName())){
+                    continue;
                 }
-                if(isNotAdded){
-                    agentList.add(agent);
-                }
+                agentList.add(agent);
+                mSet.add(agent.getName());
                 view.updateProgress((i + 1) * 100 / data.length());
             }
             Singleton.log("agentList size : " + agentList.size());
@@ -207,23 +191,19 @@ public class FilePresenter implements FileContract.presenter {
 
     private void getDepartments(JSONObject ASSETs, List<Department> departmentList) {
         try {
-            JSONArray data = ASSETs.getJSONArray("D2");
+            HashSet<String> mSet = new HashSet<>();
+            JSONArray data = ASSETs.getJSONArray("PA82");
             Singleton.log("departmentList size : " + data.length());
             view.showProgress("讀取部門中");
             for (int i = 0; i < data.length(); i++) {
+                view.updateProgress((i + 1) * 100 / data.length());
                 JSONObject c = data.getJSONObject(i);
                 Department department = new Department(c);
-                boolean isNotAdded = true;
-                for(Department mDepartment : departmentList){
-                    if(department.getName().equals(mDepartment.getName()) && department.getNumber().equals(mDepartment.getNumber())){
-                        isNotAdded = false;
-                        break;
-                    }
+                if(mSet.contains(department.getName())){
+                    continue;
                 }
-                if(isNotAdded){
-                    departmentList.add(department);
-                }
-                view.updateProgress((i + 1) * 100 / data.length());
+                departmentList.add(department);
+                mSet.add(department.getName());
             }
             Singleton.log("departmentList size : " + departmentList.size());
             view.hideProgress();
@@ -235,22 +215,18 @@ public class FilePresenter implements FileContract.presenter {
 
     private void getLocations(JSONObject ASSETs, List<Location> locationList) {
         try {
-            JSONArray data = ASSETs.getJSONArray("D3");
+            HashSet<String> mSet = new HashSet<>();
+            JSONArray data = ASSETs.getJSONArray("PA81");
             Singleton.log("locationList size : " + data.length());
             view.showProgress("讀取地點中");
             for (int i = 0; i < data.length(); i++) {
                 JSONObject c = data.getJSONObject(i);
                 Location location = new Location(c);
-                boolean isNotAdded = true;
-                for(Location mLocation : locationList){
-                    if(location.getName().equals(mLocation.getName()) && location.getNumber().equals(mLocation.getNumber())){
-                        isNotAdded = false;
-                        break;
-                    }
+                if(mSet.contains(location.getName())){
+                    continue;
                 }
-                if(isNotAdded){
-                    locationList.add(location);
-                }
+                locationList.add(location);
+                mSet.add(location.getName());
                 view.updateProgress((i + 1) * 100 / data.length());
             }
             Singleton.log("locationList size : " + locationList.size());

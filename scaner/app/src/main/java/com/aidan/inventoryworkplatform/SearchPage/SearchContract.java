@@ -34,10 +34,8 @@ public interface SearchContract {
     interface presenter{
         void start();
         void locationTextViewClick(TextView locationTextView);
-        void departmentTextViewClick(TextView departmentTextView);
         void agentTextViewClick(TextView agentTextView);
         void useGroupTextViewClick(TextView departmentTextView);
-        void userTextViewClick(TextView agentTextView);
         void searchTextViewClick(String name, String number,String serialMinNumber,String serialMaxNumber);
         void printTextViewClick(Context context, String name, String number, String serialMinNumber, String serialMaxNumber);
         void tagContentTextViewClick(TextView tagContentTextView);

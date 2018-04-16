@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.aidan.inventoryworkplatform.Entity.Agent;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Agent;
 import com.aidan.inventoryworkplatform.Singleton;
 
 import java.util.ArrayList;

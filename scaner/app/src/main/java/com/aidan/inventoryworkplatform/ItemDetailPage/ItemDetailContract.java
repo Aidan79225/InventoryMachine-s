@@ -25,10 +25,8 @@ public interface ItemDetailContract {
         void start();
         void saveItemToChecked(boolean flag);
         void locationTextViewClick();
-        void departmentTextViewClick();
         void agentTextViewClick();
         void useGroupTextViewClick();
-        void userTextViewClick();
         void deleteTextViewClick();
         void printTextViewClick();
         void printButtonClick();

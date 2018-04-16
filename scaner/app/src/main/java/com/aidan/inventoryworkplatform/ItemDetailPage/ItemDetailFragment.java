@@ -36,8 +36,8 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
     TextView yearsTextView, buyDateTextView, brandTextView,
             typeTextView, locationTextView,
             nameTextView, itemIdTextView,
-            custodyGroupTextView, custodianTextView,
-            useGroupTextView, userTextView,
+            custodianTextView,
+            useGroupTextView,
             deleteTextView,printTextView,nickNameTextView,tagContentTextView;
     Button confirmButton,printButton , cancelButton;
     ItemListFragment.RefreshItems refreshItems;
@@ -71,10 +71,8 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         nameTextView = (TextView) rootView.findViewById(R.id.nameTextView);
         itemIdTextView = (TextView) rootView.findViewById(R.id.itemIdTextView);
 
-        custodyGroupTextView = (TextView) rootView.findViewById(R.id.custodyGroupTextView);
         custodianTextView = (TextView) rootView.findViewById(R.id.custodianTextView);
         useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
-        userTextView = (TextView) rootView.findViewById(R.id.userTextView);
         deleteTextView = (TextView) rootView.findViewById(R.id.deleteTextView);
         printTextView = (TextView) rootView.findViewById(R.id.printTextView);
         nickNameTextView = (TextView) rootView.findViewById(R.id.nickNameTextView);
@@ -88,8 +86,6 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         brandTextView.setText(item.getBrand());
         typeTextView.setText(item.getType());
         custodianTextView.setText(item.getCustodian().name);
-        custodyGroupTextView.setText(item.getCustodyGroup().name);
-        userTextView.setText(item.getUser().name);
         useGroupTextView.setText(item.getUseGroup().name);
         locationTextView.setText(item.getLocation().name);
         nameTextView.setText(item.getName());
@@ -131,18 +127,6 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
             @Override
             public void onClick(View v) {
                 presenter.agentTextViewClick();
-            }
-        });
-        custodyGroupTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.departmentTextViewClick();
-            }
-        });
-        userTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.userTextViewClick();
             }
         });
         useGroupTextView.setOnClickListener(new View.OnClickListener() {

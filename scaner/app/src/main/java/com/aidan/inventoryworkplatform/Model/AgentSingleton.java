@@ -1,9 +1,10 @@
 package com.aidan.inventoryworkplatform.Model;
 
-import com.aidan.inventoryworkplatform.Database.AgentDAO;
-import com.aidan.inventoryworkplatform.Database.DBHelper;
-import com.aidan.inventoryworkplatform.Entity.Agent;
-import com.aidan.inventoryworkplatform.Entity.Department;
+import com.aidan.inventoryworkplatform.Constants;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Agent;
+import com.aidan.inventoryworkplatform.Utils.LocalCacheHelper;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +13,8 @@ import java.util.List;
  * Created by Aidan on 2016/11/20.
  */
 
-public class AgentSingleton {
-    static AgentSingleton agentSingleton;
-    private List<Agent> agentList = new ArrayList<>();
+public class AgentSingleton extends SelectableItemSingleton<Agent> {
+    private static AgentSingleton agentSingleton;
     public static AgentSingleton getInstance(){
         if(agentSingleton == null){
             synchronized (AgentSingleton.class){
@@ -26,26 +26,14 @@ public class AgentSingleton {
         return agentSingleton;
     }
 
-    public List<Agent> getAgentList() {
-        return agentList;
+
+    @Override
+    public String getTableName() {
+        return Constants.PREFERENCE_AGENT;
     }
-    public void loadFromDB(){
-        agentList = AgentDAO.getInstance().getAll();
-    }
-    public void saveToDB() {
-        try {
-            DBHelper.getDatabase().beginTransaction();
-            for (Agent agent : agentList) {
-                saveAgent(agent);
-            }
-            DBHelper.getDatabase().setTransactionSuccessful();
-            DBHelper.getDatabase().endTransaction();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void saveAgent(Agent agent){
-        if (!AgentDAO.getInstance().update(agent))
-            AgentDAO.getInstance().insert(agent);
+
+    @Override
+    public Class<? extends Agent> getDataConstructor() {
+        return Agent.class;
     }
 }

@@ -13,11 +13,11 @@ import android.widget.TextView;
 import com.aidan.inventoryworkplatform.DatePicker.TimePickerView;
 import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.inventoryworkplatform.Dialog.SearchableItem;
-import com.aidan.inventoryworkplatform.Entity.Agent;
-import com.aidan.inventoryworkplatform.Entity.Department;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Agent;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
 import com.aidan.inventoryworkplatform.Entity.Location;
-import com.aidan.inventoryworkplatform.Entity.SortCategory;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.SortCategory;
 import com.aidan.inventoryworkplatform.Entity.TagContent;
 import com.aidan.inventoryworkplatform.Model.AgentSingleton;
 import com.aidan.inventoryworkplatform.Model.BarCodeCreator;
@@ -53,8 +53,6 @@ public class SearchPresenter implements SearchContract.presenter {
     String[] departmentStrings = {};
     Location location;
     Agent agent;
-    Department department;
-    Agent user;
     Department useGroup;
     TagContent selectTagContent = null;
     SortCategory sortCategory = null;
@@ -118,19 +116,6 @@ public class SearchPresenter implements SearchContract.presenter {
     }
 
     @Override
-    public void departmentTextViewClick(final TextView departmentTextView) {
-        List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll(DepartmentSingleton.getInstance().getDepartmentList());
-        view.showSetDialog(new SearchItemAdapter.OnClickListener() {
-            @Override
-            public void onClick(SearchableItem item) {
-                departmentTextView.setText(item.getName());
-                department = (Department) item;
-            }
-        }, "保管部門列表", temp);
-    }
-
-    @Override
     public void agentTextViewClick(final TextView agentTextView) {
         List<SearchableItem> temp = new ArrayList<>();
         temp.addAll(AgentSingleton.getInstance().getAgentList());
@@ -154,19 +139,6 @@ public class SearchPresenter implements SearchContract.presenter {
                 useGroup = (Department) item;
             }
         }, "使用部門列表", temp);
-    }
-
-    @Override
-    public void userTextViewClick(final TextView userTextView) {
-        List<SearchableItem> temp = new ArrayList<>();
-        temp.addAll(AgentSingleton.getInstance().getAgentList());
-        view.showSetDialog(new SearchItemAdapter.OnClickListener() {
-            @Override
-            public void onClick(SearchableItem item) {
-                userTextView.setText(item.getName());
-                user = (Agent) item;
-            }
-        }, "使用人列表", temp);
     }
 
     @Override
@@ -285,19 +257,13 @@ public class SearchPresenter implements SearchContract.presenter {
             if (!item.getName().contains(name)) {
                 continue;
             }
-            if (location != null && !item.getLocation().number.equals(location.number)) {
+            if (location != null && !item.getLocation().name.equals(location.name)) {
                 continue;
             }
-            if (agent != null && !item.getCustodian().number.equals(agent.number)) {
+            if (agent != null && !item.getCustodian().name.equals(agent.name)) {
                 continue;
             }
-            if (department != null && !item.getCustodyGroup().number.equals(department.number)) {
-                continue;
-            }
-            if (user != null && !item.getUser().number.equals(user.number)) {
-                continue;
-            }
-            if (useGroup != null && !item.getUseGroup().number.equals(useGroup.number)) {
+            if (useGroup != null && !item.getUseGroup().name.equals(useGroup.name)) {
                 continue;
             }
             if (number.length() > 1 && !item.getNumber().equals(number)) {
@@ -352,8 +318,6 @@ public class SearchPresenter implements SearchContract.presenter {
     public void clearAll() {
         location = null;
         agent = null;
-        department = null;
-        user = null;
         useGroup = null;
         selectTagContent = null;
         sortCategory = null;

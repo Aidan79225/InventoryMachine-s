@@ -11,4 +11,7 @@ public class Constants {
     public static final String MS03 = "MS03";
     public static final String PREFERENCE_ITEM_KEY = "PREFERENCE_ITEM_KEY";
     public static final String PREFERENCE_PROPERTY_KEY = "PREFERENCE_PROPERTY_KEY";
+    public static final String PREFERENCE_AGENT = "PREFERENCE_AGENT";
+    public static final String PREFERENCE_SUMMONS_TITLE = "PREFERENCE_SUMMONS_TITLE";
+    public static final String PREFERENCE_SUMMONS_NUMBER = "PREFERENCE_SUMMONS_NUMBER";
 }

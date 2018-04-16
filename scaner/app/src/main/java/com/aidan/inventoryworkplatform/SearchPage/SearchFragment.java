@@ -35,9 +35,9 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
     SearchContract.presenter presenter;
     ViewGroup rootView;
     EditText serialMinNumberEditText, serialMaxNumberEditText;
-    TextView locationTextView, agentTextView, departmentTextView;
+    TextView locationTextView, agentTextView;
     TextView searchTextView, clearTextView, printTextView;
-    TextView useGroupTextView, userTextView;
+    TextView useGroupTextView;
     EditText c1EditText, c2EditText, c3EditText, c4EditText, c5EditText;
     BaseFragmentManager baseFragmentManager;
     TextView tagContentTextView, sortTextView, minDateTextView, maxDateTextView;
@@ -69,12 +69,10 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         serialMaxNumberEditText = (EditText) rootView.findViewById(R.id.serialMaxNumberEditText);
         locationTextView = (TextView) rootView.findViewById(R.id.locationTextView);
         agentTextView = (TextView) rootView.findViewById(R.id.agentTextView);
-        departmentTextView = (TextView) rootView.findViewById(R.id.departmentTextView);
         searchTextView = (TextView) rootView.findViewById(R.id.searchTextView);
         clearTextView = (TextView) rootView.findViewById(R.id.clearTextView);
         printTextView = (TextView) rootView.findViewById(R.id.printTextView);
         useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
-        userTextView = (TextView) rootView.findViewById(R.id.userTextView);
         tagContentTextView = (TextView) rootView.findViewById(R.id.tagContentTextView);
         sortTextView = (TextView) rootView.findViewById(R.id.sortTextView);
         minDateTextView = (TextView) rootView.findViewById(R.id.minDateTextView);
@@ -96,18 +94,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
                 presenter.agentTextViewClick(agentTextView);
             }
         });
-        departmentTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.departmentTextViewClick(departmentTextView);
-            }
-        });
-        userTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.userTextViewClick(userTextView);
-            }
-        });
+
         useGroupTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,7 +199,6 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         serialMaxNumberEditText.setText("");
         locationTextView.setText("請點選存置地點");
         agentTextView.setText("請點選保管人");
-        departmentTextView.setText("請點選保管單位");
         tagContentTextView.setText("請點選標籤內容");
         sortTextView.setText("請點選排序條件");
         minDateTextView.setText("請點選起始日期");
