@@ -121,7 +121,7 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
     }
 
     @Override
-    public void deleteTextViewClick() {
+    public void deleteButton() {
         view.showSetDialog(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int position) {
@@ -132,7 +132,7 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
     }
 
     @Override
-    public void printTextViewClick() {
+    public void moveButtonClick() {
         view.showSetDialog(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int position) {

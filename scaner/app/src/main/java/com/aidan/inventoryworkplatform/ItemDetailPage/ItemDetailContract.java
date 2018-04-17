@@ -27,8 +27,8 @@ public interface ItemDetailContract {
         void locationTextViewClick();
         void agentTextViewClick();
         void useGroupTextViewClick();
-        void deleteTextViewClick();
-        void printTextViewClick();
+        void deleteButton();
+        void moveButtonClick();
         void printButtonClick();
         void tagContentTextViewClick();
     }

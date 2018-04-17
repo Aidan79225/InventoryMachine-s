@@ -12,13 +12,21 @@ import com.aidan.inventoryworkplatform.Entity.SelectableItem.ApprovalNumber;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.ChangeItem;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Department;
 import com.aidan.inventoryworkplatform.Entity.Item;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.DepositPlace;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.ImpairmentReason;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Location;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.SummonsNumber;
+import com.aidan.inventoryworkplatform.Entity.SelectableItem.SummonsTitle;
 import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.AgentSingleton;
 import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.ApprovalNumberSingleton;
 import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.ChangeItemSingleton;
 import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.DepartmentSingleton;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.DepositPlaceSingleton;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.ImpairmentReasonSingleton;
 import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.LocationSingleton;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.SummonsNumberSingleton;
+import com.aidan.inventoryworkplatform.Model.SelecetableSingleton.SummonsTitleSingleton;
 import com.aidan.inventoryworkplatform.ScannerPage.ScannerItemManager;
 import com.aidan.inventoryworkplatform.Singleton;
 import com.aidan.inventoryworkplatform.Utils.ReadExcel;
@@ -114,6 +122,12 @@ public class FilePresenter implements FileContract.presenter {
             DepartmentSingleton.getInstance().saveToDB();
             AgentSingleton.getInstance().saveToDB();
             LocationSingleton.getInstance().saveToDB();
+            ApprovalNumberSingleton.getInstance().saveToDB();
+            ChangeItemSingleton.getInstance().saveToDB();
+            DepartmentSingleton.getInstance().saveToDB();
+            ImpairmentReasonSingleton.getInstance().saveToDB();
+            SummonsNumberSingleton.getInstance().saveToDB();
+            SummonsTitleSingleton.getInstance().saveToDB();
 
         } catch (Exception e) {
             view.hideProgress();
@@ -283,6 +297,106 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < dataArray.length(); i++) {
                 JSONObject c = dataArray.getJSONObject(i);
                 ChangeItem data = new ChangeItem(c);
+                if(mSet.contains(data.getName())){
+                    continue;
+                }
+                dataList.add(data);
+                mSet.add(data.getName());
+                view.updateProgress((i + 1) * 100 / dataArray.length());
+            }
+            Singleton.log("locationList size : " + dataList.size());
+            view.hideProgress();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(dataList);
+    }
+
+    private void getDepositPlace(JSONObject ASSETs) {
+        List<DepositPlace> dataList = DepositPlaceSingleton.getInstance().getDataList();
+        try {
+            HashSet<String> mSet = new HashSet<>();
+            JSONArray dataArray = ASSETs.getJSONArray("PA85");
+
+            view.showProgress("讀取地點中");
+            for (int i = 0; i < dataArray.length(); i++) {
+                JSONObject c = dataArray.getJSONObject(i);
+                DepositPlace data = new DepositPlace(c);
+                if(mSet.contains(data.getName())){
+                    continue;
+                }
+                dataList.add(data);
+                mSet.add(data.getName());
+                view.updateProgress((i + 1) * 100 / dataArray.length());
+            }
+            Singleton.log("locationList size : " + dataList.size());
+            view.hideProgress();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(dataList);
+    }
+
+    private void getImpairmentReason(JSONObject ASSETs) {
+        List<ImpairmentReason> dataList = ImpairmentReasonSingleton.getInstance().getDataList();
+        try {
+            HashSet<String> mSet = new HashSet<>();
+            JSONArray dataArray = ASSETs.getJSONArray("PA85");
+
+            view.showProgress("讀取地點中");
+            for (int i = 0; i < dataArray.length(); i++) {
+                JSONObject c = dataArray.getJSONObject(i);
+                ImpairmentReason data = new ImpairmentReason(c);
+                if(mSet.contains(data.getName())){
+                    continue;
+                }
+                dataList.add(data);
+                mSet.add(data.getName());
+                view.updateProgress((i + 1) * 100 / dataArray.length());
+            }
+            Singleton.log("locationList size : " + dataList.size());
+            view.hideProgress();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(dataList);
+    }
+
+    private void getSummonsNumber(JSONObject ASSETs) {
+        List<SummonsNumber> dataList = SummonsNumberSingleton.getInstance().getDataList();
+        try {
+            HashSet<String> mSet = new HashSet<>();
+            JSONArray dataArray = ASSETs.getJSONArray("PA85");
+
+            view.showProgress("讀取地點中");
+            for (int i = 0; i < dataArray.length(); i++) {
+                JSONObject c = dataArray.getJSONObject(i);
+                SummonsNumber data = new SummonsNumber(c);
+                if(mSet.contains(data.getName())){
+                    continue;
+                }
+                dataList.add(data);
+                mSet.add(data.getName());
+                view.updateProgress((i + 1) * 100 / dataArray.length());
+            }
+            Singleton.log("locationList size : " + dataList.size());
+            view.hideProgress();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(dataList);
+    }
+
+    private void getSummonsTitle(JSONObject ASSETs) {
+        List<SummonsTitle> dataList = SummonsTitleSingleton.getInstance().getDataList();
+        try {
+            HashSet<String> mSet = new HashSet<>();
+            JSONArray dataArray = ASSETs.getJSONArray("PA85");
+
+            view.showProgress("讀取地點中");
+            for (int i = 0; i < dataArray.length(); i++) {
+                JSONObject c = dataArray.getJSONObject(i);
+                SummonsTitle data = new SummonsTitle(c);
                 if(mSet.contains(data.getName())){
                     continue;
                 }

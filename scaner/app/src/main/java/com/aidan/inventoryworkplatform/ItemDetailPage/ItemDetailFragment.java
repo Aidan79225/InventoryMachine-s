@@ -38,8 +38,8 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
             nameTextView, itemIdTextView,
             custodianTextView,
             useGroupTextView,
-            deleteTextView,printTextView,nickNameTextView,tagContentTextView;
-    Button confirmButton,printButton , cancelButton;
+            nickNameTextView,tagContentTextView;
+    Button confirmButton,printButton , cancelButton, moveButton, deleteButton;
     ItemListFragment.RefreshItems refreshItems;
 
     public static ItemDetailFragment newInstance(Item item, ItemListFragment.RefreshItems refreshItems) {
@@ -73,8 +73,8 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
 
         custodianTextView = (TextView) rootView.findViewById(R.id.custodianTextView);
         useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
-        deleteTextView = (TextView) rootView.findViewById(R.id.deleteTextView);
-        printTextView = (TextView) rootView.findViewById(R.id.printTextView);
+        deleteButton = (Button) rootView.findViewById(R.id.deleteButton);
+        moveButton = (Button) rootView.findViewById(R.id.moveButton);
         nickNameTextView = (TextView) rootView.findViewById(R.id.nickNameTextView);
         tagContentTextView= (TextView) rootView.findViewById(R.id.tagContentTextView);
     }
@@ -91,12 +91,9 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         nameTextView.setText(item.getName());
         nickNameTextView.setText(item.getNickName());
         itemIdTextView.setText(item.getIdNumber());
-        deleteTextView.setText(item.isDelete() ? "Y" : "N");
-        printTextView.setText(item.isPrint() ? "Y" : "N");
         if(item.getTagContent() != null){
             tagContentTextView.setText(item.getTagContent().getName());
         }
-        printTextView.setVisibility(KeyConstants.showPrint ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -135,16 +132,16 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
                 presenter.useGroupTextViewClick();
             }
         });
-        deleteTextView.setOnClickListener(new View.OnClickListener() {
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.deleteTextViewClick();
+                presenter.deleteButton();
             }
         });
-        printTextView.setOnClickListener(new View.OnClickListener() {
+        moveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.printTextViewClick();
+                presenter.moveButtonClick();
             }
         });
         printButton.setOnClickListener(new View.OnClickListener() {
