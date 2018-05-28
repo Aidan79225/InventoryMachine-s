@@ -13,10 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aidan.inventoryworkplatform.BaseFragmentManager;
-import com.aidan.inventoryworkplatform.Database.AgentDAO;
-import com.aidan.inventoryworkplatform.Database.DepartmentDAO;
 import com.aidan.inventoryworkplatform.Database.ItemDAO;
-import com.aidan.inventoryworkplatform.Database.LocationDAO;
 import com.aidan.inventoryworkplatform.FilePage.FileFragment;
 import com.aidan.inventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.inventoryworkplatform.Model.ItemSingleton;
@@ -41,9 +38,6 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ItemDAO.init(getApplicationContext());
-        DepartmentDAO.init(getApplicationContext());
-        AgentDAO.init(getApplicationContext());
-        LocationDAO.init(getApplicationContext());
         Singleton.setPreference(getApplicationContext());
         setContentView(R.layout.activity_fragment_maneger);
         presenter = new FragmentManagerPresenter(this);

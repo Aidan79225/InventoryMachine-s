@@ -483,6 +483,183 @@ public class Item {
         return temp.substring(0, temp.length() - 4) + "/" + temp.substring(temp.length() - 4, temp.length() - 2) + "/" + temp.substring(temp.length() - 2);
     }
 
+    public String getScrappedADtoCal() {
+        String temp = String.valueOf((Integer.parseInt(PA3BD.replace("/", "")) - 19110000 + Integer.valueOf(PA3PY)*10000));
+        return temp.substring(0, temp.length() - 4) + "/" + temp.substring(temp.length() - 4, temp.length() - 2) + "/" + temp.substring(temp.length() - 2);
+    }
+
+    public String getPA3C2() {
+        return PA3C2;
+    }
+
+    public String getPA3C3() {
+        return PA3C3;
+    }
+
+    public String getPA3C4() {
+        return PA3C4;
+    }
+
+    public String getPA3C5() {
+        return PA3C5;
+    }
+
+    public String getPA3C6() {
+        return PA3C6;
+    }
+
+    public String getPA3P3() {
+        return PA3P3;
+    }
+
+    public String getPA3PS() {
+        return PA3PS;
+    }
+
+    public String getPA3MK() {
+        return PA3MK;
+    }
+
+    public String getPA3PY() {
+        return PA3PY;
+    }
+
+    public String getPA3LOC() {
+        return PA3LOC;
+    }
+
+    public String getPA3LOCN() {
+        return PA3LOCN;
+    }
+
+    public String getPA3OUT() {
+        return PA3OUT;
+    }
+
+    public String getPA3OUTN() {
+        return PA3OUTN;
+    }
+
+    public String getPA3OU() {
+        return PA3OU;
+    }
+
+    public String getPA3OUN() {
+        return PA3OUN;
+    }
+
+    public String getPA3UUT() {
+        return PA3UUT;
+    }
+
+    public String getPA3UUTN() {
+        return PA3UUTN;
+    }
+
+    public String getPA3UR() {
+        return PA3UR;
+    }
+
+    public String getPA3URN() {
+        return PA3URN;
+    }
+
+    public String getPA308() {
+        return PA308;
+    }
+
+    public String getPA3DEL() {
+        return PA3DEL;
+    }
+
+    public String getPA3PRN() {
+        return PA3PRN;
+    }
+
+    public String getNAME() {
+        return NAME;
+    }
+
+    public String getPA3INX() {
+        return PA3INX;
+    }
+
+    public String getPA3C0() {
+        return PA3C0;
+    }
+
+    public String getPA3C7() {
+        return PA3C7;
+    }
+
+    public String getPA3QY() {
+        return PA3QY;
+    }
+
+    public String getPA3UNP() {
+        return PA3UNP;
+    }
+
+    public String getPA3TOP() {
+        return PA3TOP;
+    }
+
+    public String getPA3MEMO() {
+        return PA3MEMO;
+    }
+
+    public String getPA3MOC8() {
+        return PA3MOC8;
+    }
+
+    public String getPA3MOB() {
+        return PA3MOB;
+    }
+
+    public String getPA3MOD() {
+        return PA3MOD;
+    }
+
+    public String getPA3MONO() {
+        return PA3MONO;
+    }
+
+    public String getPA3DED() {
+        return PA3DED;
+    }
+
+    public String getPA3DENO() {
+        return PA3DENO;
+    }
+
+    public String getPA3TI() {
+        return PA3TI;
+    }
+
+    public String getPA3VWW() {
+        return PA3VWW;
+    }
+
+    public String getPA3VN() {
+        return PA3VN;
+    }
+
+    public String getPA3DR() {
+        return PA3DR;
+    }
+
+    public String getPA3PD() {
+        return PA3PD;
+    }
+
+    public String getPA3AN() {
+        return PA3AN;
+    }
+
+    public String getPA3MOL() {
+        return PA3MOL;
+    }
+
     public void setTagContent(TagContent tagContent) {
         this.tagContent = tagContent;
     }

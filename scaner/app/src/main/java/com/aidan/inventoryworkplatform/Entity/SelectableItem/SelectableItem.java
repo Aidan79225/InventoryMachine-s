@@ -58,6 +58,7 @@ public class SelectableItem implements Comparable<SelectableItem>,SearchableItem
             e.printStackTrace();
         }
     }
+
     public JSONObject toJSON(){
         JSONObject jsonObject = new JSONObject();
         try {

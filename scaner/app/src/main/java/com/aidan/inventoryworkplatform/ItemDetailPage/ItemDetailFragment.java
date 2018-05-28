@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.aidan.inventoryworkplatform.ChangeDetailPage.ChangeDetailFragment;
 import com.aidan.inventoryworkplatform.Constants;
 import com.aidan.inventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.inventoryworkplatform.Dialog.SearchItemDialog;
@@ -180,5 +181,12 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         dialog.setItem(item);
         dialog.setCancelable(false);
         dialog.show();
+    }
+
+    @Override
+    public void gotoChangeDetail(Item item) {
+        ChangeDetailFragment fragment = ChangeDetailFragment.newInstance(item);
+
+        fragment.show(getFragmentManager(),ChangeDetailFragment.class.getName());
     }
 }

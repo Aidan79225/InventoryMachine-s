@@ -3,10 +3,7 @@ package com.aidan.inventoryworkplatform.FilePage;
 import android.os.Environment;
 
 import com.aidan.inventoryworkplatform.Constants;
-import com.aidan.inventoryworkplatform.Database.AgentDAO;
-import com.aidan.inventoryworkplatform.Database.DepartmentDAO;
 import com.aidan.inventoryworkplatform.Database.ItemDAO;
-import com.aidan.inventoryworkplatform.Database.LocationDAO;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.Agent;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.ApprovalNumber;
 import com.aidan.inventoryworkplatform.Entity.SelectableItem.ChangeItem;
@@ -147,21 +144,6 @@ public class FilePresenter implements FileContract.presenter {
     private void dropTable() {
         try {
             ItemDAO.getInstance().dropTable();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            DepartmentDAO.getInstance().dropTable();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            AgentDAO.getInstance().dropTable();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            LocationDAO.getInstance().dropTable();
         } catch (Exception e) {
             e.printStackTrace();
         }

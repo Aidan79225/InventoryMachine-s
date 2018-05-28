@@ -53,4 +53,6 @@ public class ItemConstants {
     public static final String PA3AN = "PA3AN";
     public static final String PA3MOL = "PA3MOL";
     public static final String ITEM = "ITEM";
+    public static final String TYPE = "TYPE";
+
 }
