@@ -317,6 +317,7 @@
                         android:id="@+id/changeTargetEditText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:minWidth="80dp"
                         android:background="@null"
                         android:text="123"
                         android:textSize="16sp" />
@@ -506,7 +507,7 @@
                 android:layout_marginTop="10dp"/>
             <LinearLayout
                 android:id="@+id/moveContainer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone">
@@ -536,7 +537,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:background="@null"
-                        android:text="123"
+                        android:hint="請點擊選擇"
                         android:textSize="16sp" />
                 </LinearLayout>
                 <View
@@ -570,7 +571,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:background="@null"
-                        android:text="123"
+                        android:hint="請點擊選擇"
                         android:textSize="16sp" />
                 </LinearLayout>
                 <View
@@ -604,20 +605,14 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:background="@null"
-                        android:text="123"
+                        android:hint="請點擊選擇"
                         android:textSize="16sp" />
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/bg_gray"
-                    />
-
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/scrappedContainer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <LinearLayout
@@ -646,7 +641,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:background="@null"
-                        android:text="123"
+                        android:hint="請點擊選擇"
                         android:textSize="16sp" />
                 </LinearLayout>
                 <View
@@ -680,7 +675,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:background="@null"
-                        android:text="123"
+                        android:hint="請點擊選擇"
                         android:textSize="16sp" />
                 </LinearLayout>
                 <View
@@ -714,7 +709,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:background="@null"
-                        android:text="123"
+                        android:hint="請點擊選擇"
                         android:textSize="16sp" />
                 </LinearLayout>
                 <View
@@ -748,7 +743,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:background="@null"
-                        android:text="123"
+                        android:hint="請點擊選擇"
                         android:textSize="16sp" />
                 </LinearLayout>
                 <View
@@ -756,9 +751,14 @@
                     android:layout_height="1dp"
                     android:background="@color/bg_gray"
                     />
+
+
+
+
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <View
                         android:layout_width="1dp"
@@ -770,28 +770,41 @@
                         android:layout_margin="3dp"
                         android:text="核准文號"
                         android:textSize="16sp" />
-
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:background="@color/bg_gray" />
-
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/PA8AEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="80dp"
+                            android:background="@null"
+                            android:text=""
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/bg_gray" />
                     <TextView
                         android:id="@+id/PA8ATextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
-                        android:background="@null"
-                        android:text="123"
-                        android:textSize="16sp" />
+                        android:layout_marginLeft="5dp"
+                        android:text="點擊選項"
+                        android:textSize="16sp"/>
+
                 </LinearLayout>
 
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_gray"
-                />
+
 
 
             <View
