@@ -38,6 +38,10 @@ public interface ChangeDetailContract {
         String getPA3DR();
         String getPA8PD();
         String getPA8A();
+        String getDateText();
+        String getChangeOrderId();
+        String getChangeId();
+        String getNumber();
 
 
     }

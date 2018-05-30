@@ -35,7 +35,7 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
     private TextView    itemIdTextView,buyDateTextView,quantityTextView,unitPriceTextView,
                         nameTextView,yearsTextView,scrappedTextView,changeTargetTextView,
                         dateTextView;
-    private EditText changeTargetEditText,changeNumberEditText,changeIdEditText,PA8AEditText;
+    private EditText changeTargetEditText,changeNumberEditText,changeIdEditText;
     private TextView changeOrderIdTextView;
     private Button confirmButton,cancelButton;
 
@@ -44,6 +44,7 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
 
     private View scrappedContainer;
     private TextView PA3VWWTextView,PA3VNTextView,PA3DRTextView,PA8PDTextView,PA8ATextView;
+    private EditText PA3VWWEditText,PA3VNEditText,PA3DREditText,PA8PDEditText,PA8AEditText;
     ItemListFragment.RefreshItems refreshItems;
 
     @Override
@@ -77,6 +78,10 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
         PA3DRTextView = (TextView) rootView.findViewById(R.id.PA3DRTextView);
         PA8PDTextView = (TextView) rootView.findViewById(R.id.PA8PDTextView);
         PA8ATextView = (TextView) rootView.findViewById(R.id.PA8ATextView);
+        PA3VWWEditText = (EditText)rootView.findViewById(R.id.PA3VWWEditText);
+        PA3VNEditText = (EditText)rootView.findViewById(R.id.PA3VNEditText);
+        PA3DREditText = (EditText)rootView.findViewById(R.id.PA3DREditText);
+        PA8PDEditText = (EditText)rootView.findViewById(R.id.PA8PDEditText);
         PA8AEditText = (EditText)rootView.findViewById(R.id.PA8AEditText);
 
     }
@@ -95,10 +100,18 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
         changeIdEditText.setText(item.getPA3MOC8());
         changeNumberEditText.setText(item.getPA3MOB());
         setChangeOrderIdTextView();
+        setDateTextView();
     }
 
     private void setChangeOrderIdTextView(){
-        changeOrderIdTextView.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-1911).substring(1)+ String.format("%04d", LocalCacheHelper.getInt(getActivity(), Constants.PREFERENCE_SERIAL_NUMBER)));
+        changeOrderIdTextView.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-1911).substring(1)+ String.format("%04d", LocalCacheHelper.getInt(getActivity(), getThisYesrSerialNumberKey())+1));
+    }
+    private void setDateTextView(){
+        Calendar c = Calendar.getInstance();
+        int y = c.get(Calendar.YEAR);
+        int m = c.get(Calendar.MONTH);
+        int d = c.get(Calendar.DAY_OF_MONTH);
+        dateTextView.setText((y-1911)+"/"+(m+1)+"/"+d);
     }
 
     @Override
@@ -113,6 +126,7 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
             @Override
             public void onClick(View view) {
                 presenter.confirmButtonClick();
+                LocalCacheHelper.setInt(getActivity(), getThisYesrSerialNumberKey(),LocalCacheHelper.getInt(getActivity(),getThisYesrSerialNumberKey())+1);
                 dismissAllowingStateLoss();
                 if(refreshItems != null){
                     refreshItems.refresh();
@@ -215,10 +229,10 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
         scrappedContainer.setVisibility(View.VISIBLE);
         moveContainer.setVisibility(View.GONE);
         changeTargetEditText.setText(data.getName());
-        PA3VWWTextView.setText(item.getPA3VWW());
-        PA3VNTextView.setText(item.getPA3VN());
-        PA3DRTextView.setText(item.getPA3DR());
-        PA8PDTextView.setText(item.getPA8PD());
+        PA3VWWEditText.setText(item.getPA3VWW());
+        PA3VNEditText.setText(item.getPA3VN());
+        PA3DREditText.setText(item.getPA3DR());
+        PA8PDEditText.setText(item.getPA8PD());
         PA8AEditText.setText(item.getPA8A());
     }
 
@@ -269,22 +283,22 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
 
     @Override
     public void setPA3VWW(String name) {
-        PA3VWWTextView.setText(name);
+        PA3VWWEditText.setText(name);
     }
 
     @Override
     public void setPA3VN(String name) {
-        PA3VNTextView.setText(name);
+        PA3VNEditText.setText(name);
     }
 
     @Override
     public void setPA3DR(String name) {
-        PA3DRTextView.setText(name);
+        PA3DREditText.setText(name);
     }
 
     @Override
     public void setPA8PD(String name) {
-        PA8PDTextView.setText(name);
+        PA8PDEditText.setText(name);
     }
 
     @Override
@@ -294,26 +308,50 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
 
     @Override
     public String getPA3VWW() {
-        return PA3VWWTextView.getText().toString();
+        return PA3VWWEditText.getText().toString();
     }
 
     @Override
     public String getPA3VN() {
-        return PA3VNTextView.getText().toString();
+        return PA3VNEditText.getText().toString();
     }
 
     @Override
     public String getPA3DR() {
-        return PA3DRTextView.getText().toString();
+        return PA3DREditText.getText().toString();
     }
 
     @Override
     public String getPA8PD() {
-        return PA8PDTextView.getText().toString();
+        return PA8PDEditText.getText().toString();
     }
 
     @Override
     public String getPA8A() {
         return PA8AEditText.getText().toString();
+    }
+
+    @Override
+    public String getDateText() {
+        return dateTextView.getText().toString();
+    }
+
+    @Override
+    public String getChangeOrderId() {
+        return changeOrderIdTextView.getText().toString();
+    }
+
+    @Override
+    public String getChangeId() {
+        return changeIdEditText.getText().toString();
+    }
+
+    @Override
+    public String getNumber() {
+        return changeNumberEditText.getText().toString();
+    }
+
+    public String getThisYesrSerialNumberKey(){
+        return Constants.PREFERENCE_SERIAL_NUMBER + Calendar.getInstance().get(Calendar.YEAR);
     }
 }

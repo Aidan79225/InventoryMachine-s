@@ -2,7 +2,6 @@ package com.aidan.secondinventoryworkplatform.FragmentManager;
 
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.AgentSingleton;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.ApprovalNumberSingleton;
-import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.ChangeItemSingleton;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.ChangeTargetSingleton;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.DepartmentSingleton;
 import com.aidan.secondinventoryworkplatform.Model.ItemSingleton;
@@ -33,16 +32,25 @@ public class FragmentManagerPresenter implements FragmentManagerContract.present
             public void run() {
                 view.showProgress("讀取本地資料");
                 ItemSingleton.getInstance().loadFromDB();
+                view.updateProgress(10);
                 DepartmentSingleton.getInstance().loadFromDB();
+                view.updateProgress(20);
                 AgentSingleton.getInstance().loadFromDB();
+                view.updateProgress(30);
                 LocationSingleton.getInstance().loadFromDB();
+                view.updateProgress(40);
                 ApprovalNumberSingleton.getInstance().loadFromDB();
-                ChangeItemSingleton.getInstance().loadFromDB();
-                DepositPlaceSingleton.getInstance().loadFromDB();
-                ImpairmentReasonSingleton.getInstance().loadFromDB();
-                SummonsTitleSingleton.getInstance().loadFromDB();
-                SummonsNumberSingleton.getInstance().loadFromDB();
+                view.updateProgress(50);
                 ChangeTargetSingleton.getInstance().loadFromDB();
+                view.updateProgress(60);
+                DepositPlaceSingleton.getInstance().loadFromDB();
+                view.updateProgress(70);
+                ImpairmentReasonSingleton.getInstance().loadFromDB();
+                view.updateProgress(80);
+                SummonsTitleSingleton.getInstance().loadFromDB();
+                view.updateProgress(90);
+                SummonsNumberSingleton.getInstance().loadFromDB();
+                view.updateProgress(100);
                 view.hideProgress();
             }
         }).start();

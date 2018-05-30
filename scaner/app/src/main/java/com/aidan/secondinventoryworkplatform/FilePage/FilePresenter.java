@@ -16,7 +16,6 @@ import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.SummonsNumber
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.SummonsTitle;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.AgentSingleton;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.ApprovalNumberSingleton;
-import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.ChangeItemSingleton;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.ChangeTargetSingleton;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.DepartmentSingleton;
 import com.aidan.secondinventoryworkplatform.Model.ItemSingleton;
@@ -121,7 +120,6 @@ public class FilePresenter implements FileContract.presenter {
             AgentSingleton.getInstance().saveToDB();
             LocationSingleton.getInstance().saveToDB();
             ApprovalNumberSingleton.getInstance().saveToDB();
-            ChangeItemSingleton.getInstance().saveToDB();
             DepartmentSingleton.getInstance().saveToDB();
             ImpairmentReasonSingleton.getInstance().saveToDB();
             SummonsNumberSingleton.getInstance().saveToDB();

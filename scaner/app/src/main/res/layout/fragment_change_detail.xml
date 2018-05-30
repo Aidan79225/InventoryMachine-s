@@ -63,15 +63,14 @@
                     android:layout_height="match_parent"
                     android:background="@color/bg_gray" />
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:orientation="horizontal">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
-                        android:text="@string/buy_date"
+                        android:text="數量"
                         android:textSize="16sp" />
 
                     <View
@@ -80,7 +79,7 @@
                         android:background="@color/bg_gray" />
 
                     <TextView
-                        android:id="@+id/buyDateTextView"
+                        android:id="@+id/quantityTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
@@ -108,6 +107,7 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="@color/bg_gray" />
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
-                        android:text="數量"
+                        android:text="@string/buy_date"
                         android:textSize="16sp" />
 
                     <View
@@ -126,7 +126,7 @@
                         android:background="@color/bg_gray" />
 
                     <TextView
-                        android:id="@+id/quantityTextView"
+                        android:id="@+id/buyDateTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
@@ -136,14 +136,14 @@
 
 
 
+
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="@color/bg_gray" />
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:orientation="horizontal">
                     <TextView
                         android:layout_width="wrap_content"
@@ -353,7 +353,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/bg_gray" />
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="horizontal">
@@ -371,7 +371,7 @@
 
                     <EditText
                         android:id="@+id/changeIdEditText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:background="@null"
@@ -406,9 +406,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
+                        android:minWidth="50dp"
                         android:background="@null"
                         android:text="123"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:inputType="numberDecimal"/>
                 </LinearLayout>
 
 
@@ -465,7 +467,7 @@
                     android:background="@color/bg_gray" />
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
@@ -617,7 +619,8 @@
                 android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <View
                         android:layout_width="1dp"
@@ -634,15 +637,33 @@
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:background="@color/bg_gray" />
-
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/PA3VWWEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="80dp"
+                            android:background="@null"
+                            android:text=""
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/bg_gray" />
                     <TextView
                         android:id="@+id/PA3VWWTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
-                        android:background="@null"
-                        android:hint="請點擊選擇"
-                        android:textSize="16sp" />
+                        android:layout_marginLeft="5dp"
+                        android:text="點擊選項"
+                        android:textSize="16sp"/>
+
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -651,7 +672,8 @@
                     />
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <View
                         android:layout_width="1dp"
@@ -668,15 +690,33 @@
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:background="@color/bg_gray" />
-
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/PA3VNEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="80dp"
+                            android:background="@null"
+                            android:text=""
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/bg_gray" />
                     <TextView
                         android:id="@+id/PA3VNTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
-                        android:background="@null"
-                        android:hint="請點擊選擇"
-                        android:textSize="16sp" />
+                        android:layout_marginLeft="5dp"
+                        android:text="點擊選項"
+                        android:textSize="16sp"/>
+
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -685,7 +725,8 @@
                     />
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <View
                         android:layout_width="1dp"
@@ -702,15 +743,33 @@
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:background="@color/bg_gray" />
-
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/PA3DREditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="80dp"
+                            android:background="@null"
+                            android:text=""
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/bg_gray" />
                     <TextView
                         android:id="@+id/PA3DRTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
-                        android:background="@null"
-                        android:hint="請點擊選擇"
-                        android:textSize="16sp" />
+                        android:layout_marginLeft="5dp"
+                        android:text="點擊選項"
+                        android:textSize="16sp"/>
+
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -719,7 +778,8 @@
                     />
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <View
                         android:layout_width="1dp"
@@ -736,15 +796,33 @@
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:background="@color/bg_gray" />
-
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/PA8PDEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="80dp"
+                            android:background="@null"
+                            android:text=""
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/bg_gray" />
                     <TextView
                         android:id="@+id/PA8PDTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
-                        android:background="@null"
-                        android:hint="請點擊選擇"
-                        android:textSize="16sp" />
+                        android:layout_marginLeft="5dp"
+                        android:text="點擊選項"
+                        android:textSize="16sp"/>
+
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"

@@ -1,10 +1,15 @@
 package com.aidan.secondinventoryworkplatform.ChangeDetailPage;
 
+import com.aidan.secondinventoryworkplatform.Constants;
 import com.aidan.secondinventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.secondinventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.secondinventoryworkplatform.Entity.Item;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.ApprovalNumber;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.ChangeTarget;
+import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.DepositPlace;
+import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.ImpairmentReason;
+import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.SummonsNumber;
+import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.SummonsTitle;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.AgentSingleton;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.ApprovalNumberSingleton;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.ChangeTargetSingleton;
@@ -14,6 +19,7 @@ import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.Impairme
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.LocationSingleton;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.SummonsNumberSingleton;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.SummonsTitleSingleton;
+import com.aidan.secondinventoryworkplatform.Utils.LocalCacheHelper;
 
 /**
  * Created by Aidan on 2018/4/18.
@@ -56,10 +62,13 @@ public class ChangeDetailPresenter implements ChangeDetailContract.presenter{
     @Override
     public void confirmButtonClick() {
         saveChangeTarget();
+        model.getItem().setPA3MONO(view.getChangeOrderId());
+        model.getItem().setPA3MOC8(view.getChangeId());
         if(model.getChangeTarget().getType() == ChangeTarget.TYPE_MOVE){
             model.getItem().setPA3OUTN(view.getMoveDepartment());
             model.getItem().setPA3OUN(view.getNewAgent());
             model.getItem().setPA3LOCN(view.getMoveLocation());
+            model.getItem().setPA3MOD(transDateString());
             model.getItem().setConfirm(true);
         }else if(model.getChangeTarget().getType() == ChangeTarget.TYPE_SCRAPPED){
             model.getItem().setPA3VWW(view.getPA3VWW());
@@ -67,9 +76,20 @@ public class ChangeDetailPresenter implements ChangeDetailContract.presenter{
             model.getItem().setPA3DR(view.getPA3DR());
             model.getItem().setPA8PD(view.getPA8PD());
             model.getItem().setPA8A(view.getPA8A());
+            model.getItem().setPA3DED(transDateString());
             model.getItem().setConfirm(true);
+            savePA3VWW();
+            savePA3VN();
+            savePA3DR();
+            savePA8PD();
             savePA8A();
         }
+
+    }
+
+    private String transDateString(){
+        String [] t = view.getDateText().split("/");
+        return String.valueOf(Integer.valueOf(t[0])+1911) + t[1]+t[2];
     }
     private void saveChangeTarget(){
         String name = view.getChangeTargetName();
@@ -81,6 +101,38 @@ public class ChangeDetailPresenter implements ChangeDetailContract.presenter{
         t.setType(model.getChangeTarget().getType());
         ChangeTargetSingleton.getInstance().getDataList().add(t);
         ChangeTargetSingleton.getInstance().saveToDB();
+    }
+    private void savePA3VWW(){
+        String name = view.getPA3VWW();
+        for(SummonsTitle data : SummonsTitleSingleton.getInstance().getDataList()){
+            if(name.equals(data.getName()))return;
+        }
+        SummonsTitleSingleton.getInstance().getDataList().add(new SummonsTitle(name));
+        SummonsTitleSingleton.getInstance().saveToDB();
+    }
+    private void savePA3VN(){
+        String name = view.getPA3VN();
+        for(SummonsNumber data : SummonsNumberSingleton.getInstance().getDataList()){
+            if(name.equals(data.getName()))return;
+        }
+        SummonsNumberSingleton.getInstance().getDataList().add(new SummonsNumber(name));
+        SummonsNumberSingleton.getInstance().saveToDB();
+    }
+    private void savePA3DR(){
+        String name = view.getPA3DR();
+        for(ImpairmentReason data : ImpairmentReasonSingleton.getInstance().getDataList()){
+            if(name.equals(data.getName()))return;
+        }
+        ImpairmentReasonSingleton.getInstance().getDataList().add(new ImpairmentReason(name));
+        ImpairmentReasonSingleton.getInstance().saveToDB();
+    }
+    private void savePA8PD(){
+        String name = view.getPA8PD();
+        for(DepositPlace data : DepositPlaceSingleton.getInstance().getDataList()){
+            if(name.equals(data.getName()))return;
+        }
+        DepositPlaceSingleton.getInstance().getDataList().add(new DepositPlace(name));
+        DepositPlaceSingleton.getInstance().saveToDB();
     }
     private void savePA8A(){
         String name = view.getPA8A();
