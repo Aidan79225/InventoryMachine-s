@@ -17,7 +17,12 @@ import java.util.Date;
  */
 
 public class Item {
+    public enum Type{
+        property,
+        item;
+    }
     private long id = 0;
+    private Type type = Type.property;
     private String PA3C1 = "";
     private String PA3C2 = "";
     private String PA3C3 = "";
@@ -156,6 +161,9 @@ public class Item {
             if (jsonObject.has(ItemConstants.PA8A)){
                 PA8A = jsonObject.getString(ItemConstants.PA8A);
             }
+            if(jsonObject.has(ItemConstants.TYPE)){
+                type = Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -247,6 +255,9 @@ public class Item {
             if (jsonObject.has(ItemConstants.PA8A)){
                 PA8A = jsonObject.getString(ItemConstants.PA8A);
             }
+            if(jsonObject.has(ItemConstants.TYPE)){
+                type = Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -281,7 +292,9 @@ public class Item {
             jsonObject.put(ItemConstants.PA3PRN, PA3PRN);
 
             jsonObject.put(ItemConstants.PA3INX, PA3INX);
-            jsonObject.put(ItemConstants.PA3C0, PA3C0);
+            if(type == Type.item){
+                jsonObject.put(ItemConstants.PA3C0, PA3C0);
+            }
             jsonObject.put(ItemConstants.PA3C7, PA3C7);
             jsonObject.put(ItemConstants.PA3QY, PA3QY);
             jsonObject.put(ItemConstants.PA3UNP, PA3UNP);
@@ -361,7 +374,7 @@ public class Item {
             jsonObject.put(ItemConstants.PA3MOL, PA3MOL);
             jsonObject.put(ItemConstants.PA8PD, PA8PD);
             jsonObject.put(ItemConstants.PA8A, PA8A);
-
+            jsonObject.put(ItemConstants.TYPE,type.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -373,7 +386,7 @@ public class Item {
     }
 
     public String getNumber() {
-        return PA3C1 + PA3C2 + PA3C3 + PA3C4 + PA3C5;
+        return PA3C0 + PA3C1 + PA3C2 + PA3C3 + PA3C4 + PA3C5;
     }
 
     public String getSerialNumber() {
@@ -385,11 +398,11 @@ public class Item {
     }
 
     public String getTagIdNumber() {
-        return PA3C1 + PA3C2 + PA3C3 + PA3C4 + "-" + PA3C5 + "-" + getSerialNumber();
+        return (type == Type.item ? PA3C0 : "" ) + PA3C1 + PA3C2 + PA3C3 + PA3C4  + PA3C5 + " -" + getSerialNumber();
     }
 
     public String getBarcodeNumber() {
-        return "110-" + getNumber() + "-00" + getSerialNumber();
+        return  getNumber()  + getSerialNumber();
     }
 
     public String getName() {
@@ -530,12 +543,10 @@ public class Item {
 
     public String getTagContentString() {
         String ans = "  ";
-        ans += KeyConstants.AuthorityName + (PA3C1.equals("6") ? KeyConstants.ItemName : "") + "\n";
-        ans += "  財產區分別：110公務用_一般\n";
-        ans += "  財產編號：" + getTagIdNumber() + "\n";
-        ans += "  財產名稱：" + getName() + "\n";
-        ans += "  財產別名：" + getNickName() + "\n";
-        ans += "  取得日期：" + ADtoCal() + "\t年限：" + getYears() + "\n";
+        ans += KeyConstants.AuthorityName + (type == Type.item ? KeyConstants.ItemName : "") + "\n";
+        ans += "  編號：" + getTagIdNumber() + "\n";
+        ans += "  名稱：" + getName() + "\n";
+        ans += "  日期：" + ADtoCal() + "  年限：" + getYears() + "  金額："+getPA3TOP()+"\n";
         if (tagContent != null) {
             ans += "  " + tagContent.getName() + "：";
             switch (tagContent) {
@@ -555,6 +566,7 @@ public class Item {
         }
 
         ans += "  廠牌/型式：" + getBrand() + "/" + getType() + "\n";
+        ans += "  經費：" + getPA3P3() + "\n";
         return ans;
     }
 
@@ -938,5 +950,9 @@ public class Item {
 
     public TagContent getTagContent() {
         return tagContent;
+    }
+
+    public void setType(Type t){
+        this.type = t;
     }
 }

@@ -44,8 +44,10 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -54,6 +56,7 @@ import java.util.Set;
 
 public class FilePresenter implements FileContract.presenter {
     FileContract.view view;
+    Map<String,String> nameMap;
 
     public FilePresenter(FileContract.view view) {
         this.view = view;
@@ -70,19 +73,12 @@ public class FilePresenter implements FileContract.presenter {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Set<String> allowType = new HashSet<>();
-                allowType.add("0");
-                allowType.add("1");
-                allowType.add("2");
-                allowType.add("3");
-                allowType.add("4");
-                allowType.add("5");
-                loadData(path, "讀取財產中", allowType, Constants.PREFERENCE_PROPERTY_KEY);
+                loadData(path, "讀取財產中", Constants.PREFERENCE_PROPERTY_KEY, Item.Type.property);
             }
         }).start();
     }
 
-    private void loadData(String path, String msg, Set<String> allowType, String key) {
+    private void loadData(String path, String msg,String key, Item.Type type) {
         view.showProgress(msg);
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
         try {
@@ -103,7 +99,8 @@ public class FilePresenter implements FileContract.presenter {
             JSONObject ASSETs = jsonObj.getJSONObject("ASSETs");
             JSONObject MS = jsonObj.getJSONObject(Constants.MS);
             Singleton.preferenceEditor.putString(key, MS.toString()).commit();
-            getItems(ASSETs, itemList, allowType);
+            getNameMap(ASSETs);
+            getItems(ASSETs, itemList, type);
             getAgents(ASSETs);
             getDepartments(ASSETs);
             getLocations(ASSETs);
@@ -124,20 +121,12 @@ public class FilePresenter implements FileContract.presenter {
             ImpairmentReasonSingleton.getInstance().saveToDB();
             SummonsNumberSingleton.getInstance().saveToDB();
             SummonsTitleSingleton.getInstance().saveToDB();
-
+            DepositPlaceSingleton.getInstance().saveToDB();
         } catch (Exception e) {
             view.hideProgress();
             view.showToast("檔案格式錯誤");
             e.printStackTrace();
         }
-    }
-
-
-    @Override
-    public void readNameTextViewClick(String path) {
-        ReadExcel readExcel = new ReadExcel();
-        readExcel.setProgressAction((ReadExcel.ProgressAction) view);
-        readExcel.read(path);
     }
 
     private void dropTable() {
@@ -147,8 +136,20 @@ public class FilePresenter implements FileContract.presenter {
             e.printStackTrace();
         }
     }
+    private void getNameMap(JSONObject ASSETs){
+        try {
+            nameMap = new HashMap<>();
+            JSONArray data = ASSETs.getJSONArray("PM");
+            for(int i = 0 ; i < data.length() ; i++){
+                JSONObject t = data.getJSONObject(i);
+                nameMap.put(t.getString("編號"),t.getString("品名"));
+            }
+        }catch (Exception e){
 
-    private void getItems(JSONObject ASSETs, List<Item> itemList, Set<String> allowType) {
+        }
+    }
+
+    private void getItems(JSONObject ASSETs, List<Item> itemList, Item.Type type) {
         try {
             JSONArray data = ASSETs.getJSONArray("PA3");
             Singleton.log("itemList size : " + data.length());
@@ -156,9 +157,11 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < size; i++) {
                 JSONObject c = data.getJSONObject(i);
                 Item item = new Item(c);
-                if (allowType.contains(item.getPA3C1())) {
-                    itemList.add(item);
+                if(nameMap.containsKey(item.getNumber())){
+                    item.setNAME(nameMap.get(item.getNumber()));
                 }
+                item.setType(type);
+                itemList.add(item);
                 view.updateProgress((i + 1) * 100 / size);
             }
             view.hideProgress();
@@ -437,9 +440,7 @@ public class FilePresenter implements FileContract.presenter {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Set<String> allowType = new HashSet<>();
-                allowType.add("6");
-                loadData(path, "讀取物品中", allowType, Constants.PREFERENCE_ITEM_KEY);
+                loadData(path, "讀取物品中", Constants.PREFERENCE_ITEM_KEY, Item.Type.item);
             }
         }).start();
     }

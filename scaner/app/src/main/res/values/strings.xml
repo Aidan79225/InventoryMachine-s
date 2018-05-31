@@ -10,7 +10,7 @@
     <string name="itemDetail_page">財產明細</string>
     <!--Item List Adapter-->
     <string name="status">狀態</string>
-    <string name="name">財產別名</string>
+    <string name="name">財產名稱</string>
     <string name="item_id">財產編號-流水號</string>
     <string name="item_little_id">財產編號</string>
     <string name="item_water_id">流水號</string>

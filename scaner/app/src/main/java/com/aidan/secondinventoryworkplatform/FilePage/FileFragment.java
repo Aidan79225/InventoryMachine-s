@@ -52,7 +52,7 @@ import static android.app.Activity.RESULT_OK;
 public class FileFragment extends DialogFragment implements FileContract.view, ReadExcel.ProgressAction {
     ViewGroup rootView;
     FileContract.presenter presenter;
-    TextView inputTextView, outputTextView, readNameTextView;
+    TextView inputTextView, outputTextView;
     TextView outputItemTextView,inputItemTextView;
     ArrayList<String> filePaths = new ArrayList<>();
     ArrayList<String> docPaths = new ArrayList<>();
@@ -63,7 +63,6 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
     private static final int readTxtType = 19;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final int FILE_SELECT_CODE = 0;
-    private static final int FILE_SELECT_NAME_CODE = 2;
     private static final int FILE_SELECT_ITEM_CODE = 3;
 
     @Override
@@ -124,7 +123,6 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
     public void findView() {
         inputTextView = (TextView) rootView.findViewById(R.id.inputTextView);
         outputTextView = (TextView) rootView.findViewById(R.id.outputTextView);
-        readNameTextView = (TextView) rootView.findViewById(R.id.readNameTextView);
         clearTextView = (TextView) rootView.findViewById(R.id.clearTextView);
         outputItemTextView = (TextView) rootView.findViewById(R.id.outputItemTextView);
         inputItemTextView = (TextView) rootView.findViewById(R.id.inputItemTextView);
@@ -177,18 +175,7 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
                 checkPermission();
             }
         });
-        readNameTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fileRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        showFileChooser(FILE_SELECT_NAME_CODE);
-                    }
-                };
-                checkPermission();
-            }
-        });
+
         clearTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -340,13 +327,6 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
                     Uri uri = data.getData();
                     String path = getPath(getActivity(), uri);
                     presenter.readTxtButtonClick(path);
-                }
-                break;
-            case FILE_SELECT_NAME_CODE:
-                if (resultCode == RESULT_OK) {
-                    Uri uri = data.getData();
-                    String path = getPath(getActivity(), uri);
-                    presenter.readNameTextViewClick(path);
                 }
                 break;
             case FILE_SELECT_ITEM_CODE:

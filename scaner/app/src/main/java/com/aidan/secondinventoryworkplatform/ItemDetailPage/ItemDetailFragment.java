@@ -35,7 +35,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
             nameTextView, itemIdTextView,
             custodianTextView,
             useGroupTextView,
-            nickNameTextView,tagContentTextView;
+            tagContentTextView;
     Button confirmButton,printButton , cancelButton, moveButton, deleteButton;
     ItemListFragment.RefreshItems refreshItems;
 
@@ -72,7 +72,6 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
         deleteButton = (Button) rootView.findViewById(R.id.deleteButton);
         moveButton = (Button) rootView.findViewById(R.id.moveButton);
-        nickNameTextView = (TextView) rootView.findViewById(R.id.nickNameTextView);
         tagContentTextView= (TextView) rootView.findViewById(R.id.tagContentTextView);
     }
 
@@ -86,7 +85,6 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         useGroupTextView.setText(item.getUseGroup().name);
         locationTextView.setText(item.getLocation().name);
         nameTextView.setText(item.getName());
-        nickNameTextView.setText(item.getNickName());
         itemIdTextView.setText(item.getIdNumber());
         if(item.getTagContent() != null){
             tagContentTextView.setText(item.getTagContent().getName());
