@@ -33,25 +33,17 @@ public class ScannerPresenter implements ScannerContract.presenter {
         key = key.replace("\n","");
         if(key.length() == 0 )return;
         Singleton.log(key);
-        String[] temps = key.split("-");
-        if (temps.length < 3) return;
-        if(temps[0].length()<7){
-            firstTypeScan(key,temps);
-        } else{
-            secondTypeScan(key,temps);
-        }
+        startScan(key);
     }
-    public void firstTypeScan(String key, String[] temps){
-        temps[2] = temps[2].substring(2);
-        int serialNumber = Integer.valueOf(temps[2]);
+    public void startScan(String key){
         for (Item item : itemList) {
-            if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber().substring(2))) {
+            if ((item.getNumber() + item.getSerialNumber()).equals(key)) {
                 view.showToast("已重複盤點 : " + key);
                 return;
             }
         }
         for (Item item : ItemSingleton.getInstance().getItemList()) {
-            if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber().substring(2))) {
+            if ((item.getNumber() + item.getSerialNumber()).equals(key)) {
                 item.setConfirm(true);
                 itemList.add(0, item);
                 ItemSingleton.getInstance().saveItem(item);
@@ -62,24 +54,4 @@ public class ScannerPresenter implements ScannerContract.presenter {
         view.showToast("找不到對應編號 : " + key);
     }
 
-    public void secondTypeScan(String key, String[] temps){
-        temps[1] = temps[0] + temps[1];
-        int serialNumber = Integer.valueOf(temps[2]);
-        for (Item item : itemList) {
-            if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber().substring(2))) {
-                view.showToast("已重複盤點 : " + key);
-                return;
-            }
-        }
-        for (Item item : ItemSingleton.getInstance().getItemList()) {
-            if (item.getNumber().equals(temps[1]) && serialNumber == Integer.valueOf(item.getSerialNumber().substring(2))) {
-                item.setConfirm(true);
-                itemList.add(0, item);
-                ItemSingleton.getInstance().saveItem(item);
-                view.refreshList();
-                return;
-            }
-        }
-        view.showToast("找不到對應編號 : " + key);
-    }
 }
