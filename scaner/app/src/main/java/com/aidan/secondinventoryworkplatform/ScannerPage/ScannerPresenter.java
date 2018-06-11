@@ -38,13 +38,13 @@ public class ScannerPresenter implements ScannerContract.presenter {
     }
     public void firstTypeScan(String key){
         for (Item item : itemList) {
-            if (key.startsWith(item.getNumber()) && key.endsWith(item.getSerialNumber())) {
+            if (key.equals(item.getBarcodeNumber())) {
                 view.showToast("已重複盤點 : " + key);
                 return;
             }
         }
         for (Item item : ItemSingleton.getInstance().getItemList()) {
-            if (key.startsWith(item.getNumber()) && key.endsWith(item.getSerialNumber())) {
+            if (key.equals(item.getBarcodeNumber())) {
                 item.setConfirm(true);
                 itemList.add(0, item);
                 ItemSingleton.getInstance().saveItem(item);
