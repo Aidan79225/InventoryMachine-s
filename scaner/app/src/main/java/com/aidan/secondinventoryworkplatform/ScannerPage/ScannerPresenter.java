@@ -54,4 +54,5 @@ public class ScannerPresenter implements ScannerContract.presenter {
         }
         view.showToast("找不到對應編號 : " + key);
     }
+
 }
