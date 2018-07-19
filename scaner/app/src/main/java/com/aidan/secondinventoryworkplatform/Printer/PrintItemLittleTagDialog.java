@@ -5,13 +5,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.aidan.secondinventoryworkplatform.Constants;
 import com.aidan.secondinventoryworkplatform.Entity.Item;
 import com.aidan.secondinventoryworkplatform.KeyConstants;
 import com.aidan.secondinventoryworkplatform.Model.BarCodeCreator;
@@ -27,22 +27,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
-/**
- * Created by Aidan on 2017/10/15.
- */
-
-public class PrinterItemDialog extends Dialog {
+public class PrintItemLittleTagDialog extends Dialog {
     private Item item;
     private ImageView barcodeImageView;
 
 
-    public PrinterItemDialog(@NonNull Context context) {
+    public PrintItemLittleTagDialog(@NonNull Context context) {
         super(context);
     }
-
     public void setItem(Item item) {
         this.item = item;
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +58,9 @@ public class PrinterItemDialog extends Dialog {
     }
 
     private void setContent() {
-        Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), TagCreator.height / 10 - dpToPix(2) * 2, dpToPix(2));
+        Bitmap bitmap = LittleTagCreator.transStringToImage(item.getLittleTagContentString(), LittleTagCreator.height / 5 - dpToPix(2) * 2, dpToPix(1.5f));
         try {
-
-            bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, TagCreator.width, TagCreator.height / 4), dpToPix(2));
-            if(KeyConstants.showQRCode){
-                bitmap = TagCreator.mergeQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, TagCreator.height / 3,TagCreator.height / 3),dpToPix(2));
-            }
+            bitmap = LittleTagCreator.addQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, LittleTagCreator.height , LittleTagCreator.height ), dpToPix(2));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,10 +68,12 @@ public class PrinterItemDialog extends Dialog {
     }
 
 
-
-
     public int dpToPix(int dp) {
         return (int) Resources.getSystem().getDisplayMetrics().density * dp;
+    }
+
+    public int dpToPix(float dp) {
+        return (int) (Resources.getSystem().getDisplayMetrics().density * dp);
     }
 
     public void print() {
@@ -92,17 +86,29 @@ public class PrinterItemDialog extends Dialog {
                     dirFile.mkdirs();
                 }
 
-                Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), TagCreator.height / 10 - dpToPix(2) * 2, dpToPix(2));
+                Bitmap bitmap = LittleTagCreator.transStringToImage(item.getLittleTagContentString(), LittleTagCreator.height / 5 - dpToPix(2) * 2, dpToPix(1.5f));
                 try {
-                    bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, TagCreator.width, TagCreator.height / 4), dpToPix(2));
-                    if(KeyConstants.showQRCode){
-                        bitmap = TagCreator.mergeQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, TagCreator.height / 3,TagCreator.height / 3),dpToPix(2));
-                    }
+                    bitmap = LittleTagCreator.addQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, LittleTagCreator.height , LittleTagCreator.height ), dpToPix(2));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                String fileName = item.getNumber() + item.getSerialNumber() + ".png";
+
+
+                Matrix vMatrix = new Matrix();
+                vMatrix.setRotate( 90 );
+
+                Bitmap vB2 = Bitmap.createBitmap( bitmap
+                        , 0
+                        , 0
+                        , bitmap.getWidth()
+                        , bitmap.getHeight()
+                        , vMatrix
+                        , true
+                );
+                bitmap.recycle();
+
+                String fileName = item.getNumber() + item.getSerialNumber() + "-little.png";
                 File file = new File(dir, fileName);
                 if (file.exists()) {
                     file.delete();
@@ -111,7 +117,7 @@ public class PrinterItemDialog extends Dialog {
 
                 try {
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+                    vB2.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
                     byte[] bitmapdata = bos.toByteArray();
 
 //write the bytes in file

@@ -64,6 +64,7 @@ public class Item {
     private String PA3DED = "";
     private String PA3DENO = "";
     private String PA3TI = "";
+    private String PA3MB ="";
     private String PA3VWW = "";
     private String PA3VN = "";
     private String PA3DR = "";
@@ -164,6 +165,9 @@ public class Item {
             if(jsonObject.has(ItemConstants.TYPE)){
                 type = Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
             }
+            if(jsonObject.has(ItemConstants.PA3MB)){
+                PA3MB = jsonObject.getString(ItemConstants.PA3MB);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -258,6 +262,9 @@ public class Item {
             if(jsonObject.has(ItemConstants.TYPE)){
                 type = Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
             }
+            if(jsonObject.has(ItemConstants.PA3MB)){
+                PA3MB = jsonObject.getString(ItemConstants.PA3MB);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -315,6 +322,7 @@ public class Item {
             jsonObject.put(ItemConstants.PA3MOL, PA3MOL);
             jsonObject.put(ItemConstants.PA8PD, PA8PD);
             jsonObject.put(ItemConstants.PA8A, PA8A);
+            jsonObject.put(ItemConstants.PA3MB, PA3MB);
 
 
         } catch (JSONException e) {
@@ -375,6 +383,7 @@ public class Item {
             jsonObject.put(ItemConstants.PA8PD, PA8PD);
             jsonObject.put(ItemConstants.PA8A, PA8A);
             jsonObject.put(ItemConstants.TYPE,type.toString());
+            jsonObject.put(ItemConstants.PA3MB, PA3MB);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -540,7 +549,15 @@ public class Item {
     public void setId(long id) {
         this.id = id;
     }
-
+    public String getLittleTagContentString() {
+        String ans = "  ";
+        ans += KeyConstants.AuthorityName + (type == Type.item ? KeyConstants.ItemName : "") + "\n";
+        ans += "  " + getTagIdNumber() + "\n";
+        ans += "  " + getName() + "\n";
+        ans += "  " + ADtoCal() + "  " + getYears() +"\n";
+        ans += "  "+ getCustodian().getName() + "/" + getLocation().getName() ;
+        return ans;
+    }
     public String getTagContentString() {
         String ans = "  ";
         ans += KeyConstants.AuthorityName + (type == Type.item ? KeyConstants.ItemName : "") + "\n";
@@ -566,7 +583,7 @@ public class Item {
         }
 
         ans += "  廠牌/型式：" + getBrand() + "/" + getType() + "\n";
-        ans += "  經費：" + getPA3P3() + "\n";
+        ans += "  經費：" + getPA3P3() ;
         return ans;
     }
 
@@ -750,6 +767,14 @@ public class Item {
 
     public String getPA3MOL() {
         return PA3MOL;
+    }
+
+    public String getPA3MB() {
+        return PA3MB;
+    }
+
+    public void setPA3MB(String PA3MB) {
+        this.PA3MB = PA3MB;
     }
 
     public void setPA3C1(String PA3C1) {

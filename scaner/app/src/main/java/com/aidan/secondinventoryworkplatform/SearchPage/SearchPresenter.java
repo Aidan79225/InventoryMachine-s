@@ -19,6 +19,7 @@ import com.aidan.secondinventoryworkplatform.Entity.Item;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Location;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.SortCategory;
 import com.aidan.secondinventoryworkplatform.Entity.TagContent;
+import com.aidan.secondinventoryworkplatform.KeyConstants;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.AgentSingleton;
 import com.aidan.secondinventoryworkplatform.Model.BarCodeCreator;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.DepartmentSingleton;
@@ -353,7 +354,9 @@ public class SearchPresenter implements SearchContract.presenter {
                     Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), TagCreator.height / 10, 0);
                     try {
                         bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, TagCreator.width, TagCreator.height / 4), dpToPix(2));
-                        bitmap = TagCreator.mergeQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, TagCreator.height / 3,TagCreator.height / 3),dpToPix(2));
+                        if(KeyConstants.showQRCode){
+                            bitmap = TagCreator.mergeQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, TagCreator.height / 3,TagCreator.height / 3),dpToPix(2));
+                        }
                         String fileName = item.getNumber() + item.getSerialNumber() + ".png";
                         File file = new File(dir, fileName);
                         if (file.exists()) {

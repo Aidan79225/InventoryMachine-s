@@ -122,31 +122,24 @@ public class ItemDetailPresenter implements ItemDetailContract.presenter {
 
     @Override
     public void deleteButton() {
-        view.showSetDialog(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int position) {
-                model.getItem().setDelete(deleteStrings[position]);
-                view.setViewValue(model.getItem());
-            }
-        },"報廢",deleteStrings);
+        view.gotoDeleteChangeDetail(model.getItem());
     }
 
     @Override
     public void moveButtonClick() {
-//        view.showSetDialog(new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int position) {
-//                model.getItem().setPrint(printStrings[position]);
-//                view.setViewValue(model.getItem());
-//            }
-//        },"補印",printStrings);
-        view.gotoChangeDetail(model.getItem());
+        view.gotoMoveChangeDetail(model.getItem());
     }
 
     @Override
     public void printButtonClick() {
         view.showPrintDialog(model.getItem());
     }
+
+    @Override
+    public void printLittleButtonClick() {
+        view.showLittlePrintDialog(model.getItem());
+    }
+
 
     @Override
     public void tagContentTextViewClick() {

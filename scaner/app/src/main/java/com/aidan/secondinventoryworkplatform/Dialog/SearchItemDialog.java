@@ -16,6 +16,7 @@ import android.widget.EditText;
 import com.aidan.secondinventoryworkplatform.R;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -30,7 +31,13 @@ public class SearchItemDialog extends Dialog implements SearchItemAdapter.Closea
     SearchItemAdapter.OnClickListener onClickListener;
     public SearchItemDialog( Context context,List<SearchableItem> dataList) {
         super(context);
-        this.dataList = dataList;
+        HashSet<String> used = new HashSet<>();
+        for(SearchableItem s : dataList){
+            if(!s.getName().isEmpty() && !used.contains(s.getName())){
+                this.dataList.add(s);
+                used.add(s.getName());
+            }
+        }
     }
     @Override
     public void onCreate(Bundle s){

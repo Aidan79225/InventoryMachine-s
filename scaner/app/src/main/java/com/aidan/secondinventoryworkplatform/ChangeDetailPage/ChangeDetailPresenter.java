@@ -30,9 +30,9 @@ public class ChangeDetailPresenter implements ChangeDetailContract.presenter{
     private ChangeDetailModel model;
 
 
-    public ChangeDetailPresenter(ChangeDetailContract.view view, Item item){
+    public ChangeDetailPresenter(ChangeDetailContract.view view, Item item, ChangeTarget changeTarget){
         this.model = new ChangeDetailModel(item);
-        model.setChangeTarget(ChangeTarget.getScrappedChangeTarget());
+        this.model.setChangeTarget(changeTarget);
         this.view = view;
     }
 
@@ -42,6 +42,15 @@ public class ChangeDetailPresenter implements ChangeDetailContract.presenter{
         view.reloadInfo(model.getItem());
         view.setViewClick();
         view.showScrappedViews(model.getChangeTarget(),model.getItem());
+        setChangeType();
+    }
+
+    private void setChangeType(){
+        if(model.getChangeTarget().getType() == ChangeTarget.TYPE_SCRAPPED){
+            view.showScrappedViews(model.getChangeTarget(),model.getItem());
+        }else{
+            view.showMoveViews(model.getChangeTarget(),model.getItem());
+        }
     }
 
     @Override
@@ -61,7 +70,6 @@ public class ChangeDetailPresenter implements ChangeDetailContract.presenter{
 
     @Override
     public void confirmButtonClick() {
-        saveChangeTarget();
         model.getItem().setPA3MONO(view.getChangeOrderId());
         model.getItem().setPA3MOC8(view.getChangeId());
         if(model.getChangeTarget().getType() == ChangeTarget.TYPE_MOVE){
@@ -69,6 +77,8 @@ public class ChangeDetailPresenter implements ChangeDetailContract.presenter{
             model.getItem().setPA3OUN(view.getNewAgent());
             model.getItem().setPA3LOCN(view.getMoveLocation());
             model.getItem().setPA3MOD(transDateString());
+            model.getItem().setPA3TI("");
+            model.getItem().setPA3MB("移動");
             model.getItem().setConfirm(true);
         }else if(model.getChangeTarget().getType() == ChangeTarget.TYPE_SCRAPPED){
             model.getItem().setPA3VWW(view.getPA3VWW());
@@ -77,6 +87,8 @@ public class ChangeDetailPresenter implements ChangeDetailContract.presenter{
             model.getItem().setPA8PD(view.getPA8PD());
             model.getItem().setPA8A(view.getPA8A());
             model.getItem().setPA3DED(transDateString());
+            model.getItem().setPA3TI("報廢");
+            model.getItem().setPA3MB("");
             model.getItem().setConfirm(true);
             savePA3VWW();
             savePA3VN();
@@ -89,19 +101,9 @@ public class ChangeDetailPresenter implements ChangeDetailContract.presenter{
 
     private String transDateString(){
         String [] t = view.getDateText().split("/");
-        return String.valueOf(Integer.valueOf(t[0])+1911) + t[1]+t[2];
+        return (String.valueOf(Integer.valueOf(t[0])+1911) + t[1]+t[2]).replace("/","").replace("\\","");
     }
-    private void saveChangeTarget(){
-        String name = view.getChangeTargetName();
-        for(ChangeTarget data : ChangeTargetSingleton.getInstance().getDataList()){
-            if(name.equals(data.getName()))return;
-        }
-        ChangeTarget t = new ChangeTarget();
-        t.setName(name);
-        t.setType(model.getChangeTarget().getType());
-        ChangeTargetSingleton.getInstance().getDataList().add(t);
-        ChangeTargetSingleton.getInstance().saveToDB();
-    }
+
     private void savePA3VWW(){
         String name = view.getPA3VWW();
         for(SummonsTitle data : SummonsTitleSingleton.getInstance().getDataList()){
