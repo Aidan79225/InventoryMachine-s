@@ -98,17 +98,9 @@ public class PrintItemLittleTagDialog extends Dialog {
                 Matrix vMatrix = new Matrix();
                 vMatrix.setRotate( 90 );
 
-                Bitmap vB2 = Bitmap.createBitmap( bitmap
-                        , 0
-                        , 0
-                        , bitmap.getWidth()
-                        , bitmap.getHeight()
-                        , vMatrix
-                        , true
-                );
-                bitmap.recycle();
 
-                String fileName = item.getNumber() + item.getSerialNumber() + "-little.png";
+
+                String fileName = item.getNumber() + item.getSerialNumber() + "little.png";
                 File file = new File(dir, fileName);
                 if (file.exists()) {
                     file.delete();
@@ -117,7 +109,7 @@ public class PrintItemLittleTagDialog extends Dialog {
 
                 try {
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    vB2.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
                     byte[] bitmapdata = bos.toByteArray();
 
 //write the bytes in file
@@ -141,7 +133,7 @@ public class PrintItemLittleTagDialog extends Dialog {
                     printInfo.port = PrinterInfo.Port.NET;
                     printInfo.ipAddress = netPrinters[0].ipAddress;
                     printInfo.macAddress = netPrinters[0].macAddress;
-                    printInfo.labelNameIndex = LabelInfo.PT.W36.ordinal();
+                    printInfo.labelNameIndex = LabelInfo.PT.W12.ordinal();
                     printInfo.orientation = PrinterInfo.Orientation.LANDSCAPE;
                     printInfo.align = PrinterInfo.Align.CENTER;
                     printInfo.isAutoCut = false;

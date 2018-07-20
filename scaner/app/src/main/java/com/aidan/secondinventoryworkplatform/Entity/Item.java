@@ -554,7 +554,7 @@ public class Item {
         ans += KeyConstants.AuthorityName + (type == Type.item ? KeyConstants.ItemName : "") + "\n";
         ans += "  " + getTagIdNumber() + "\n";
         ans += "  " + getName() + "\n";
-        ans += "  " + ADtoCal() + "  " + getYears() +"\n";
+        ans += "  " + ADtoCal() + "  年限:" + getYears() +"\n";
         ans += "  "+ getCustodian().getName() + "/" + getLocation().getName() ;
         return ans;
     }

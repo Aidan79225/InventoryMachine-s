@@ -1,16 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 24
+    buildToolsVersion '26.0.3'
     defaultConfig {
         applicationId "com.aidan.secondinventoryworkplatform"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
+        multiDexEnabled false
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
         }
@@ -38,7 +38,7 @@ android {
 dependencies {
     compile 'com.droidninja:filepicker:1.0.8'
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     compile files('libs/BarcodeAPI.jar')
     compile('eu.livotov.labs.android:CAMView:2.0.1@aar') { transitive = true }
