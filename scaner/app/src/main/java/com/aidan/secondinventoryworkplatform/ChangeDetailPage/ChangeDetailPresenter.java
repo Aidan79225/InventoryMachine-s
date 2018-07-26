@@ -101,7 +101,7 @@ public class ChangeDetailPresenter implements ChangeDetailContract.presenter{
 
     private String transDateString(){
         String [] t = view.getDateText().split("/");
-        return (String.valueOf(Integer.valueOf(t[0])+1911) + t[1]+t[2]).replace("/","").replace("\\","");
+        return (String.valueOf(Integer.valueOf(t[0])+1911) + String.format("%02d", Integer.valueOf(t[1]))+  String.format("%02d", Integer.valueOf(t[2]))).replace("/","").replace("\\","");
     }
 
     private void savePA3VWW(){
