@@ -157,9 +157,32 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < size; i++) {
                 JSONObject c = data.getJSONObject(i);
                 Item item = new Item(c);
-                if(nameMap.containsKey(item.getNumber())){
-                    item.setNAME(nameMap.get(item.getNumber()));
+                boolean notSet = item.getNumber().startsWith("6");
+
+                String key = notSet ? item.getNumber().substring(1) : item.getNumber();
+                while(key.length() > 0){
+                    if(nameMap.containsKey(key)){
+                        item.setNAME(nameMap.get(key));
+                        notSet = false;
+                        break;
+                    }else{
+                        key = key.substring(0,key.length()-1);
+                    }
                 }
+
+                if(notSet){
+                    key = item.getNumber();
+                    while(key.length() > 0){
+                        if(nameMap.containsKey(key)){
+                            item.setNAME(nameMap.get(key));
+                            break;
+                        }else{
+                            key = key.substring(0,key.length()-1);
+                        }
+                    }
+                }
+
+
                 item.setType(type);
                 itemList.add(item);
                 view.updateProgress((i + 1) * 100 / size);
@@ -413,8 +436,9 @@ public class FilePresenter implements FileContract.presenter {
         }
         try {
             BufferedWriter bufWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), "big5"));
-            bufWriter.write(jsonObject.toString());
+            bufWriter.write(jsonObject.toString().replace("\\/","/"));
             bufWriter.close();
+
         } catch (IOException e) {
             e.printStackTrace();
             Singleton.log(file.getAbsoluteFile() + "寫檔發生錯誤");
@@ -458,7 +482,7 @@ public class FilePresenter implements FileContract.presenter {
             JSONObject ASSETs = new JSONObject();
             JSONArray PA3 = new JSONArray();
             for (Item item : itemList) {
-                if (allowType.contains(item.getPA3C1())) {
+                if (allowType.contains(item.getPA3C0().length() == 0 ? item.getPA3C1() : item.getPA3C0())) {
                     PA3.put(item.toJSON());
                 }
             }

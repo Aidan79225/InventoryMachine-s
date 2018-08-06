@@ -312,9 +312,9 @@ public class Item {
             jsonObject.put(ItemConstants.PA3MEMO, PA3MEMO);
             jsonObject.put(ItemConstants.PA3MOC8, PA3MOC8);
             jsonObject.put(ItemConstants.PA3MOB, PA3MOB);
-            jsonObject.put(ItemConstants.PA3MOD, PA3MOD);
+            jsonObject.put(ItemConstants.PA3MOD, PA3MOD.replace("\\",""));
             jsonObject.put(ItemConstants.PA3MONO, PA3MONO);
-            jsonObject.put(ItemConstants.PA3DED, PA3DED);
+            jsonObject.put(ItemConstants.PA3DED, PA3DED.replace("\\",""));
             jsonObject.put(ItemConstants.PA3DENO, PA3DENO);
             jsonObject.put(ItemConstants.PA3TI, PA3TI);
             jsonObject.put(ItemConstants.PA3VWW, PA3VWW);
@@ -372,9 +372,9 @@ public class Item {
             jsonObject.put(ItemConstants.PA3MEMO, PA3MEMO);
             jsonObject.put(ItemConstants.PA3MOC8, PA3MOC8);
             jsonObject.put(ItemConstants.PA3MOB, PA3MOB);
-            jsonObject.put(ItemConstants.PA3MOD, PA3MOD);
+            jsonObject.put(ItemConstants.PA3MOD, PA3MOD.replace("\\",""));
             jsonObject.put(ItemConstants.PA3MONO, PA3MONO);
-            jsonObject.put(ItemConstants.PA3DED, PA3DED);
+            jsonObject.put(ItemConstants.PA3DED, PA3DED.replace("\\",""));
             jsonObject.put(ItemConstants.PA3DENO, PA3DENO);
             jsonObject.put(ItemConstants.PA3TI, PA3TI);
             jsonObject.put(ItemConstants.PA3VWW, PA3VWW);
