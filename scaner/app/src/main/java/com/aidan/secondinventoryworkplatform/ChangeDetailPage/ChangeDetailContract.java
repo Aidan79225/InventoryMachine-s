@@ -6,6 +6,8 @@ import com.aidan.secondinventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.secondinventoryworkplatform.Entity.Item;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.ChangeTarget;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,7 +40,7 @@ public interface ChangeDetailContract {
         String getPA3DR();
         String getPA8PD();
         String getPA8A();
-        String getDateText();
+        Calendar getDate();
         String getChangeOrderId();
         String getChangeId();
         String getNumber();

@@ -23,6 +23,7 @@ import com.aidan.secondinventoryworkplatform.R;
 import com.aidan.secondinventoryworkplatform.Utils.LocalCacheHelper;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -112,6 +113,7 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
         int m = c.get(Calendar.MONTH);
         int d = c.get(Calendar.DAY_OF_MONTH);
         dateTextView.setText((y-1911)+"/"+(m+1)+"/"+d);
+        dateTextView.setTag(c);
     }
 
     @Override
@@ -332,8 +334,8 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
     }
 
     @Override
-    public String getDateText() {
-        return dateTextView.getText().toString();
+    public Calendar getDate() {
+        return ((Calendar)dateTextView.getTag());
     }
 
     @Override

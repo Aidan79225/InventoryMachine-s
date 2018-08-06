@@ -11,9 +11,7 @@ import android.support.annotation.NonNull;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.aidan.secondinventoryworkplatform.Constants;
 import com.aidan.secondinventoryworkplatform.Entity.Item;
-import com.aidan.secondinventoryworkplatform.KeyConstants;
 import com.aidan.secondinventoryworkplatform.Model.BarCodeCreator;
 import com.aidan.secondinventoryworkplatform.R;
 import com.brother.ptouch.sdk.LabelInfo;
@@ -66,16 +64,13 @@ public class PrinterItemDialog extends Dialog {
         try {
 
             bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, TagCreator.width, TagCreator.height / 4), dpToPix(2));
-            if(KeyConstants.showQRCode){
-                bitmap = TagCreator.mergeQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, TagCreator.height / 3,TagCreator.height / 3),dpToPix(2));
-            }
+            bitmap = TagCreator.mergeQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, TagCreator.height / 3, TagCreator.height / 3), dpToPix(2));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         barcodeImageView.setImageBitmap(bitmap);
     }
-
-
 
 
     public int dpToPix(int dp) {
@@ -95,9 +90,8 @@ public class PrinterItemDialog extends Dialog {
                 Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), TagCreator.height / 10 - dpToPix(2) * 2, dpToPix(2));
                 try {
                     bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, TagCreator.width, TagCreator.height / 4), dpToPix(2));
-                    if(KeyConstants.showQRCode){
-                        bitmap = TagCreator.mergeQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, TagCreator.height / 3,TagCreator.height / 3),dpToPix(2));
-                    }
+                    bitmap = TagCreator.mergeQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, TagCreator.height / 3, TagCreator.height / 3), dpToPix(2));
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

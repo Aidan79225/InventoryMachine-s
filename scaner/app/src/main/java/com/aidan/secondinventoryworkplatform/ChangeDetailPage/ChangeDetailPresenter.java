@@ -21,6 +21,8 @@ import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.SummonsN
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.SummonsTitleSingleton;
 import com.aidan.secondinventoryworkplatform.Utils.LocalCacheHelper;
 
+import java.util.Calendar;
+
 /**
  * Created by Aidan on 2018/4/18.
  */
@@ -100,8 +102,11 @@ public class ChangeDetailPresenter implements ChangeDetailContract.presenter{
     }
 
     private String transDateString(){
-        String [] t = view.getDateText().split("/");
-        return (String.valueOf(Integer.valueOf(t[0])+1911) + String.format("%02d", Integer.valueOf(t[1]))+  String.format("%02d", Integer.valueOf(t[2]))).replace("/","").replace("\\","");
+        Calendar c = view.getDate();
+        int y = c.get(Calendar.YEAR);
+        int m = c.get(Calendar.MONTH);
+        int d = c.get(Calendar.DAY_OF_MONTH);
+        return y +"/"+ (m+1) + "/" + d ;
     }
 
     private void savePA3VWW(){
