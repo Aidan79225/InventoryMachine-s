@@ -221,18 +221,18 @@ public class SearchPresenter implements SearchContract.presenter {
     }
 
     @Override
-    public void searchTextViewClick(String name, String number, String serialMinNumber, String serialMaxNumber) {
+    public void searchTextViewClick(String name, String c0, String c1, String c2, String c3, String c4, String c5,String serialMinNumber,String serialMaxNumber){
         int minSerialNumber = serialMinNumber.length() > 0 ? Integer.valueOf(serialMinNumber) : 0;
         int maxSerialNumber = serialMaxNumber.length() > 0 ? Integer.valueOf(serialMaxNumber) : Integer.MAX_VALUE;
-        List<Item> itemList = getItemListWithCondition(name, number, minSerialNumber, maxSerialNumber);
+        List<Item> itemList = getItemListWithCondition(name,  c0, c1, c2, c3, c4, c5, minSerialNumber, maxSerialNumber);
         view.showFragmentWithResult(itemList);
     }
 
     @Override
-    public void printTextViewClick(Context context, String name, String number, String serialMinNumber, String serialMaxNumber) {
+    public void printTextViewClick(Context context, String name, String c0, String c1, String c2, String c3, String c4, String c5, String serialMinNumber, String serialMaxNumber) {
         int minSerialNumber = serialMinNumber.length() > 0 ? Integer.valueOf(serialMinNumber) : 0;
         int maxSerialNumber = serialMaxNumber.length() > 0 ? Integer.valueOf(serialMaxNumber) : Integer.MAX_VALUE;
-        final List<Item> itemList = getItemListWithCondition(name, number, minSerialNumber, maxSerialNumber);
+        final List<Item> itemList = getItemListWithCondition(name, c0, c1, c2, c3, c4, c5, minSerialNumber, maxSerialNumber);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("列印").
                 setMessage("將會列印 " + itemList.size() + " 個項目，您確定要列印嗎？").
@@ -251,10 +251,10 @@ public class SearchPresenter implements SearchContract.presenter {
         }).show();
     }
 
-    public List<Item> getItemListWithCondition(String name, String number, int minSerialNumber, int maxSerialNumber) {
+    public List<Item> getItemListWithCondition(String name, String c0, String c1, String c2, String c3, String c4, String c5, int minSerialNumber, int maxSerialNumber) {
         List<Item> itemList = new ArrayList<>();
         for (Item item : ItemSingleton.getInstance().getItemList()) {
-            if (!item.getName().contains(name) && !name.isEmpty()) {
+            if (!name.isEmpty() && !item.getName().contains(name)) {
                 continue;
             }
             if (location != null && !item.getLocation().name.equals(location.name)) {
@@ -266,9 +266,25 @@ public class SearchPresenter implements SearchContract.presenter {
             if (useGroup != null && !item.getUseGroup().name.equals(useGroup.name)) {
                 continue;
             }
-            if (number.length() > 0 && !item.getNumber().startsWith(number)) {
+            if(!c0.isEmpty() && !c0.equals(item.getPA3C0())){
                 continue;
             }
+            if(!c1.isEmpty() && !c1.equals(item.getPA3C1())){
+                continue;
+            }
+            if(!c2.isEmpty() && !c2.equals(item.getPA3C2())){
+                continue;
+            }
+            if(!c3.isEmpty() && !c3.equals(item.getPA3C3())){
+                continue;
+            }
+            if(!c4.isEmpty() && !c4.equals(item.getPA3C4())){
+                continue;
+            }
+            if(!c5.isEmpty() && !c5.equals(item.getPA3C5())){
+                continue;
+            }
+
             int serialNumber = Integer.valueOf(item.getSerialNumber().substring(2));
             if (serialNumber < minSerialNumber || serialNumber > maxSerialNumber) {
                 continue;

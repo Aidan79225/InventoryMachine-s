@@ -35,8 +35,8 @@ public interface SearchContract {
         void locationTextViewClick(TextView locationTextView);
         void agentTextViewClick(TextView agentTextView);
         void useGroupTextViewClick(TextView departmentTextView);
-        void searchTextViewClick(String name, String number,String serialMinNumber,String serialMaxNumber);
-        void printTextViewClick(Context context, String name, String number, String serialMinNumber, String serialMaxNumber);
+        void searchTextViewClick(String name, String c0, String c1, String c2, String c3, String c4, String c5,String serialMinNumber,String serialMaxNumber);
+        void printTextViewClick(Context context, String name, String c0, String c1, String c2, String c3, String c4, String c5, String serialMinNumber, String serialMaxNumber);
         void tagContentTextViewClick(TextView tagContentTextView);
         void sortTextViewClick(TextView sortTextView);
         void minDateTextViewClick(Activity activity);

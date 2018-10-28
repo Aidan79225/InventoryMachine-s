@@ -157,32 +157,15 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < size; i++) {
                 JSONObject c = data.getJSONObject(i);
                 Item item = new Item(c);
-                boolean notSet = item.getNumber().startsWith("6");
 
-                String key = notSet ? item.getNumber().substring(1) : item.getNumber();
-                while(key.length() > 0){
-                    if(nameMap.containsKey(key)){
-                        item.setNAME(nameMap.get(key));
-                        notSet = false;
-                        break;
-                    }else{
-                        key = key.substring(0,key.length()-1);
+                String key = item.getNumber();
+                if(nameMap.containsKey(key)){
+                    item.setNAME(nameMap.get(key));
+                }else if(key.startsWith("6")){
+                    if(nameMap.containsKey(key.substring(1))){
+                        item.setNAME(nameMap.get(key.substring(1)));
                     }
                 }
-
-                if(notSet){
-                    key = item.getNumber();
-                    while(key.length() > 0){
-                        if(nameMap.containsKey(key)){
-                            item.setNAME(nameMap.get(key));
-                            break;
-                        }else{
-                            key = key.substring(0,key.length()-1);
-                        }
-                    }
-                }
-
-
                 item.setType(type);
                 itemList.add(item);
                 view.updateProgress((i + 1) * 100 / size);
