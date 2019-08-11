@@ -157,8 +157,14 @@ public class FilePresenter implements FileContract.presenter {
             for (int i = 0; i < size; i++) {
                 JSONObject c = data.getJSONObject(i);
                 Item item = new Item(c);
-                if(nameMap.containsKey(item.getNumber())){
-                    item.setNAME(nameMap.get(item.getNumber()));
+
+                String key = item.getNumber();
+                if(nameMap.containsKey(key)){
+                    item.setNAME(nameMap.get(key));
+                }else if(key.startsWith("6")){
+                    if(nameMap.containsKey(key.substring(1))){
+                        item.setNAME(nameMap.get(key.substring(1)));
+                    }
                 }
                 item.setType(type);
                 itemList.add(item);
@@ -413,8 +419,9 @@ public class FilePresenter implements FileContract.presenter {
         }
         try {
             BufferedWriter bufWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), "big5"));
-            bufWriter.write(jsonObject.toString());
+            bufWriter.write(jsonObject.toString().replace("\\/","/"));
             bufWriter.close();
+
         } catch (IOException e) {
             e.printStackTrace();
             Singleton.log(file.getAbsoluteFile() + "寫檔發生錯誤");
@@ -458,7 +465,7 @@ public class FilePresenter implements FileContract.presenter {
             JSONObject ASSETs = new JSONObject();
             JSONArray PA3 = new JSONArray();
             for (Item item : itemList) {
-                if (allowType.contains(item.getPA3C1())) {
+                if (allowType.contains(item.getPA3C0().length() == 0 ? item.getPA3C1() : item.getPA3C0())) {
                     PA3.put(item.toJSON());
                 }
             }

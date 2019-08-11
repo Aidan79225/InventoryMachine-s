@@ -1,5 +1,6 @@
 package com.aidan.secondinventoryworkplatform;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,8 +28,7 @@ import static com.aidan.secondinventoryworkplatform.KeyConstants.isLogin;
  * Created by Aidan on 2017/3/30.
  */
 
-public class StartActivity extends AppCompatActivity {
-    private ActivityJumpTimer timer;
+public class StartActivity extends Activity {
     private static final int ACTIVITYJUMP_DELAY = 300;
     private static final int REQUEST_PHONE_STATE = 0x1;
     private SharedPreferences settings;
@@ -36,13 +36,12 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        timer = new ActivityJumpTimer(this);
-        timer.sendEmptyMessageDelayed(ActivityJumpTimer.JUMP_TO_HOMEACTIVITY, ACTIVITYJUMP_DELAY);
-
     }
     @Override
     public void onResume(){
         super.onResume();
+        new ActivityJumpTimer().sendEmptyMessageDelayed(ActivityJumpTimer.JUMP_TO_HOMEACTIVITY, ACTIVITYJUMP_DELAY);
+
     }
     private void start(){
         int permission = ActivityCompat.checkSelfPermission(this,
@@ -147,10 +146,9 @@ public class StartActivity extends AppCompatActivity {
     }
     private class ActivityJumpTimer extends Handler {
         private static final int JUMP_TO_HOMEACTIVITY = 0x0000;
-        private StartActivity activity;
 
-        private ActivityJumpTimer(StartActivity activity) {
-            this.activity = activity;
+        private ActivityJumpTimer() {
+
         }
 
         public void handleMessage(Message msg) {

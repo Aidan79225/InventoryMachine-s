@@ -1,5 +1,7 @@
 package com.aidan.secondinventoryworkplatform.Entity;
 
+import android.text.format.DateUtils;
+
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Agent;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Department;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Location;
@@ -9,6 +11,7 @@ import com.aidan.secondinventoryworkplatform.Model.ItemSingleton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -64,6 +67,7 @@ public class Item {
     private String PA3DED = "";
     private String PA3DENO = "";
     private String PA3TI = "";
+    private String PA3MB ="";
     private String PA3VWW = "";
     private String PA3VN = "";
     private String PA3DR = "";
@@ -121,14 +125,14 @@ public class Item {
                 PA3MOB = jsonObject.getString(ItemConstants.PA3MOB);
             }
             if (jsonObject.has(ItemConstants.PA3MOD)){
-                PA3MOD = jsonObject.getString(ItemConstants.PA3MOD);
+                PA3MOD = jsonObject.getString(ItemConstants.PA3MOD).replace("\\","");;
             }
             if (jsonObject.has(ItemConstants.PA3MONO)){
                 PA3MONO = jsonObject.getString(ItemConstants.PA3MONO);
             }
 
             if (jsonObject.has(ItemConstants.PA3DED)){
-                PA3DED = jsonObject.getString(ItemConstants.PA3DED);
+                PA3DED = jsonObject.getString(ItemConstants.PA3DED).replace("\\","");
             }
             if (jsonObject.has(ItemConstants.PA3DENO)){
                 PA3DENO = jsonObject.getString(ItemConstants.PA3DENO);
@@ -163,6 +167,9 @@ public class Item {
             }
             if(jsonObject.has(ItemConstants.TYPE)){
                 type = Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
+            }
+            if(jsonObject.has(ItemConstants.PA3MB)){
+                PA3MB = jsonObject.getString(ItemConstants.PA3MB);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -215,14 +222,14 @@ public class Item {
                 PA3MOB = jsonObject.getString(ItemConstants.PA3MOB);
             }
             if (jsonObject.has(ItemConstants.PA3MOD)){
-                PA3MOD = jsonObject.getString(ItemConstants.PA3MOD);
+                PA3MOD = jsonObject.getString(ItemConstants.PA3MOD).replace("\\","");;
             }
             if (jsonObject.has(ItemConstants.PA3MONO)){
                 PA3MONO = jsonObject.getString(ItemConstants.PA3MONO);
             }
 
             if (jsonObject.has(ItemConstants.PA3DED)){
-                PA3DED = jsonObject.getString(ItemConstants.PA3DED);
+                PA3DED = jsonObject.getString(ItemConstants.PA3DED).replace("\\","");
             }
             if (jsonObject.has(ItemConstants.PA3DENO)){
                 PA3DENO = jsonObject.getString(ItemConstants.PA3DENO);
@@ -257,6 +264,9 @@ public class Item {
             }
             if(jsonObject.has(ItemConstants.TYPE)){
                 type = Type.valueOf(jsonObject.getString(ItemConstants.TYPE));
+            }
+            if(jsonObject.has(ItemConstants.PA3MB)){
+                PA3MB = jsonObject.getString(ItemConstants.PA3MB);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -302,9 +312,9 @@ public class Item {
             jsonObject.put(ItemConstants.PA3MEMO, PA3MEMO);
             jsonObject.put(ItemConstants.PA3MOC8, PA3MOC8);
             jsonObject.put(ItemConstants.PA3MOB, PA3MOB);
-            jsonObject.put(ItemConstants.PA3MOD, PA3MOD);
+            jsonObject.put(ItemConstants.PA3MOD, PA3MOD.replace("\\",""));
             jsonObject.put(ItemConstants.PA3MONO, PA3MONO);
-            jsonObject.put(ItemConstants.PA3DED, PA3DED);
+            jsonObject.put(ItemConstants.PA3DED, PA3DED.replace("\\",""));
             jsonObject.put(ItemConstants.PA3DENO, PA3DENO);
             jsonObject.put(ItemConstants.PA3TI, PA3TI);
             jsonObject.put(ItemConstants.PA3VWW, PA3VWW);
@@ -315,6 +325,7 @@ public class Item {
             jsonObject.put(ItemConstants.PA3MOL, PA3MOL);
             jsonObject.put(ItemConstants.PA8PD, PA8PD);
             jsonObject.put(ItemConstants.PA8A, PA8A);
+            jsonObject.put(ItemConstants.PA3MB, PA3MB);
 
 
         } catch (JSONException e) {
@@ -361,9 +372,9 @@ public class Item {
             jsonObject.put(ItemConstants.PA3MEMO, PA3MEMO);
             jsonObject.put(ItemConstants.PA3MOC8, PA3MOC8);
             jsonObject.put(ItemConstants.PA3MOB, PA3MOB);
-            jsonObject.put(ItemConstants.PA3MOD, PA3MOD);
+            jsonObject.put(ItemConstants.PA3MOD, PA3MOD.replace("\\",""));
             jsonObject.put(ItemConstants.PA3MONO, PA3MONO);
-            jsonObject.put(ItemConstants.PA3DED, PA3DED);
+            jsonObject.put(ItemConstants.PA3DED, PA3DED.replace("\\",""));
             jsonObject.put(ItemConstants.PA3DENO, PA3DENO);
             jsonObject.put(ItemConstants.PA3TI, PA3TI);
             jsonObject.put(ItemConstants.PA3VWW, PA3VWW);
@@ -375,6 +386,7 @@ public class Item {
             jsonObject.put(ItemConstants.PA8PD, PA8PD);
             jsonObject.put(ItemConstants.PA8A, PA8A);
             jsonObject.put(ItemConstants.TYPE,type.toString());
+            jsonObject.put(ItemConstants.PA3MB, PA3MB);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -426,10 +438,12 @@ public class Item {
     }
 
     public Date getDate() {
-        String PA3BD = this.PA3BD.replace("/", "");
-        Calendar c = Calendar.getInstance();
-        c.set(Integer.valueOf(PA3BD.substring(0, PA3BD.length() - 4)), Integer.valueOf(PA3BD.substring(PA3BD.length() - 4, PA3BD.length() - 2)) - 1, Integer.valueOf(PA3BD.substring(PA3BD.length() - 2)));
-        return c.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        try {
+            return sdf.parse(PA3BD);
+        }catch (Exception e){
+            return new Date();
+        }
     }
 
     public String getPA3BD() {
@@ -540,7 +554,15 @@ public class Item {
     public void setId(long id) {
         this.id = id;
     }
-
+    public String getLittleTagContentString() {
+        String ans = "  ";
+        ans += KeyConstants.LittleAuthorityName + (type == Type.item ? KeyConstants.LittleItemName : "") + "\n";
+        ans += "  " + getTagIdNumber() + "\n";
+        ans += "  " + getName() + "\n";
+        ans += "  " + ADtoCal() + "  年限:" + getYears() +"\n";
+        ans += "  "+ getCustodian().getName() + "/" + getLocation().getName() ;
+        return ans;
+    }
     public String getTagContentString() {
         String ans = "  ";
         ans += KeyConstants.AuthorityName + (type == Type.item ? KeyConstants.ItemName : "") + "\n";
@@ -566,18 +588,26 @@ public class Item {
         }
 
         ans += "  廠牌/型式：" + getBrand() + "/" + getType() + "\n";
-        ans += "  經費：" + getPA3P3() + "\n";
+        ans += "  經費：" + getPA3P3() ;
         return ans;
     }
 
     public String ADtoCal() {
-        String temp = String.valueOf((Integer.parseInt(PA3BD.replace("/", "")) - 19110000));
-        return temp.substring(0, temp.length() - 4) + "/" + temp.substring(temp.length() - 4, temp.length() - 2) + "/" + temp.substring(temp.length() - 2);
+        Calendar c = Calendar.getInstance();
+        c.setTime(getDate());
+        int y = c.get(Calendar.YEAR) - 1911;
+        int m = c.get(Calendar.MONTH) + 1;
+        int d = c.get(Calendar.DAY_OF_MONTH);
+        return String.format("%d/%02d/%02d", y, m, d);
     }
 
     public String getScrappedADtoCal() {
-        String temp = String.valueOf((Integer.parseInt(PA3BD.replace("/", "")) - 19110000 + Integer.valueOf(PA3PY)*10000));
-        return temp.substring(0, temp.length() - 4) + "/" + temp.substring(temp.length() - 4, temp.length() - 2) + "/" + temp.substring(temp.length() - 2);
+        Calendar c = Calendar.getInstance();
+        c.setTime(getDate());
+        int y = c.get(Calendar.YEAR) - 1911 + Integer.valueOf(PA3PY);
+        int m = c.get(Calendar.MONTH) + 1;
+        int d = c.get(Calendar.DAY_OF_MONTH);
+        return String.format("%d/%02d/%02d", y, m, d);
     }
 
     public String getPA3C2() {
@@ -752,6 +782,14 @@ public class Item {
         return PA3MOL;
     }
 
+    public String getPA3MB() {
+        return PA3MB;
+    }
+
+    public void setPA3MB(String PA3MB) {
+        this.PA3MB = PA3MB;
+    }
+
     public void setPA3C1(String PA3C1) {
         this.PA3C1 = PA3C1;
     }
@@ -885,7 +923,7 @@ public class Item {
     }
 
     public void setPA3MOD(String PA3MOD) {
-        this.PA3MOD = PA3MOD;
+        this.PA3MOD = PA3MOD.replace("\\","");
     }
 
     public void setPA3MONO(String PA3MONO) {
@@ -893,7 +931,7 @@ public class Item {
     }
 
     public void setPA3DED(String PA3DED) {
-        this.PA3DED = PA3DED;
+        this.PA3DED = PA3DED.replace("\\","");;
     }
 
     public void setPA3DENO(String PA3DENO) {

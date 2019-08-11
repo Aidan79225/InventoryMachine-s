@@ -17,7 +17,9 @@ import com.aidan.secondinventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.secondinventoryworkplatform.Dialog.SearchItemDialog;
 import com.aidan.secondinventoryworkplatform.Dialog.SearchableItem;
 import com.aidan.secondinventoryworkplatform.Entity.Item;
+import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.ChangeTarget;
 import com.aidan.secondinventoryworkplatform.ItemListPage.ItemListFragment;
+import com.aidan.secondinventoryworkplatform.Printer.PrintItemLittleTagDialog;
 import com.aidan.secondinventoryworkplatform.Printer.PrinterItemDialog;
 import com.aidan.secondinventoryworkplatform.R;
 
@@ -36,7 +38,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
             custodianTextView,
             useGroupTextView,
             tagContentTextView;
-    Button confirmButton,printButton , cancelButton, moveButton, deleteButton;
+    Button confirmButton, printButton, cancelButton, moveButton, deleteButton, printLittleButton;
     ItemListFragment.RefreshItems refreshItems;
 
     public static ItemDetailFragment newInstance(Item item, ItemListFragment.RefreshItems refreshItems) {
@@ -58,7 +60,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
     public void findView() {
         confirmButton = (Button) rootView.findViewById(R.id.confirmButton);
         cancelButton = (Button) rootView.findViewById(R.id.cancelButton);
-        printButton= (Button) rootView.findViewById(R.id.printButton);
+        printButton = (Button) rootView.findViewById(R.id.printButton);
         yearsTextView = (TextView) rootView.findViewById(R.id.yearsTextView);
         buyDateTextView = (TextView) rootView.findViewById(R.id.buyDateTextView);
         brandTextView = (TextView) rootView.findViewById(R.id.brandTextView);
@@ -72,7 +74,8 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
         deleteButton = (Button) rootView.findViewById(R.id.deleteButton);
         moveButton = (Button) rootView.findViewById(R.id.moveButton);
-        tagContentTextView= (TextView) rootView.findViewById(R.id.tagContentTextView);
+        tagContentTextView = (TextView) rootView.findViewById(R.id.tagContentTextView);
+        printLittleButton = (Button) rootView.findViewById(R.id.printLittleButton);
     }
 
     @Override
@@ -86,7 +89,7 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         locationTextView.setText(item.getLocation().name);
         nameTextView.setText(item.getName());
         itemIdTextView.setText(item.getIdNumber());
-        if(item.getTagContent() != null){
+        if (item.getTagContent() != null) {
             tagContentTextView.setText(item.getTagContent().getName());
         }
     }
@@ -145,6 +148,12 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
                 presenter.printButtonClick();
             }
         });
+        printLittleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.printLittleButtonClick();
+            }
+        });
 
         tagContentTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,16 +163,18 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         });
 
     }
+
     @Override
-    public void showSetDialog(DialogInterface.OnClickListener clickListener, String title, final String[] temp){
+    public void showSetDialog(DialogInterface.OnClickListener clickListener, String title, final String[] temp) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setTitle(title);
         dialog.setItems(temp, clickListener);
         dialog.create().show();
     }
+
     @Override
-    public void showSetDialog(SearchItemAdapter.OnClickListener clickListener, String title, List<SearchableItem> dataList){
-        SearchItemDialog dialog = new SearchItemDialog(getActivity(),dataList);
+    public void showSetDialog(SearchItemAdapter.OnClickListener clickListener, String title, List<SearchableItem> dataList) {
+        SearchItemDialog dialog = new SearchItemDialog(getActivity(), dataList);
         dialog.setTitle(title);
         dialog.setOnClickListener(clickListener);
         dialog.show();
@@ -176,11 +187,26 @@ public class ItemDetailFragment extends DialogFragment implements ItemDetailCont
         dialog.setCancelable(false);
         dialog.show();
     }
+    @Override
+    public void showLittlePrintDialog(Item item) {
+        PrintItemLittleTagDialog dialog = new PrintItemLittleTagDialog(getActivity());
+        dialog.setItem(item);
+        dialog.setCancelable(false);
+        dialog.show();
+
+    }
 
     @Override
-    public void gotoChangeDetail(Item item) {
-        ChangeDetailFragment fragment = ChangeDetailFragment.newInstance(item,refreshItems);
-        fragment.show(getFragmentManager(),ChangeDetailFragment.class.getName());
+    public void gotoMoveChangeDetail(Item item) {
+        ChangeDetailFragment fragment = ChangeDetailFragment.newInstance(item, refreshItems, ChangeTarget.getMoveChangeTarget());
+        fragment.show(getFragmentManager(), ChangeDetailFragment.class.getName());
+        dismissAllowingStateLoss();
+    }
+
+    @Override
+    public void gotoDeleteChangeDetail(Item item) {
+        ChangeDetailFragment fragment = ChangeDetailFragment.newInstance(item, refreshItems, ChangeTarget.getScrappedChangeTarget());
+        fragment.show(getFragmentManager(), ChangeDetailFragment.class.getName());
         dismissAllowingStateLoss();
     }
 }

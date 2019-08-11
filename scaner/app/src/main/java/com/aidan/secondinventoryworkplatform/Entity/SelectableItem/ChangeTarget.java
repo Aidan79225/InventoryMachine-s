@@ -20,6 +20,12 @@ public class ChangeTarget extends SelectableItem {
         scrapped.name = "報廢";
         return scrapped;
     }
+    public static ChangeTarget getMoveChangeTarget(){
+        ChangeTarget move = new ChangeTarget();
+        move.type = TYPE_MOVE;
+        move.name = "移動";
+        return move;
+    }
     public static List<ChangeTarget> getBasicList(){
         List<ChangeTarget> ans = new ArrayList<>();
         ChangeTarget scrapped = new ChangeTarget();

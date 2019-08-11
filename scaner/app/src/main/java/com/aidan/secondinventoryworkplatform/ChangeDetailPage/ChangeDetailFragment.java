@@ -23,6 +23,7 @@ import com.aidan.secondinventoryworkplatform.R;
 import com.aidan.secondinventoryworkplatform.Utils.LocalCacheHelper;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,8 +36,8 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
     private TextView    itemIdTextView,buyDateTextView,quantityTextView,unitPriceTextView,
                         nameTextView,yearsTextView,scrappedTextView,changeTargetTextView,
                         dateTextView;
-    private EditText changeTargetEditText,changeNumberEditText,changeIdEditText;
-    private TextView changeOrderIdTextView;
+    private EditText changeNumberEditText,changeIdEditText;
+    private TextView changeTargetEditText,changeOrderIdTextView;
     private Button confirmButton,cancelButton;
 
     private View moveContainer;
@@ -59,7 +60,7 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
         changeTargetTextView = (TextView) rootView.findViewById(R.id.changeTargetTextView);
         dateTextView = (TextView) rootView.findViewById(R.id.dateTextView);
 
-        changeTargetEditText = (EditText) rootView.findViewById(R.id.changeTargetEditText);
+        changeTargetEditText = (TextView) rootView.findViewById(R.id.changeTargetEditText);
         changeNumberEditText = (EditText) rootView.findViewById(R.id.changeNumberEditText);
         changeOrderIdTextView = (TextView ) rootView.findViewById(R.id.changeOrderIdTextView);
         changeIdEditText = (EditText) rootView.findViewById(R.id.changeIdEditText);
@@ -112,6 +113,7 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
         int m = c.get(Calendar.MONTH);
         int d = c.get(Calendar.DAY_OF_MONTH);
         dateTextView.setText((y-1911)+"/"+(m+1)+"/"+d);
+        dateTextView.setTag(c);
     }
 
     @Override
@@ -192,9 +194,9 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
 
     }
 
-    public static ChangeDetailFragment newInstance(Item item, ItemListFragment.RefreshItems refreshItems) {
+    public static ChangeDetailFragment newInstance(Item item, ItemListFragment.RefreshItems refreshItems, ChangeTarget changeTarget) {
         ChangeDetailFragment fragment = new ChangeDetailFragment();
-        fragment.presenter = new ChangeDetailPresenter(fragment, item);
+        fragment.presenter = new ChangeDetailPresenter(fragment, item, changeTarget);
         fragment.refreshItems = refreshItems;
         return fragment;
     }
@@ -332,8 +334,8 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
     }
 
     @Override
-    public String getDateText() {
-        return dateTextView.getText().toString();
+    public Calendar getDate() {
+        return ((Calendar)dateTextView.getTag());
     }
 
     @Override

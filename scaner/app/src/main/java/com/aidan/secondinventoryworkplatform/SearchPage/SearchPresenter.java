@@ -13,16 +13,16 @@ import android.widget.TextView;
 import com.aidan.secondinventoryworkplatform.DatePicker.TimePickerView;
 import com.aidan.secondinventoryworkplatform.Dialog.SearchItemAdapter;
 import com.aidan.secondinventoryworkplatform.Dialog.SearchableItem;
+import com.aidan.secondinventoryworkplatform.Entity.Item;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Agent;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Department;
-import com.aidan.secondinventoryworkplatform.Entity.Item;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Location;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.SortCategory;
 import com.aidan.secondinventoryworkplatform.Entity.TagContent;
-import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.AgentSingleton;
 import com.aidan.secondinventoryworkplatform.Model.BarCodeCreator;
-import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.DepartmentSingleton;
 import com.aidan.secondinventoryworkplatform.Model.ItemSingleton;
+import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.AgentSingleton;
+import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.DepartmentSingleton;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.LocationSingleton;
 import com.aidan.secondinventoryworkplatform.Printer.TagCreator;
 import com.brother.ptouch.sdk.LabelInfo;
@@ -182,7 +182,7 @@ public class SearchPresenter implements SearchContract.presenter {
                 view.setMinDateTextView(minCalendar);
                 view.setMaxDateTextView(maxCalendar);
             }
-        },activity);
+        }, activity);
     }
 
     @Override
@@ -193,10 +193,10 @@ public class SearchPresenter implements SearchContract.presenter {
                 maxDate = maxCalendar.getTime();
                 view.setMaxDateTextView(maxCalendar);
             }
-        },activity);
+        }, activity);
     }
 
-//    public void showDatePicker(final Calendar c, final Runnable callback) {
+    //    public void showDatePicker(final Calendar c, final Runnable callback) {
 //        DatePickerDialog d = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
 //            @Override
 //            public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -206,33 +206,33 @@ public class SearchPresenter implements SearchContract.presenter {
 //        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
 //        d.show();
 //    }
-    public void showDatePicker(final Calendar c, final Runnable callback,Context context) {
+    public void showDatePicker(final Calendar c, final Runnable callback, Context context) {
         TimePickerView pvTime = new TimePickerView.Builder(context, new TimePickerView.OnTimeSelectListener() {
             @Override
-            public void onTimeSelect(Date date,View v) {//选中事件回调
+            public void onTimeSelect(Date date, View v) {//选中事件回调
                 Calendar temp = Calendar.getInstance();
                 temp.setTime(date);
                 c.set(temp.get(Calendar.YEAR), temp.get(Calendar.MONTH), temp.get(Calendar.DAY_OF_MONTH));
                 callback.run();
             }
-        }).setType(new boolean[]{true,true,true,false,false,false}).build();
+        }).setType(new boolean[]{true, true, true, false, false, false}).build();
         pvTime.setDate(c);
         pvTime.show();
     }
 
     @Override
-    public void searchTextViewClick(String name, String number, String serialMinNumber, String serialMaxNumber) {
+    public void searchTextViewClick(String name, String c0, String c1, String c2, String c3, String c4, String c5,String serialMinNumber,String serialMaxNumber){
         int minSerialNumber = serialMinNumber.length() > 0 ? Integer.valueOf(serialMinNumber) : 0;
         int maxSerialNumber = serialMaxNumber.length() > 0 ? Integer.valueOf(serialMaxNumber) : Integer.MAX_VALUE;
-        List<Item> itemList = getItemListWithCondition(name, number, minSerialNumber, maxSerialNumber);
+        List<Item> itemList = getItemListWithCondition(name,  c0, c1, c2, c3, c4, c5, minSerialNumber, maxSerialNumber);
         view.showFragmentWithResult(itemList);
     }
 
     @Override
-    public void printTextViewClick(Context context, String name, String number, String serialMinNumber, String serialMaxNumber) {
+    public void printTextViewClick(Context context, String name, String c0, String c1, String c2, String c3, String c4, String c5, String serialMinNumber, String serialMaxNumber) {
         int minSerialNumber = serialMinNumber.length() > 0 ? Integer.valueOf(serialMinNumber) : 0;
         int maxSerialNumber = serialMaxNumber.length() > 0 ? Integer.valueOf(serialMaxNumber) : Integer.MAX_VALUE;
-        final List<Item> itemList = getItemListWithCondition(name, number, minSerialNumber, maxSerialNumber);
+        final List<Item> itemList = getItemListWithCondition(name, c0, c1, c2, c3, c4, c5, minSerialNumber, maxSerialNumber);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("列印").
                 setMessage("將會列印 " + itemList.size() + " 個項目，您確定要列印嗎？").
@@ -251,10 +251,10 @@ public class SearchPresenter implements SearchContract.presenter {
         }).show();
     }
 
-    public List<Item> getItemListWithCondition(String name, String number, int minSerialNumber, int maxSerialNumber) {
+    public List<Item> getItemListWithCondition(String name, String c0, String c1, String c2, String c3, String c4, String c5, int minSerialNumber, int maxSerialNumber) {
         List<Item> itemList = new ArrayList<>();
         for (Item item : ItemSingleton.getInstance().getItemList()) {
-            if (!item.getName().contains(name)) {
+            if (!name.isEmpty() && !item.getName().contains(name)) {
                 continue;
             }
             if (location != null && !item.getLocation().name.equals(location.name)) {
@@ -266,9 +266,25 @@ public class SearchPresenter implements SearchContract.presenter {
             if (useGroup != null && !item.getUseGroup().name.equals(useGroup.name)) {
                 continue;
             }
-            if (number.length() > 1 && !item.getNumber().equals(number)) {
+            if(!c0.isEmpty() && !c0.equals(item.getPA3C0())){
                 continue;
             }
+            if(!c1.isEmpty() && !c1.equals(item.getPA3C1())){
+                continue;
+            }
+            if(!c2.isEmpty() && !c2.equals(item.getPA3C2())){
+                continue;
+            }
+            if(!c3.isEmpty() && !c3.equals(item.getPA3C3())){
+                continue;
+            }
+            if(!c4.isEmpty() && !c4.equals(item.getPA3C4())){
+                continue;
+            }
+            if(!c5.isEmpty() && !c5.equals(item.getPA3C5())){
+                continue;
+            }
+
             int serialNumber = Integer.valueOf(item.getSerialNumber().substring(2));
             if (serialNumber < minSerialNumber || serialNumber > maxSerialNumber) {
                 continue;
@@ -347,13 +363,14 @@ public class SearchPresenter implements SearchContract.presenter {
                 if (!dirFile.exists()) {
                     dirFile.mkdirs();
                 }
-                int width = 1080;
-                int height = 462;
-                for (int i = 0 ; i < itemList.size(); i++ ) {
-                    Item item  =  itemList.get(i);
-                    Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), width, height, height / 10, 0);
+
+                for (int i = 0; i < itemList.size(); i++) {
+                    Item item = itemList.get(i);
+                    Bitmap bitmap = TagCreator.transStringToImage(item.getTagContentString(), TagCreator.height / 10, 0);
                     try {
-                        bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, width, height / 5), dpToPix(2));
+                        bitmap = TagCreator.mergeBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.CODE_128, TagCreator.width, TagCreator.height / 4), dpToPix(2));
+                        bitmap = TagCreator.mergeQRBitmap(bitmap, BarCodeCreator.encodeAsBitmap(item.getBarcodeNumber(), BarcodeFormat.QR_CODE, TagCreator.height / 3, TagCreator.height / 3), dpToPix(2));
+
                         String fileName = item.getNumber() + item.getSerialNumber() + ".png";
                         File file = new File(dir, fileName);
                         if (file.exists()) {

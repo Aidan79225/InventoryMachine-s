@@ -30,20 +30,21 @@ public class ScannerPresenter implements ScannerContract.presenter {
     @Override
     public void scan(String key) {
         if(key == null )return;
-        key = key.replace("\n","");
-        if(key.length() == 0 )return;
+        key = key.replace("\n","").trim();
+        if(key.isEmpty())return;
         Singleton.log(key);
-        startScan(key);
+        firstTypeScan(key);
+
     }
-    public void startScan(String key){
+    public void firstTypeScan(String key){
         for (Item item : itemList) {
-            if ((item.getNumber() + item.getSerialNumber()).equals(key)) {
+            if (key.equals(item.getBarcodeNumber())) {
                 view.showToast("已重複盤點 : " + key);
                 return;
             }
         }
         for (Item item : ItemSingleton.getInstance().getItemList()) {
-            if ((item.getNumber() + item.getSerialNumber()).equals(key)) {
+            if (key.equals(item.getBarcodeNumber())) {
                 item.setConfirm(true);
                 itemList.add(0, item);
                 ItemSingleton.getInstance().saveItem(item);

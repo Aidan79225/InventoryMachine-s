@@ -30,9 +30,7 @@ public class ChangeTargetSingleton extends SelectableItemSingleton<ChangeTarget>
     }
 
     public void loadFromDB(){
-        super.loadFromDB();
-        if(dataList.size() == 0){
-            dataList.addAll(ChangeTarget.getBasicList());
-        }
+        dataList.clear();
+        dataList.addAll(ChangeTarget.getBasicList());
     }
 }

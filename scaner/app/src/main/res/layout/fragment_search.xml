@@ -287,7 +287,24 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingStart="10dp">
+                    <EditText
+                        android:id="@+id/c0EditText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:maxLength="11"
+                        android:padding="10dp"
+                        android:textColor="@color/text_black"
+                        android:textSize="18sp" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        android:textColor="@color/bg_dark_gray" />
                     <EditText
                         android:id="@+id/c1EditText"
                         android:layout_width="0dp"
