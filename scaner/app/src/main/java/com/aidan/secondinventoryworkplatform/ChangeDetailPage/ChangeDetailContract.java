@@ -2,12 +2,11 @@ package com.aidan.secondinventoryworkplatform.ChangeDetailPage;
 
 import android.content.DialogInterface;
 
-import com.aidan.secondinventoryworkplatform.Dialog.SearchItemAdapter;
+import com.aidan.secondinventoryworkplatform.dialog.SearchItemAdapter;
 import com.aidan.secondinventoryworkplatform.Entity.Item;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.ChangeTarget;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**

@@ -11,8 +11,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.aidan.secondinventoryworkplatform.DatePicker.TimePickerView;
-import com.aidan.secondinventoryworkplatform.Dialog.SearchItemAdapter;
-import com.aidan.secondinventoryworkplatform.Dialog.SearchableItem;
+import com.aidan.secondinventoryworkplatform.dialog.SearchItemAdapter;
+import com.aidan.secondinventoryworkplatform.dialog.SearchableItem;
 import com.aidan.secondinventoryworkplatform.Entity.Item;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Agent;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Department;

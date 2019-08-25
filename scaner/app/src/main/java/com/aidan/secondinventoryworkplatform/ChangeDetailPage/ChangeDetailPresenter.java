@@ -1,8 +1,7 @@
 package com.aidan.secondinventoryworkplatform.ChangeDetailPage;
 
-import com.aidan.secondinventoryworkplatform.Constants;
-import com.aidan.secondinventoryworkplatform.Dialog.SearchItemAdapter;
-import com.aidan.secondinventoryworkplatform.Dialog.SearchableItem;
+import com.aidan.secondinventoryworkplatform.dialog.SearchItemAdapter;
+import com.aidan.secondinventoryworkplatform.dialog.SearchableItem;
 import com.aidan.secondinventoryworkplatform.Entity.Item;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.ApprovalNumber;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.ChangeTarget;
@@ -19,7 +18,6 @@ import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.Impairme
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.LocationSingleton;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.SummonsNumberSingleton;
 import com.aidan.secondinventoryworkplatform.Model.SelecetableSingleton.SummonsTitleSingleton;
-import com.aidan.secondinventoryworkplatform.Utils.LocalCacheHelper;
 
 import java.util.Calendar;
 

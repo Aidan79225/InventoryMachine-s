@@ -2,8 +2,8 @@ package com.aidan.secondinventoryworkplatform.ItemDetailPage;
 
 import android.content.DialogInterface;
 
-import com.aidan.secondinventoryworkplatform.Dialog.SearchItemAdapter;
-import com.aidan.secondinventoryworkplatform.Dialog.SearchableItem;
+import com.aidan.secondinventoryworkplatform.dialog.SearchItemAdapter;
+import com.aidan.secondinventoryworkplatform.dialog.SearchableItem;
 import com.aidan.secondinventoryworkplatform.Entity.Item;
 
 import java.util.List;

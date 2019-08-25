@@ -1,6 +1,6 @@
 package com.aidan.secondinventoryworkplatform.Entity.SelectableItem;
 
-import com.aidan.secondinventoryworkplatform.Dialog.SearchableItem;
+import com.aidan.secondinventoryworkplatform.dialog.SearchableItem;
 import com.aidan.secondinventoryworkplatform.Entity.ItemConstants;
 
 import org.json.JSONException;
