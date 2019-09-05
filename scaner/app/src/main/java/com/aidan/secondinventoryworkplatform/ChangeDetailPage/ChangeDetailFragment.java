@@ -35,8 +35,8 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
     private TextView    itemIdTextView,buyDateTextView,quantityTextView,unitPriceTextView,
                         nameTextView,yearsTextView,scrappedTextView,changeTargetTextView,
                         dateTextView;
-    private EditText changeNumberEditText,changeIdEditText;
-    private TextView changeTargetEditText,changeOrderIdTextView;
+    private EditText changeNumberEditText,changeIdEditText, changeOrderIdEditText;
+    private TextView changeTargetEditText;
     private Button confirmButton,cancelButton;
 
     private View moveContainer;
@@ -49,40 +49,40 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
 
     @Override
     public void findView() {
-        itemIdTextView = (TextView) rootView.findViewById(R.id.itemIdTextView);
-        buyDateTextView = (TextView) rootView.findViewById(R.id.buyDateTextView);
-        quantityTextView = (TextView) rootView.findViewById(R.id.quantityTextView);
-        unitPriceTextView = (TextView) rootView.findViewById(R.id.unitPriceTextView);
-        nameTextView = (TextView) rootView.findViewById(R.id.nameTextView);
-        yearsTextView = (TextView) rootView.findViewById(R.id.yearsTextView);
-        scrappedTextView = (TextView) rootView.findViewById(R.id.scrappedTextView);
-        changeTargetTextView = (TextView) rootView.findViewById(R.id.changeTargetTextView);
-        dateTextView = (TextView) rootView.findViewById(R.id.dateTextView);
+        itemIdTextView = rootView.findViewById(R.id.itemIdTextView);
+        buyDateTextView = rootView.findViewById(R.id.buyDateTextView);
+        quantityTextView = rootView.findViewById(R.id.quantityTextView);
+        unitPriceTextView = rootView.findViewById(R.id.unitPriceTextView);
+        nameTextView = rootView.findViewById(R.id.nameTextView);
+        yearsTextView = rootView.findViewById(R.id.yearsTextView);
+        scrappedTextView = rootView.findViewById(R.id.scrappedTextView);
+        changeTargetTextView = rootView.findViewById(R.id.changeTargetTextView);
+        dateTextView = rootView.findViewById(R.id.dateTextView);
 
-        changeTargetEditText = (TextView) rootView.findViewById(R.id.changeTargetEditText);
-        changeNumberEditText = (EditText) rootView.findViewById(R.id.changeNumberEditText);
-        changeOrderIdTextView = (TextView ) rootView.findViewById(R.id.changeOrderIdTextView);
-        changeIdEditText = (EditText) rootView.findViewById(R.id.changeIdEditText);
+        changeTargetEditText = rootView.findViewById(R.id.changeTargetEditText);
+        changeNumberEditText = rootView.findViewById(R.id.changeNumberEditText);
+        changeOrderIdEditText = rootView.findViewById(R.id.changeOrderIdEditText);
+        changeIdEditText = rootView.findViewById(R.id.changeIdEditText);
 
-        confirmButton = (Button) rootView.findViewById(R.id.confirmButton);
-        cancelButton = (Button) rootView.findViewById(R.id.cancelButton);
+        confirmButton = rootView.findViewById(R.id.confirmButton);
+        cancelButton = rootView.findViewById(R.id.cancelButton);
 
         moveContainer =  rootView.findViewById(R.id.moveContainer);
-        moveDepartmentTextView = (TextView) rootView.findViewById(R.id.moveDepartmentTextView);
-        newAgentTextView = (TextView) rootView.findViewById(R.id.newAgentTextView);
-        moveLocationTextView = (TextView) rootView.findViewById(R.id.moveLocationTextView);
+        moveDepartmentTextView = rootView.findViewById(R.id.moveDepartmentTextView);
+        newAgentTextView = rootView.findViewById(R.id.newAgentTextView);
+        moveLocationTextView = rootView.findViewById(R.id.moveLocationTextView);
 
         scrappedContainer =  rootView.findViewById(R.id.scrappedContainer);
-        PA3VWWTextView = (TextView) rootView.findViewById(R.id.PA3VWWTextView);
-        PA3VNTextView = (TextView) rootView.findViewById(R.id.PA3VNTextView);
-        PA3DRTextView = (TextView) rootView.findViewById(R.id.PA3DRTextView);
-        PA8PDTextView = (TextView) rootView.findViewById(R.id.PA8PDTextView);
-        PA8ATextView = (TextView) rootView.findViewById(R.id.PA8ATextView);
-        PA3VWWEditText = (EditText)rootView.findViewById(R.id.PA3VWWEditText);
-        PA3VNEditText = (EditText)rootView.findViewById(R.id.PA3VNEditText);
-        PA3DREditText = (EditText)rootView.findViewById(R.id.PA3DREditText);
-        PA8PDEditText = (EditText)rootView.findViewById(R.id.PA8PDEditText);
-        PA8AEditText = (EditText)rootView.findViewById(R.id.PA8AEditText);
+        PA3VWWTextView = rootView.findViewById(R.id.PA3VWWTextView);
+        PA3VNTextView = rootView.findViewById(R.id.PA3VNTextView);
+        PA3DRTextView = rootView.findViewById(R.id.PA3DRTextView);
+        PA8PDTextView = rootView.findViewById(R.id.PA8PDTextView);
+        PA8ATextView = rootView.findViewById(R.id.PA8ATextView);
+        PA3VWWEditText = rootView.findViewById(R.id.PA3VWWEditText);
+        PA3VNEditText = rootView.findViewById(R.id.PA3VNEditText);
+        PA3DREditText = rootView.findViewById(R.id.PA3DREditText);
+        PA8PDEditText = rootView.findViewById(R.id.PA8PDEditText);
+        PA8AEditText = rootView.findViewById(R.id.PA8AEditText);
 
     }
 
@@ -99,12 +99,12 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
         scrappedTextView.setText(item.getScrappedADtoCal());
         changeIdEditText.setText(item.getPA3MOC8());
         changeNumberEditText.setText(item.getPA3MOB());
-        setChangeOrderIdTextView();
+        setChangeOrderIdEditText();
         setDateTextView();
     }
 
-    private void setChangeOrderIdTextView(){
-        changeOrderIdTextView.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-1911).substring(1)+ String.format("%04d", LocalCacheHelper.getInt(getActivity(), getThisYesrSerialNumberKey())+1));
+    private void setChangeOrderIdEditText(){
+        changeOrderIdEditText.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-1911).substring(1)+ String.format("%04d", LocalCacheHelper.getInt(getActivity(), getThisYesrSerialNumberKey())+1));
     }
     private void setDateTextView(){
         Calendar c = Calendar.getInstance();
@@ -339,7 +339,7 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
 
     @Override
     public String getChangeOrderId() {
-        return changeOrderIdTextView.getText().toString();
+        return changeOrderIdEditText.getText().toString();
     }
 
     @Override

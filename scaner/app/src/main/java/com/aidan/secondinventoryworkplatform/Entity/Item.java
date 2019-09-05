@@ -51,7 +51,7 @@ public class Item {
     private String PA3DEL = "";
     private String PA3PRN = "";
     private String NAME = "";
-    private TagContent tagContent = null;
+    private TagContent tagContent = TagContent.AgentGroup;
 
     private String PA3INX = "";
     private String PA3C0 = "";
