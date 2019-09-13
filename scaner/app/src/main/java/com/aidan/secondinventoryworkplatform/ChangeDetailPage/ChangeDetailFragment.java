@@ -97,7 +97,6 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
         nameTextView.setText(item.getPA3MK()+"/"+item.getPA3PS());
         yearsTextView.setText(item.getPA3PY());
         scrappedTextView.setText(item.getScrappedADtoCal());
-        changeIdEditText.setText(item.getPA3MOC8());
         changeNumberEditText.setText(item.getPA3MOB());
         setChangeOrderIdEditText();
         setDateTextView();
