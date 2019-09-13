@@ -95,11 +95,7 @@ public class ItemListFragment extends DialogFragment implements ItemListContract
         fragment.show(getFragmentManager(),ItemDetailFragment.class.getName());
     }
 
-
-
     public interface RefreshItems{
         void refresh();
     }
-
-
 }
