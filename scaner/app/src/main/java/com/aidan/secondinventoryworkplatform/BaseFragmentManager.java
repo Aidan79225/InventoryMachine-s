@@ -1,6 +1,5 @@
 package com.aidan.secondinventoryworkplatform;
-
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by s352431 on 2016/11/22.
