@@ -42,16 +42,16 @@ android {
 
 dependencies {
     implementation 'com.droidninja:filepicker:1.0.8'
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.0.2'
     testImplementation 'junit:junit:4.12'
-    implementation files('libs/BarcodeAPI.jar')
-    implementation('eu.livotov.labs.android:CAMView:2.0.1@aar') { transitive = true }
-    implementation 'cn.bingoogolapple:bga-qrcodecore:1.1.7@aar'
-    implementation 'cn.bingoogolapple:bga-zbar:1.1.7@aar'
-    implementation files('libs/BrotherPrintLibrary.jar')
-    implementation files('libs/MobilePrintLib.jar')
-    implementation files('libs/jxl.jar')
+    api files('libs/BarcodeAPI.jar')
+    api('eu.livotov.labs.android:CAMView:2.0.1@aar') { transitive = true }
+    api 'cn.bingoogolapple:bga-qrcodecore:1.1.7@aar'
+    api 'cn.bingoogolapple:bga-zbar:1.1.7@aar'
+    api files('libs/BrotherPrintLibrary.jar')
+    api files('libs/MobilePrintLib.jar')
+    api files('libs/jxl.jar')
     implementation "androidx.core:core-ktx:1.0.2"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

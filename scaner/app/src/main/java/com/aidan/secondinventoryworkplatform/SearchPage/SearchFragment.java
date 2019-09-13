@@ -37,7 +37,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
     ViewGroup rootView;
     EditText serialMinNumberEditText, serialMaxNumberEditText;
     TextView locationTextView, agentTextView;
-    TextView searchTextView, clearTextView, printTextView;
+    TextView searchTextView, clearTextView, printTextView, printLittleTagTextView;
     TextView useGroupTextView;
     EditText c0EditText, c1EditText, c2EditText, c3EditText, c4EditText, c5EditText;
     BaseFragmentManager baseFragmentManager;
@@ -80,6 +80,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
         minDateTextView = rootView.findViewById(R.id.minDateTextView);
         maxDateTextView = rootView.findViewById(R.id.maxDateTextView);
         nameEditText = rootView.findViewById(R.id.nameEditText);
+        printLittleTagTextView = rootView.findViewById(R.id.printLittleTagTextView);
     }
 
     @Override
@@ -104,18 +105,25 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
             presenter.searchTextViewClick(name, c0, c1, c2, c3, c4, c5, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
         });
 
-        printTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String c0 = c0EditText.getText().toString();
-                String c1 = c1EditText.getText().toString();
-                String c2 = c2EditText.getText().toString();
-                String c3 = c3EditText.getText().toString();
-                String c4 = c4EditText.getText().toString();
-                String c5 = c5EditText.getText().toString();
-                String name = nameEditText.getText().toString();
-                presenter.printTextViewClick(rootView.getContext(), name, c0, c1, c2, c3, c4, c5, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
-            }
+        printTextView.setOnClickListener(v -> {
+            String c0 = c0EditText.getText().toString();
+            String c1 = c1EditText.getText().toString();
+            String c2 = c2EditText.getText().toString();
+            String c3 = c3EditText.getText().toString();
+            String c4 = c4EditText.getText().toString();
+            String c5 = c5EditText.getText().toString();
+            String name = nameEditText.getText().toString();
+            presenter.printTextViewClick(rootView.getContext(), name, c0, c1, c2, c3, c4, c5, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
+        });
+        printLittleTagTextView.setOnClickListener(v -> {
+            String id = "";
+            id += c1EditText.getText().toString();
+            id += c2EditText.getText().toString();
+            id += c3EditText.getText().toString();
+            id += c4EditText.getText().toString();
+            id += c5EditText.getText().toString();
+            String name = nameEditText.getText().toString();
+            presenter.printLittleTextViewClick(rootView.getContext(), name, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
         });
         c1EditText.addTextChangedListener(getNextTextWatcher(1, c2EditText));
         c2EditText.addTextChangedListener(getNextTextWatcher(2, c3EditText));
