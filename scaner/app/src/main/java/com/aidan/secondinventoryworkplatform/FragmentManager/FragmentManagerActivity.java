@@ -7,14 +7,17 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aidan.secondinventoryworkplatform.BaseFragmentManager;
 import com.aidan.secondinventoryworkplatform.Database.ItemDAO;
+import com.aidan.secondinventoryworkplatform.dialog.ScannerSettingDialog;
 import com.aidan.secondinventoryworkplatform.FilePage.FileFragment;
 import com.aidan.secondinventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.secondinventoryworkplatform.Model.ItemSingleton;
@@ -218,6 +221,27 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ScannerMenu:
+                showScannerSettingDialog();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showScannerSettingDialog() {
+        new ScannerSettingDialog().show(getSupportFragmentManager(), ScannerSettingDialog.class.getName());
+    }
+
 
 
 }

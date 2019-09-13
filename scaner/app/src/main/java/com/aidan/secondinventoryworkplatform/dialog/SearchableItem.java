@@ -1,4 +1,4 @@
-package com.aidan.secondinventoryworkplatform.Dialog;
+package com.aidan.secondinventoryworkplatform.dialog;
 
 /**
  * Created by Aidan on 2017/3/30.

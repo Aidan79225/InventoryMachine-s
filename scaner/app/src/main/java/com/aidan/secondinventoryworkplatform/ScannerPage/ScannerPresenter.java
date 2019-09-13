@@ -2,6 +2,7 @@ package com.aidan.secondinventoryworkplatform.ScannerPage;
 
 import com.aidan.secondinventoryworkplatform.Entity.Item;
 import com.aidan.secondinventoryworkplatform.Model.ItemSingleton;
+import com.aidan.secondinventoryworkplatform.SettingConstants;
 import com.aidan.secondinventoryworkplatform.Singleton;
 
 import java.util.List;
@@ -46,9 +47,18 @@ public class ScannerPresenter implements ScannerContract.presenter {
         for (Item item : ItemSingleton.getInstance().getItemList()) {
             if (key.equals(item.getBarcodeNumber())) {
                 item.setConfirm(true);
+                if (Singleton.preferences.getBoolean(SettingConstants.PRINT_IN_SCANNER, false)) {
+                    item.setPrint(true);
+                }
+                if (Singleton.preferences.getBoolean(SettingConstants.DELETE_IN_SCANNER, false)) {
+                    item.setDelete(true);
+                }
                 itemList.add(0, item);
                 ItemSingleton.getInstance().saveItem(item);
                 view.refreshList();
+                if (Singleton.preferences.getBoolean(SettingConstants.SHOW_AFTER_SCAN, false)) {
+                    view.showItem(item);
+                }
                 return;
             }
         }

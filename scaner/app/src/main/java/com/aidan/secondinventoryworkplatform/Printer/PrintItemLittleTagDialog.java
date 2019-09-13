@@ -8,12 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.aidan.secondinventoryworkplatform.Entity.Item;
-import com.aidan.secondinventoryworkplatform.KeyConstants;
 import com.aidan.secondinventoryworkplatform.Model.BarCodeCreator;
 import com.aidan.secondinventoryworkplatform.R;
 import com.brother.ptouch.sdk.LabelInfo;
