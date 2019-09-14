@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 
+import android.os.ParcelFileDescriptor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ import com.aidan.secondinventoryworkplatform.Utils.ReadExcel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileDescriptor;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -295,84 +298,43 @@ public class FileFragment extends DialogFragment implements FileContract.view, R
             // 如果有可用的Activity
             Intent picker = new Intent(Intent.ACTION_GET_CONTENT);
             picker.setType(mimeType);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
             // 使用Intent Chooser
             Intent destIntent = Intent.createChooser(picker, "選取輸入檔案");
-            startActivityForResult(destIntent, resultCode);
-        } else {
-            startPickerActivity();
+            getActivity().startActivityForResult(destIntent, resultCode);
         }
-    }
-
-    public void startPickerActivity() {
-        FilePickerBuilder.getInstance().setMaxCount(1)
-                .setSelectedFiles(filePaths)
-                .setActivityTheme(R.style.AppTheme);
-        type = readTxtType;
-        Intent intent = new Intent(getActivity(), FilePickerActivity.class);
-        Bundle bundle = new Bundle();
-        intent.putStringArrayListExtra(FilePickerConst.KEY_SELECTED_PHOTOS, filePaths);
-        bundle.putInt(FilePickerConst.EXTRA_PICKER_TYPE, FilePickerConst.DOC_PICKER);
-        intent.putExtras(bundle);
-        startActivityForResult(intent, FilePickerConst.REQUEST_CODE_DOC);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case FilePickerConst.REQUEST_CODE_DOC:
-                if (resultCode == RESULT_OK && data != null)
-                    handleChooseDoc(data);
-                break;
             case FILE_SELECT_CODE:
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
-                    String path = getPath(getActivity(), uri);
-                    presenter.readTxtButtonClick(path);
+                    try {
+                        presenter.readTxtButtonClick(readTextFromUri(uri));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case FILE_SELECT_ITEM_CODE:
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
-                    String path = getPath(getActivity(), uri);
-                    presenter.inputItemTextViewClick(path);
+                    try {
+                        presenter.inputItemTextViewClick(readTextFromUri(uri));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
         }
 
     }
 
-    private void handleChooseDoc(Intent data) {
-        docPaths.clear();
-        docPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
-        switch (type) {
-            case readTxtType:
-
-                if (docPaths.size() > 0) presenter.readTxtButtonClick(docPaths.get(0));
-                type = 0;
-                break;
-        }
+    private FileDescriptor readTextFromUri(Uri uri) throws IOException {
+        ParcelFileDescriptor parcelFileDescriptor =
+                getContext().getContentResolver().openFileDescriptor(uri, "r");
+        return parcelFileDescriptor.getFileDescriptor();
     }
-
-    public static String getPath(Context context, Uri uri) {
-        if ("content".equalsIgnoreCase(uri.getScheme())) {
-            String[] projection = {"_data"};
-            Cursor cursor = null;
-
-            try {
-                cursor = context.getContentResolver().query(uri, projection, null, null, null);
-                int column_index = cursor.getColumnIndexOrThrow("_data");
-                if (cursor.moveToFirst()) {
-                    return cursor.getString(column_index);
-                }
-            } catch (Exception e) {
-                // Eat it
-                e.printStackTrace();
-            }
-        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            return uri.getPath();
-        }
-
-        return null;
-    }
-
 }

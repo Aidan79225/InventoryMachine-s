@@ -36,6 +36,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -69,22 +70,30 @@ public class FilePresenter implements FileContract.presenter {
     }
 
     @Override
-    public void readTxtButtonClick(final String path) {
+    public void readTxtButtonClick(final FileDescriptor fileDescriptor) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                loadData(path, "讀取財產中", Constants.PREFERENCE_PROPERTY_KEY, Item.Type.property);
+                loadData(fileDescriptor, "讀取財產中", Constants.PREFERENCE_PROPERTY_KEY, Item.Type.property);
             }
         }).start();
     }
 
-    private void loadData(String path, String msg,String key, Item.Type type) {
+    private void loadData(FileDescriptor fileDescriptor, String msg, String key, Item.Type type) {
         view.showProgress(msg);
         List<Item> itemList = ItemSingleton.getInstance().getItemList();
         try {
-            File yourFile = new File(path);
-            FileInputStream stream = new FileInputStream(yourFile);
+            FileInputStream stream = new FileInputStream(fileDescriptor);
             String jsonStr = "";
+
+            try {
+                FileChannel fc = stream.getChannel();
+                MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+                jsonStr = Charset.forName("Big5").decode(bb).toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            stream.close();
 
             try {
                 FileChannel fc = stream.getChannel();
@@ -443,11 +452,11 @@ public class FilePresenter implements FileContract.presenter {
     }
 
     @Override
-    public void inputItemTextViewClick(final String path) {
+    public void inputItemTextViewClick(final FileDescriptor fileDescriptor) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                loadData(path, "讀取物品中", Constants.PREFERENCE_ITEM_KEY, Item.Type.item);
+                loadData(fileDescriptor, "讀取物品中", Constants.PREFERENCE_ITEM_KEY, Item.Type.item);
             }
         }).start();
     }
