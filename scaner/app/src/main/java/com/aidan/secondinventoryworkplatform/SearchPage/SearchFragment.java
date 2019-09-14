@@ -1,10 +1,11 @@
 package com.aidan.secondinventoryworkplatform.SearchPage;
 
-import android.app.DialogFragment;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -36,7 +37,7 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
     ViewGroup rootView;
     EditText serialMinNumberEditText, serialMaxNumberEditText;
     TextView locationTextView, agentTextView;
-    TextView searchTextView, clearTextView, printTextView;
+    TextView searchTextView, clearTextView, printTextView, printLittleTagTextView;
     TextView useGroupTextView;
     EditText c0EditText, c1EditText, c2EditText, c3EditText, c4EditText, c5EditText;
     BaseFragmentManager baseFragmentManager;
@@ -60,104 +61,69 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
     @Override
     public void findView() {
-        c0EditText = (EditText) rootView.findViewById(R.id.c0EditText);
-        c1EditText = (EditText) rootView.findViewById(R.id.c1EditText);
-        c2EditText = (EditText) rootView.findViewById(R.id.c2EditText);
-        c3EditText = (EditText) rootView.findViewById(R.id.c3EditText);
-        c4EditText = (EditText) rootView.findViewById(R.id.c4EditText);
-        c5EditText = (EditText) rootView.findViewById(R.id.c5EditText);
-        serialMinNumberEditText = (EditText) rootView.findViewById(R.id.serialMinNumberEditText);
-        serialMaxNumberEditText = (EditText) rootView.findViewById(R.id.serialMaxNumberEditText);
-        locationTextView = (TextView) rootView.findViewById(R.id.locationTextView);
-        agentTextView = (TextView) rootView.findViewById(R.id.agentTextView);
-        searchTextView = (TextView) rootView.findViewById(R.id.searchTextView);
-        clearTextView = (TextView) rootView.findViewById(R.id.clearTextView);
-        printTextView = (TextView) rootView.findViewById(R.id.printTextView);
-        useGroupTextView = (TextView) rootView.findViewById(R.id.useGroupTextView);
-        tagContentTextView = (TextView) rootView.findViewById(R.id.tagContentTextView);
-        sortTextView = (TextView) rootView.findViewById(R.id.sortTextView);
-        minDateTextView = (TextView) rootView.findViewById(R.id.minDateTextView);
-        maxDateTextView = (TextView) rootView.findViewById(R.id.maxDateTextView);
-        nameEditText = (EditText) rootView.findViewById(R.id.nameEditText);
+        c0EditText = rootView.findViewById(R.id.c0EditText);
+        c1EditText = rootView.findViewById(R.id.c1EditText);
+        c2EditText = rootView.findViewById(R.id.c2EditText);
+        c3EditText = rootView.findViewById(R.id.c3EditText);
+        c4EditText = rootView.findViewById(R.id.c4EditText);
+        c5EditText = rootView.findViewById(R.id.c5EditText);
+        serialMinNumberEditText = rootView.findViewById(R.id.serialMinNumberEditText);
+        serialMaxNumberEditText = rootView.findViewById(R.id.serialMaxNumberEditText);
+        locationTextView = rootView.findViewById(R.id.locationTextView);
+        agentTextView = rootView.findViewById(R.id.agentTextView);
+        searchTextView = rootView.findViewById(R.id.searchTextView);
+        clearTextView = rootView.findViewById(R.id.clearTextView);
+        printTextView = rootView.findViewById(R.id.printTextView);
+        useGroupTextView = rootView.findViewById(R.id.useGroupTextView);
+        tagContentTextView = rootView.findViewById(R.id.tagContentTextView);
+        sortTextView = rootView.findViewById(R.id.sortTextView);
+        minDateTextView = rootView.findViewById(R.id.minDateTextView);
+        maxDateTextView = rootView.findViewById(R.id.maxDateTextView);
+        nameEditText = rootView.findViewById(R.id.nameEditText);
+        printLittleTagTextView = rootView.findViewById(R.id.printLittleTagTextView);
     }
 
     @Override
     public void setViewClick() {
-        locationTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.locationTextViewClick(locationTextView);
-            }
-        });
-        agentTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.agentTextViewClick(agentTextView);
-            }
+        locationTextView.setOnClickListener(v -> presenter.locationTextViewClick(locationTextView));
+        agentTextView.setOnClickListener(v -> presenter.agentTextViewClick(agentTextView));
+
+        useGroupTextView.setOnClickListener(v -> presenter.useGroupTextViewClick(useGroupTextView));
+        tagContentTextView.setOnClickListener(v -> presenter.tagContentTextViewClick(tagContentTextView));
+        sortTextView.setOnClickListener(v -> presenter.sortTextViewClick(sortTextView));
+        minDateTextView.setOnClickListener(v -> presenter.minDateTextViewClick(getActivity()));
+        maxDateTextView.setOnClickListener(v -> presenter.maxDateTextViewClick(getActivity()));
+        clearTextView.setOnClickListener(v -> presenter.clearAll());
+        searchTextView.setOnClickListener(v -> {
+            String c0 = c0EditText.getText().toString();
+            String c1 = c1EditText.getText().toString();
+            String c2 = c2EditText.getText().toString();
+            String c3 = c3EditText.getText().toString();
+            String c4 = c4EditText.getText().toString();
+            String c5 = c5EditText.getText().toString();
+            String name = nameEditText.getText().toString();
+            presenter.searchTextViewClick(name, c0, c1, c2, c3, c4, c5, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
         });
 
-        useGroupTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.useGroupTextViewClick(useGroupTextView);
-            }
+        printTextView.setOnClickListener(v -> {
+            String c0 = c0EditText.getText().toString();
+            String c1 = c1EditText.getText().toString();
+            String c2 = c2EditText.getText().toString();
+            String c3 = c3EditText.getText().toString();
+            String c4 = c4EditText.getText().toString();
+            String c5 = c5EditText.getText().toString();
+            String name = nameEditText.getText().toString();
+            presenter.printTextViewClick(rootView.getContext(), name, c0, c1, c2, c3, c4, c5, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
         });
-        tagContentTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.tagContentTextViewClick(tagContentTextView);
-            }
-        });
-        sortTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.sortTextViewClick(sortTextView);
-            }
-        });
-        minDateTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.minDateTextViewClick(getActivity());
-            }
-        });
-        maxDateTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.maxDateTextViewClick(getActivity());
-            }
-        });
-        clearTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.clearAll();
-            }
-        });
-        searchTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String c0 = c0EditText.getText().toString();
-                String c1 = c1EditText.getText().toString();
-                String c2 = c2EditText.getText().toString();
-                String c3 = c3EditText.getText().toString();
-                String c4 = c4EditText.getText().toString();
-                String c5 = c5EditText.getText().toString();
-                String name = nameEditText.getText().toString();
-                presenter.searchTextViewClick(name, c0, c1, c2, c3, c4, c5, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
-            }
-        });
-
-        printTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String c0 = c0EditText.getText().toString();
-                String c1 = c1EditText.getText().toString();
-                String c2 = c2EditText.getText().toString();
-                String c3 = c3EditText.getText().toString();
-                String c4 = c4EditText.getText().toString();
-                String c5 = c5EditText.getText().toString();
-                String name = nameEditText.getText().toString();
-                presenter.printTextViewClick(rootView.getContext(), name, c0, c1, c2, c3, c4, c5, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
-            }
+        printLittleTagTextView.setOnClickListener(v -> {
+            String id = "";
+            id += c1EditText.getText().toString();
+            id += c2EditText.getText().toString();
+            id += c3EditText.getText().toString();
+            id += c4EditText.getText().toString();
+            id += c5EditText.getText().toString();
+            String name = nameEditText.getText().toString();
+            presenter.printLittleTextViewClick(rootView.getContext(), name, id, serialMinNumberEditText.getText().toString(), serialMaxNumberEditText.getText().toString());
         });
         c1EditText.addTextChangedListener(getNextTextWatcher(1, c2EditText));
         c2EditText.addTextChangedListener(getNextTextWatcher(2, c3EditText));
@@ -233,17 +199,14 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
     @Override
     public void showProgress(final String title) {
-        rootView.post(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog = new ProgressDialog(rootView.getContext());
-                mProgressDialog.setCancelable(false);
-                mProgressDialog.setTitle(title);
-                mProgressDialog.setMessage("正在處理請稍後...");
-                mProgressDialog.setMax(100);
-                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                mProgressDialog.show();
-            }
+        rootView.post(() -> {
+            mProgressDialog = new ProgressDialog(rootView.getContext());
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setTitle(title);
+            mProgressDialog.setMessage("正在處理請稍後...");
+            mProgressDialog.setMax(100);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressDialog.show();
         });
     }
 
@@ -259,22 +222,17 @@ public class SearchFragment extends DialogFragment implements SearchContract.vie
 
     @Override
     public void updateProgress(final int value) {
-        rootView.post(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog.setProgress(value);
-            }
-        });
+        rootView.post(() -> mProgressDialog.setProgress(value));
     }
 
     @Override
     public void setMinDateTextView(Calendar c) {
-        minDateTextView.setText(String.valueOf(c.get(Calendar.YEAR) - 1911) + "/" + String.valueOf(c.get(Calendar.MONTH)+1) + "/" + String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
+        minDateTextView.setText((c.get(Calendar.YEAR) - 1911) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH));
     }
 
     @Override
     public void setMaxDateTextView(Calendar c) {
-        maxDateTextView.setText(String.valueOf(c.get(Calendar.YEAR) - 1911) + "/" + String.valueOf(c.get(Calendar.MONTH)+1) + "/" + String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
+        maxDateTextView.setText((c.get(Calendar.YEAR) - 1911) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH));
     }
 
 

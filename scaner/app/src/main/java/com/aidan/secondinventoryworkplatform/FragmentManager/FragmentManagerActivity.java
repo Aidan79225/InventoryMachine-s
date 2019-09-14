@@ -1,13 +1,13 @@
 package com.aidan.secondinventoryworkplatform.FragmentManager;
 
-
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,41 +52,21 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
     @Override
     public void findView() {
         fragmentContainer = findViewById(R.id.fragmentContainer);
-        fileTextView = (TextView) findViewById(R.id.fileTextView);
-        scanTextView = (TextView) findViewById(R.id.scanTextView);
-        searchTextView = (TextView) findViewById(R.id.searchTextView);
-        itemListTextView = (TextView) findViewById(R.id.itemListTextView);
-        itemDetailTextView = (TextView) findViewById(R.id.itemDetailTextView);
+        fileTextView = findViewById(R.id.fileTextView);
+        scanTextView = findViewById(R.id.scanTextView);
+        searchTextView = findViewById(R.id.searchTextView);
+        itemListTextView = findViewById(R.id.itemListTextView);
+        itemDetailTextView = findViewById(R.id.itemDetailTextView);
         loadFileFragment();
     }
 
 
     @Override
     public void setViewClick() {
-        fileTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFileFragment();
-            }
-        });
-        itemListTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadItemListFragment();
-            }
-        });
-        searchTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadSearchFragment();
-            }
-        });
-        scanTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadScannerFragment();
-            }
-        });
+        fileTextView.setOnClickListener(v -> loadFileFragment());
+        itemListTextView.setOnClickListener(v -> loadItemListFragment());
+        searchTextView.setOnClickListener(v -> loadSearchFragment());
+        scanTextView.setOnClickListener(v -> loadScannerFragment());
     }
 
     @Override
@@ -147,7 +127,7 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
 
     @Override
     public void loadFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         int backStackCount = fragmentManager.getBackStackEntryCount();
         for (int i = 0; i < backStackCount; i++) {
@@ -188,38 +168,25 @@ public class FragmentManagerActivity extends AppCompatActivity implements Fragme
 
     @Override
     public void showProgress(final String title) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog = new ProgressDialog(FragmentManagerActivity.this);
-                mProgressDialog.setCancelable(false);
-                mProgressDialog.setTitle(title);
-                mProgressDialog.setMessage("正在處理請稍後...");
-                mProgressDialog.setMax(100);
-                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                mProgressDialog.show();
-            }
+        runOnUiThread(() -> {
+            mProgressDialog = new ProgressDialog(FragmentManagerActivity.this);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setTitle(title);
+            mProgressDialog.setMessage("正在處理請稍後...");
+            mProgressDialog.setMax(100);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressDialog.show();
         });
     }
 
     @Override
     public void hideProgress() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog.dismiss();
-            }
-        });
+        runOnUiThread(() -> mProgressDialog.dismiss());
     }
 
     @Override
     public void updateProgress(final int value) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog.setProgress(value);
-            }
-        });
+        runOnUiThread(() -> mProgressDialog.setProgress(value));
     }
 
     @Override

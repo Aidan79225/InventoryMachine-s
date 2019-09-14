@@ -1,5 +1,6 @@
 package com.aidan.secondinventoryworkplatform.FilePage;
 
+import java.io.FileDescriptor;
 import java.util.Set;
 
 /**
@@ -18,9 +19,9 @@ public interface FileContract {
     }
     interface presenter{
         void start();
-        void readTxtButtonClick(String path);
+        void readTxtButtonClick(final FileDescriptor fileDescriptor);
         void saveFile(String fileName,String preferencesKey,Set<String> allowType);
         void clearData();
-        void inputItemTextViewClick(String path);
+        void inputItemTextViewClick(final FileDescriptor fileDescriptor);
     }
 }

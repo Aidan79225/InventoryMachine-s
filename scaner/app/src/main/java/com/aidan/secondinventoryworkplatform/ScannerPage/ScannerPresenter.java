@@ -37,6 +37,7 @@ public class ScannerPresenter implements ScannerContract.presenter {
         firstTypeScan(key);
 
     }
+
     public void firstTypeScan(String key){
         for (Item item : itemList) {
             if (key.equals(item.getBarcodeNumber())) {

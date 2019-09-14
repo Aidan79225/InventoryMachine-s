@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.aidan.secondinventoryworkplatform.R
 import com.aidan.secondinventoryworkplatform.SettingConstants
 import com.aidan.secondinventoryworkplatform.Singleton
+import com.aidan.secondinventoryworkplatform.Utils.SettingsSingleton
 
 
 class ScannerSettingDialog : DialogFragment() {
@@ -36,6 +37,15 @@ class ScannerSettingDialog : DialogFragment() {
                         isChecked = preference.getBoolean(SettingConstants.SHOW_AFTER_SCAN, false)
                         setOnClickListener {
                             preferenceEditor.putBoolean(SettingConstants.SHOW_AFTER_SCAN, isChecked).commit()
+                        }
+                    }
+                    findViewById<CheckBox>(R.id.scanCheckBox).apply {
+                        SettingsSingleton.getInstance().showScannerInItemList.observe(this@ScannerSettingDialog, Observer {
+                            isChecked = it
+                        })
+                        setOnClickListener {
+                            val checked = SettingsSingleton.getInstance().showScannerInItemList.value
+                            SettingsSingleton.getInstance().showScannerInItemList.value = !(checked ?: false)
                         }
                     }
                     findViewById<TextView>(R.id.closeTextView).apply {

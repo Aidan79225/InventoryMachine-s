@@ -375,8 +375,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:background="@null"
-                        android:text="123"
-                        android:textSize="16sp" />
+                        android:text=""
+                        android:textSize="16sp"
+                        android:minWidth="80dp" />
                 </LinearLayout>
 
 
@@ -455,6 +456,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
                         android:background="@null"
+                        android:inputType="number"
+                        android:minWidth="80dp"
                         android:text=""
                         android:textSize="16sp" />
                 </LinearLayout>

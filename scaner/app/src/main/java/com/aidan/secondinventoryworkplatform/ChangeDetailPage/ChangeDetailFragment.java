@@ -1,10 +1,11 @@
 package com.aidan.secondinventoryworkplatform.ChangeDetailPage;
 
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,14 +98,14 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
         nameTextView.setText(item.getPA3MK()+"/"+item.getPA3PS());
         yearsTextView.setText(item.getPA3PY());
         scrappedTextView.setText(item.getScrappedADtoCal());
-        changeIdEditText.setText(item.getPA3MOC8());
         changeNumberEditText.setText(item.getPA3MOB());
+        changeIdEditText.setText(item.getPA3MOC8());
         setChangeOrderIdEditText();
         setDateTextView();
     }
 
     private void setChangeOrderIdEditText(){
-        changeOrderIdEditText.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-1911).substring(1)+ String.format("%04d", LocalCacheHelper.getInt(getActivity(), getThisYesrSerialNumberKey())+1));
+        changeOrderIdEditText.setText("");
     }
     private void setDateTextView(){
         Calendar c = Calendar.getInstance();

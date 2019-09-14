@@ -2,6 +2,7 @@ package com.aidan.secondinventoryworkplatform.Entity;
 
 import android.text.format.DateUtils;
 
+import com.aidan.secondinventoryworkplatform.Constants;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Agent;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Department;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Location;
@@ -570,25 +571,28 @@ public class Item {
         ans += "  名稱：" + getName() + "\n";
         ans += "  日期：" + ADtoCal() + "  年限：" + getYears() + "  金額："+getPA3TOP()+"\n";
         if (tagContent != null) {
-            ans += "  " + tagContent.getName() + "：";
             switch (tagContent) {
                 case Agent:
+                    ans += "  " + tagContent.getName() + "：";
                     ans += getCustodian().getName() + "\n";
                     break;
                 case AgentGroup:
+                    ans += "  " + tagContent.getName() + "：";
                     ans += getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
                     break;
                 case AgentLocation:
+                    ans += "  " + tagContent.getName() + "：";
                     ans += getCustodian().getName() + "/" + getLocation().getName() + "\n";
                     break;
                 case AgentGroupLocation:
-                    ans += getCustodian().getName() + "/" + getCustodyGroup().getName() + "/" + getLocation().getName() + "\n";
+                    ans += "  " + Constants.Custodian + "/" + Constants.CustodyGroup + "：";
+                    ans += getCustodian().getName() + "/" + getCustodyGroup().getName() + "\n";
+                    ans += "  " + Constants.Location + "：" + getLocation().getName() + "\n";
                     break;
             }
         }
 
         ans += "  廠牌/型式：" + getBrand() + "/" + getType() + "\n";
-        ans += "  經費：" + getPA3P3() ;
         return ans;
     }
 
