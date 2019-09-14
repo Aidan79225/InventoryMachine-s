@@ -99,12 +99,13 @@ public class ChangeDetailFragment  extends DialogFragment implements ChangeDetai
         yearsTextView.setText(item.getPA3PY());
         scrappedTextView.setText(item.getScrappedADtoCal());
         changeNumberEditText.setText(item.getPA3MOB());
+        changeIdEditText.setText(item.getPA3MOC8());
         setChangeOrderIdEditText();
         setDateTextView();
     }
 
     private void setChangeOrderIdEditText(){
-        changeOrderIdEditText.setText(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-1911).substring(1)+ String.format("%04d", LocalCacheHelper.getInt(getActivity(), getThisYesrSerialNumberKey())+1));
+        changeOrderIdEditText.setText("");
     }
     private void setDateTextView(){
         Calendar c = Calendar.getInstance();
