@@ -593,6 +593,9 @@ public class Item {
         }
 
         ans += "  廠牌/型式：" + getBrand() + "/" + getType() + "\n";
+        if (tagContent != TagContent.AgentGroupLocation) {
+            ans += "  經費：" + getPA3P3() ;
+        }
         return ans;
     }
 
