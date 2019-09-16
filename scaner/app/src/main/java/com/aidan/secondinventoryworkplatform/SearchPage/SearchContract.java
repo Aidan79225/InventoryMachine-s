@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.TextView;
 
-import com.aidan.secondinventoryworkplatform.Dialog.SearchItemAdapter;
-import com.aidan.secondinventoryworkplatform.Dialog.SearchableItem;
+import com.aidan.secondinventoryworkplatform.dialog.SearchItemAdapter;
+import com.aidan.secondinventoryworkplatform.dialog.SearchableItem;
 import com.aidan.secondinventoryworkplatform.Entity.Item;
 
 import java.util.Calendar;
@@ -37,6 +37,7 @@ public interface SearchContract {
         void useGroupTextViewClick(TextView departmentTextView);
         void searchTextViewClick(String name, String c0, String c1, String c2, String c3, String c4, String c5,String serialMinNumber,String serialMaxNumber);
         void printTextViewClick(Context context, String name, String c0, String c1, String c2, String c3, String c4, String c5, String serialMinNumber, String serialMaxNumber);
+        void printLittleTextViewClick(Context context, String name, String number, String serialMinNumber, String serialMaxNumber);
         void tagContentTextViewClick(TextView tagContentTextView);
         void sortTextViewClick(TextView sortTextView);
         void minDateTextViewClick(Activity activity);

@@ -1,6 +1,6 @@
 package com.aidan.secondinventoryworkplatform.Entity.SelectableItem;
 
-import com.aidan.secondinventoryworkplatform.Dialog.SearchableItem;
+import com.aidan.secondinventoryworkplatform.dialog.SearchableItem;
 
 /**
  * Created by Aidan on 2017/10/28.

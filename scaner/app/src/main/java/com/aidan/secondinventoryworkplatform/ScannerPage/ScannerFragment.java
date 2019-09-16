@@ -1,9 +1,11 @@
 package com.aidan.secondinventoryworkplatform.ScannerPage;
 
-import android.app.DialogFragment;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import com.aidan.secondinventoryworkplatform.ItemListPage.ItemListFragment;
 import com.aidan.secondinventoryworkplatform.R;
 import com.aidan.secondinventoryworkplatform.SettingConstants;
 import com.aidan.secondinventoryworkplatform.Singleton;
+import com.cipherlab.barcode.GeneralString;
 import com.cipherlab.barcode.ReaderManager;
 
 import java.util.List;
@@ -125,7 +128,9 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
     public void setEditTextScan() {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(scanEditText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        scanEditText.setShowSoftInputOnFocus(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            scanEditText.setShowSoftInputOnFocus(false);
+        }
         scanEditText.requestFocus();
         scanEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -149,9 +154,9 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
         });
         readerManager = ReaderManager.InitInstance(getActivity().getApplicationContext());
         filter = new IntentFilter();
-        filter.addAction(com.cipherlab.barcode.GeneralString.Intent_SOFTTRIGGER_DATA);
-        filter.addAction(com.cipherlab.barcode.GeneralString.Intent_PASS_TO_APP);
-        filter.addAction(com.cipherlab.barcode.GeneralString.Intent_READERSERVICE_CONNECTED);
+        filter.addAction(GeneralString.Intent_SOFTTRIGGER_DATA);
+        filter.addAction(GeneralString.Intent_PASS_TO_APP);
+        filter.addAction(GeneralString.Intent_READERSERVICE_CONNECTED);
 //        getActivity().registerReceiver(scanReceiver, filter);
 
 
@@ -196,8 +201,18 @@ public class ScannerFragment extends DialogFragment implements ScannerContract.v
             @Override
             public void onClick(View v) {
                 isOpenCamera = !isOpenCamera;
-                v.getContext().getSharedPreferences(SettingConstants.SETTING_CAMERA,0).edit().putBoolean(SettingConstants.CAMERA_IS_OPEN,isOpenCamera).commit();
+                v.getContext().getSharedPreferences(SettingConstants.SETTING_CAMERA,0).edit().putBoolean(SettingConstants.CAMERA_IS_OPEN,isOpenCamera).apply();
                 configView();
+            }
+        });
+    }
+
+    @Override
+    public void showItem(Item item) {
+        gotoDetailFragment(item, new ItemListFragment.RefreshItems() {
+            @Override
+            public void refresh() {
+                adapter.notifyDataSetChanged();
             }
         });
     }

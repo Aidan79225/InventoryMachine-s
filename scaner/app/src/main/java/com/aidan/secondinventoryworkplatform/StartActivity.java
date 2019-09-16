@@ -1,17 +1,21 @@
 package com.aidan.secondinventoryworkplatform;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.core.app.ActivityCompat;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.widget.EditText;
@@ -32,18 +36,21 @@ public class StartActivity extends Activity {
     private static final int ACTIVITYJUMP_DELAY = 300;
     private static final int REQUEST_PHONE_STATE = 0x1;
     private SharedPreferences settings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         new ActivityJumpTimer().sendEmptyMessageDelayed(ActivityJumpTimer.JUMP_TO_HOMEACTIVITY, ACTIVITYJUMP_DELAY);
 
     }
-    private void start(){
+
+    private void start() {
         int permission = ActivityCompat.checkSelfPermission(this,
                 READ_PHONE_STATE);
         if (permission != PackageManager.PERMISSION_GRANTED) {
@@ -63,19 +70,29 @@ public class StartActivity extends Activity {
             );
             return;
         }
-            //已有權限
+        //已有權限
         action();
 
     }
-    private void action(){
-        if(checkLogin()){
+
+    private void action() {
+        if (checkLogin()) {
             gotoFragmentManagerActivity();
-        } else if(checkIMEI() ){
+        } else if (checkIMEI()) {
             showLoginDialog();
         }
     }
-    private boolean checkIMEI(){
-        TelephonyManager mTelManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+
+    private boolean checkIMEI() {
+        TelephonyManager mTelManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return true;
+        }
         String mIMEI = mTelManager.getDeviceId();
         for(String IMEI : KeyConstants.IMEIS){
             if(mIMEI.equals(IMEI))return true;

@@ -1,16 +1,20 @@
 package com.aidan.secondinventoryworkplatform.Entity;
 
-import com.aidan.secondinventoryworkplatform.Dialog.SearchableItem;
+import com.aidan.secondinventoryworkplatform.Constants;
+import com.aidan.secondinventoryworkplatform.dialog.SearchableItem;
+
+import java.util.concurrent.CompletionService;
 
 /**
  * Created by Aidan on 2017/10/28.
  */
 
 public enum TagContent implements SearchableItem {
-    Agent("保管人"),
-    AgentGroup("保管人/單位"),
-    AgentLocation("保管人/地點"),
-    AgentGroupLocation("保管人/單位/地點");
+    Agent(Constants.Custodian),
+    AgentGroup(Constants.Custodian + "/" + Constants.CustodyGroup),
+    AgentLocation(Constants.Custodian + "/" + Constants.Location),
+    AgentGroupLocation(Constants.Custodian + "/" + Constants.CustodyGroup + "/" + Constants.Location);
+
     String content;
     TagContent(String content){
         this.content = content;

@@ -3,8 +3,8 @@ package com.aidan.secondinventoryworkplatform.ItemDetailPage;
 import android.content.DialogInterface;
 
 import com.aidan.secondinventoryworkplatform.Database.ItemDAO;
-import com.aidan.secondinventoryworkplatform.Dialog.SearchItemAdapter;
-import com.aidan.secondinventoryworkplatform.Dialog.SearchableItem;
+import com.aidan.secondinventoryworkplatform.dialog.SearchItemAdapter;
+import com.aidan.secondinventoryworkplatform.dialog.SearchableItem;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Agent;
 import com.aidan.secondinventoryworkplatform.Entity.SelectableItem.Department;
 import com.aidan.secondinventoryworkplatform.Entity.Item;

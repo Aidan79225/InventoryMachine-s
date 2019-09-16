@@ -24,4 +24,7 @@ public class Constants {
     public static final String PREFERENCE_SERIAL_NUMBER = "PREFERENCE_SERIAL_NUMBER";
 
 
+    public static final String Custodian = "保管人";
+    public static final String CustodyGroup = "單位";
+    public static final String Location = "地點";
 }
