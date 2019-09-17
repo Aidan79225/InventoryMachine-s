@@ -33,6 +33,7 @@ public class ItemListPresenter implements ItemListContract.presenter {
     @Override
     public void start() {
         view.findView();
+        view.setEditTextScan();
         setAdapter();
     }
     private void setAdapter(){

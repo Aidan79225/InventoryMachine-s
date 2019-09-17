@@ -52,16 +52,6 @@ public class StartActivity extends Activity {
 
     private void start() {
         int permission = ActivityCompat.checkSelfPermission(this,
-                READ_PHONE_STATE);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{READ_PHONE_STATE},
-                    REQUEST_PHONE_STATE
-            );
-            return;
-        }
-
-        permission = ActivityCompat.checkSelfPermission(this,
                 CAMERA);
         if (permission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
@@ -72,34 +62,16 @@ public class StartActivity extends Activity {
         }
         //已有權限
         action();
-
     }
 
     private void action() {
         if (checkLogin()) {
             gotoFragmentManagerActivity();
-        } else if (checkIMEI()) {
+        } else {
             showLoginDialog();
         }
     }
 
-    private boolean checkIMEI() {
-        TelephonyManager mTelManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            return true;
-        }
-        String mIMEI = mTelManager.getDeviceId();
-        for(String IMEI : KeyConstants.IMEIS){
-            if(mIMEI.equals(IMEI))return true;
-        }
-        Toast.makeText(this,"IMEI不符合資格，請洽管理員",Toast.LENGTH_SHORT).show();
-        return true;
-    }
     private boolean checkLogin(){
         settings = getSharedPreferences(data,0);
         return settings.getBoolean(isLogin,false);
@@ -177,16 +149,13 @@ public class StartActivity extends Activity {
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_PHONE_STATE:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //取得權限，進行檔案存取
-                    start();
-                }else{
-                    showCancelDialog();
-                }
-                return;
+        if (requestCode == REQUEST_PHONE_STATE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                start();
+            } else {
+                showCancelDialog();
+            }
         }
     }
 
